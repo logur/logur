@@ -1,0 +1,23 @@
+language: go
+
+dist: xenial
+
+go:
+    - 1.11.x
+    - tip
+
+branches:
+    only:
+        - master
+        - /^v?\d+\.\d+\.\d+(-\S*)?$/
+
+matrix:
+    fast_finish: true
+    allow_failures:
+        - go: tip
+
+cache:
+    directories:
+        - bin
+
+script: make test
