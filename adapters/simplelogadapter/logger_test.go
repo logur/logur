@@ -25,7 +25,7 @@ func newTestSuite() *loggertesting.LoggerTestSuite {
 		LoggerFactory: func() (logur.Logger, func() []logur.LogEvent) {
 			logger := newTestLogger()
 
-			return New(logger), func() []logur.LogEvent {
+			return New(logger), func() []logur.LogEvent { // nolint: gocritic
 				return logger.Events()
 			}
 		},
