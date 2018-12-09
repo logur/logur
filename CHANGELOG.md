@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - [github.com/InVisionApp/go-logger](https://github.com/InVisionApp/go-logger) integration
 - `simplelogadapter` to make logger library integration easier
+- [github.com/hashicorp/go-hclog](https://github.com/hashicorp/go-hclog) adapter
 
 ### Changed
 
