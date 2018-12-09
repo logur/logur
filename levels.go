@@ -84,3 +84,27 @@ func (l *Level) UnmarshalText(text []byte) error {
 
 	return nil
 }
+
+// LevelFunc returns a logger function for a level.
+// If the level is invalid it falls back to Info level.
+func LevelFunc(logger Logger, level Level) LogFunc {
+	switch level {
+	case TraceLevel:
+		return logger.Trace
+
+	case DebugLevel:
+		return logger.Debug
+
+	case InfoLevel:
+		return logger.Info
+
+	case WarnLevel:
+		return logger.Warn
+
+	case ErrorLevel:
+		return logger.Error
+
+	default:
+		return logger.Info
+	}
+}

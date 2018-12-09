@@ -4,16 +4,17 @@ import (
 	"testing"
 )
 
-func TestLevel_String(t *testing.T) {
-	tests := map[string]Level{
-		"trace": TraceLevel,
-		"debug": DebugLevel,
-		"info":  InfoLevel,
-		"warn":  WarnLevel,
-		"error": ErrorLevel,
-	}
+// nolint: gochecknoglobals
+var levelMap = map[string]Level{
+	"trace": TraceLevel,
+	"debug": DebugLevel,
+	"info":  InfoLevel,
+	"warn":  WarnLevel,
+	"error": ErrorLevel,
+}
 
-	for levelName, level := range tests {
+func TestLevel_String(t *testing.T) {
+	for levelName, level := range levelMap {
 		levelName, level := levelName, level
 
 		t.Run(levelName, func(t *testing.T) {
@@ -77,5 +78,33 @@ func TestParseLevel_Unknown(t *testing.T) {
 
 	if ok {
 		t.Error("parsing unknown levels should fail")
+	}
+}
+
+func TestLevelFunc(t *testing.T) {
+	for levelName, level := range levelMap {
+		levelName, level := levelName, level
+
+		t.Run(levelName, func(t *testing.T) {
+			logger := NewTestLogger()
+
+			logFunc := LevelFunc(logger, level)
+
+			logFunc("message")
+
+			if logger.Count() < 1 {
+				t.Fatal("logger did not record any events")
+			}
+
+			event := logger.LastEvent()
+
+			if event.Level != level {
+				t.Errorf("expected level %q instead of %q", level.String(), event.Level.String())
+			}
+
+			if event.Line != "message" {
+				t.Errorf("expected message \"message\" instead of %q", event.Line)
+			}
+		})
 	}
 }

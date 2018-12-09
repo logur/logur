@@ -74,3 +74,6 @@ type Logger interface {
 
 // Fields is used to define structured fields which are appended to log events.
 type Fields map[string]interface{}
+
+// LogFunc is a function recording a log event.
+type LogFunc func(args ...interface{})
