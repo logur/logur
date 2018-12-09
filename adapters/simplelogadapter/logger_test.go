@@ -74,8 +74,8 @@ func TestAdapter(t *testing.T) {
 			events := simpleLogger.Events()
 
 			loglnEvent := logur.LogEvent{
-				Line:    "message 1 message 2\n",
-				RawLine: []interface{}{"message 1 message 2\n"},
+				Line:    "message 1 message 2",
+				RawLine: []interface{}{"message 1 message 2"},
 				Level:   test.level,
 				Fields:  fields,
 			}
