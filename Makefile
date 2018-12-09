@@ -2,6 +2,9 @@
 
 OS = $(shell uname)
 
+# Project variables
+PACKAGE = $(shell go list .)
+
 # Build variables
 BUILD_DIR ?= build
 export CGO_ENABLED ?= 0
@@ -62,13 +65,13 @@ release-%: ## Release a new version
 	@sed -e "s/^## \[Unreleased\]$$/## [Unreleased]\\"$$'\n'"\\"$$'\n'"\\"$$'\n'"## [$*] - $$(date +%Y-%m-%d)/g" CHANGELOG.md > CHANGELOG.md.new
 	@mv CHANGELOG.md.new CHANGELOG.md
 
-	@sed -e "s|^\[Unreleased\]: \(.*\)HEAD$$|[Unreleased]: https://${PACKAGE}/compare/v$*...HEAD\\"$$'\n'"[$*]: \1v$*|g" CHANGELOG.md > CHANGELOG.md.new
+	@sed -e "s|^\[Unreleased\]: \(.*\)HEAD$$|[Unreleased]: https://${PACKAGE}/compare/$*...HEAD\\"$$'\n'"[$*]: \1$*|g" CHANGELOG.md > CHANGELOG.md.new
 	@mv CHANGELOG.md.new CHANGELOG.md
 
 ifeq (${TAG}, 1)
 	git add CHANGELOG.md
-	git commit -s -S -m 'Prepare release v$*'
-	git tag -s -m 'Release v$*' v$*
+	git commit -s -S -m 'Prepare release $*'
+	git tag -s -m 'Release $*' $*
 endif
 
 	@echo "Version updated to $*!"
@@ -76,7 +79,7 @@ endif
 	@echo "Review the changes made by this script then execute the following:"
 ifneq (${TAG}, 1)
 	@echo
-	@echo "git add CHANGELOG.md && git commit -S -m 'Prepare release v$*' && git tag -s -m 'Release v$*' v$*"
+	@echo "git add CHANGELOG.md && git commit -S -m 'Prepare release $*' && git tag -s -m 'Release $*' $*"
 	@echo
 	@echo "Finally, push the changes:"
 endif

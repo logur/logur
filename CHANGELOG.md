@@ -9,5 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## 0.1.0 - 2018-12-09
 
-[Unreleased]: https://github.com/goph/logur/compare/v0.0.0...HEAD
+- Initial release
+
+
+[Unreleased]: https://github.com/goph/logur/compare/0.1.0...HEAD
