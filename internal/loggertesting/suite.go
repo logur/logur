@@ -1,13 +1,13 @@
 package loggertesting
 
 import (
-	"reflect"
 	"strings"
 	"testing"
 
 	"github.com/goph/logur"
 )
 
+// nolint: gochecknoglobals
 var testLevelMap = map[logur.Level]struct {
 	logFunc   func(logger logur.Logger, args ...interface{})
 	loglnFunc func(logger logur.Logger, args ...interface{})
@@ -40,31 +40,9 @@ var testLevelMap = map[logur.Level]struct {
 	},
 }
 
-func assertLogEvents(t *testing.T, expected logur.LogEvent, actual logur.LogEvent, compareRawLine bool) {
-	t.Helper()
-
-	if expected.Level != actual.Level {
-		t.Errorf("expected log levels to be equal\ngot:  %s\nwant: %s", expected.Level, actual.Level)
-	}
-
-	if expected.Line != actual.Line {
-		t.Errorf("expected log lines to be equal\ngot:  %s\nwant: %s", expected.Line, actual.Line)
-	}
-
-	if compareRawLine {
-		if !reflect.DeepEqual(expected.RawLine, actual.RawLine) {
-			t.Errorf("expected raw log lines to be equal\ngot:  %v\nwant: %v", expected.RawLine, actual.RawLine)
-		}
-	}
-
-	if !reflect.DeepEqual(expected.Fields, actual.Fields) {
-		t.Errorf("expected log fields to be equal\ngot:  %v\nwant: %v", expected.Fields, actual.Fields)
-	}
-}
-
 type LoggerTestSuite struct {
-	LoggerFactory   func() (logur.Logger, func() []logur.LogEvent)
-	CompareRawLines bool
+	LoggerFactory        func() (logur.Logger, func() []logur.LogEvent)
+	SkipRawLineAssertion bool
 }
 
 func (s *LoggerTestSuite) TestLevels(t *testing.T) {
@@ -99,7 +77,7 @@ func (s *LoggerTestSuite) TestLevels(t *testing.T) {
 				Fields:  fields,
 			}
 
-			assertLogEvents(t, logEvent, logEvents[0], s.CompareRawLines)
+			AssertLogEvents(t, logEvent, logEvents[0], s.SkipRawLineAssertion)
 		})
 	}
 }
@@ -136,7 +114,7 @@ func (s *LoggerTestSuite) TestLevelsln(t *testing.T) {
 				Fields:  fields,
 			}
 
-			assertLogEvents(t, logEvent, logEvents[0], s.CompareRawLines)
+			AssertLogEvents(t, logEvent, logEvents[0], s.SkipRawLineAssertion)
 		})
 	}
 }
@@ -169,12 +147,12 @@ func (s *LoggerTestSuite) TestLevelsf(t *testing.T) {
 
 			logEvent := logur.LogEvent{
 				Line:    "formatted msg: message 1 message 2",
-				RawLine: args,
+				RawLine: append([]interface{}{"formatted msg: %s %d %s %d"}, args...),
 				Level:   level,
 				Fields:  fields,
 			}
 
-			assertLogEvents(t, logEvent, logEvents[0], s.CompareRawLines)
+			AssertLogEvents(t, logEvent, logEvents[0], s.SkipRawLineAssertion)
 		})
 	}
 }
