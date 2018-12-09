@@ -41,8 +41,8 @@ var testLevelMap = map[logur.Level]struct {
 }
 
 type LoggerTestSuite struct {
-	LoggerFactory        func() (logur.Logger, func() []logur.LogEvent)
-	SkipRawLineAssertion bool
+	LoggerFactory          func() (logur.Logger, func() []logur.LogEvent)
+	LogEventAssertionFlags uint8
 }
 
 func (s *LoggerTestSuite) TestLevels(t *testing.T) {
@@ -77,7 +77,7 @@ func (s *LoggerTestSuite) TestLevels(t *testing.T) {
 				Fields:  fields,
 			}
 
-			AssertLogEvents(t, logEvent, logEvents[0], s.SkipRawLineAssertion)
+			AssertLogEvents(t, logEvent, logEvents[0], s.LogEventAssertionFlags)
 		})
 	}
 }
@@ -114,7 +114,7 @@ func (s *LoggerTestSuite) TestLevelsln(t *testing.T) {
 				Fields:  fields,
 			}
 
-			AssertLogEvents(t, logEvent, logEvents[0], s.SkipRawLineAssertion)
+			AssertLogEvents(t, logEvent, logEvents[0], s.LogEventAssertionFlags)
 		})
 	}
 }
@@ -152,7 +152,7 @@ func (s *LoggerTestSuite) TestLevelsf(t *testing.T) {
 				Fields:  fields,
 			}
 
-			AssertLogEvents(t, logEvent, logEvents[0], s.SkipRawLineAssertion)
+			AssertLogEvents(t, logEvent, logEvents[0], s.LogEventAssertionFlags)
 		})
 	}
 }

@@ -11,7 +11,7 @@ func newTestLoggerSuite() *loggertesting.LoggerTestSuite {
 	return &loggertesting.LoggerTestSuite{
 		LoggerFactory: func() (Logger, func() []LogEvent) {
 			logger := NewTestLogger()
-			return logger, func() []LogEvent { // nolint: unlambda
+			return logger, func() []LogEvent { // nolint: gocritic
 				return logger.Events()
 			}
 		},
@@ -57,7 +57,7 @@ func TestTestLogger_Events(t *testing.T) {
 		RawLine: []interface{}{"message"},
 	}
 
-	loggertesting.AssertLogEvents(t, event, events[0], true)
+	loggertesting.AssertLogEvents(t, event, events[0], 0)
 }
 
 func TestTestLogger_LastEvent(t *testing.T) {
@@ -78,5 +78,5 @@ func TestTestLogger_LastEvent(t *testing.T) {
 		RawLine: []interface{}{"another message"},
 	}
 
-	loggertesting.AssertLogEvents(t, event, *lastEvent, true)
+	loggertesting.AssertLogEvents(t, event, *lastEvent, 0)
 }
