@@ -1,3 +1,4 @@
+// Package logrusadapter provides a logur compatible adapter for logrus.
 package logrusadapter
 
 import (
