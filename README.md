@@ -159,8 +159,8 @@ so you can just use it without wiring it into your application which makes the a
 ### Why not go-kit logger?
 
 Go-kit deserves it's own FAQ entry because for quite some time I was really fond of the its logger interface
-and used it wherever I could. I still think it is great, because the interface is very simple,
-yet it's incredibly powerful.
+and it was the closest thing to become an [official Go logging solution](https://docs.google.com/document/d/1shW9DZJXOeGbG9Mr9Us9MiaPqmlcVatD_D8lrOXRNMU).
+I still think it is great, because the interface is very simple, yet it's incredibly powerful.
 But this simplicity is why I ultimately stopped using it as my primary logger.
 
 Just a short recap of the interface itself:
@@ -198,6 +198,10 @@ using any other logging library.
 One could implement all those functions for a custom interface based on go-kit,
 but it probably isn't worth the hassle. Defining a more verbose, custom interface is a lot more easier to work with.
 That being said, go-kit logger can very well serve as a perfect base for an implementation of that interface.
+
+The [proposal](https://docs.google.com/document/d/1shW9DZJXOeGbG9Mr9Us9MiaPqmlcVatD_D8lrOXRNMU) linked above contains many examples
+why the authors ended up with an interface like this. Go check it out, you might just have the same use cases
+which could make the go-kit interface a better fit than the one in this library.
 
 
 ## Inspiration
