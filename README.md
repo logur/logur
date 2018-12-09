@@ -41,7 +41,7 @@ An opinionated library should come with some best practices for usage and so doe
 ### Create a custom interface
 
 Interfaces should be defined by the consumer, so the `Logger` interface in this library should not be used directly.
-A custom interfaces should be defined instead:
+A custom interface should be defined instead:
 
 ```go
 type MyLogger interface {
