@@ -1,11 +1,11 @@
-package logrusshim
+package logrusadapter
 
 import (
 	"github.com/goph/logur"
 	"github.com/sirupsen/logrus"
 )
 
-type shim struct {
+type adapter struct {
 	*logrus.Entry
 }
 
@@ -16,13 +16,13 @@ func New(logger *logrus.Logger) logur.Logger {
 		logger = logrus.StandardLogger()
 	}
 
-	return &shim{logrus.NewEntry(logger)}
+	return &adapter{logrus.NewEntry(logger)}
 }
 
 // WithFields returns a new logger based on the original logger with
 // the additional supplied fields.
-func (s *shim) WithFields(fields logur.Fields) logur.Logger {
-	return &shim{
-		s.Entry.WithFields(logrus.Fields(fields)),
+func (a *adapter) WithFields(fields logur.Fields) logur.Logger {
+	return &adapter{
+		a.Entry.WithFields(logrus.Fields(fields)),
 	}
 }

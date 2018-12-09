@@ -1,4 +1,4 @@
-package logrusshim
+package logrusadapter
 
 import (
 	"testing"
@@ -8,7 +8,7 @@ import (
 	logrustest "github.com/sirupsen/logrus/hooks/test"
 )
 
-func TestShim(t *testing.T) {
+func TestAdapter(t *testing.T) {
 	tests := map[string]struct {
 		level     Level
 		logFunc   func(logger Logger, args ...interface{})

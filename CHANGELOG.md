@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- Renamed `logrusshim` to `logrusadapter`
+
 ## 0.1.0 - 2018-12-09
 
 - Initial release
