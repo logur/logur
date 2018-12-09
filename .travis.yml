@@ -20,4 +20,6 @@ cache:
     directories:
         - bin
 
+install: go get -t -v ./...
+
 script: make test
