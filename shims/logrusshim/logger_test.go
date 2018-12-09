@@ -76,7 +76,11 @@ func TestShim(t *testing.T) {
 			}
 
 			if entries[0].Level != logrusLevel {
-				t.Errorf("expected log event to be level %q but received %q instead", logrusLevel.String(), entries[0].Level.String())
+				t.Errorf(
+					"expected log event to be level %q but received %q instead",
+					logrusLevel.String(),
+					entries[0].Level.String(),
+				)
 			}
 
 			if got, want := entries[0].Message, "message1message2"; got != want {
@@ -84,7 +88,11 @@ func TestShim(t *testing.T) {
 			}
 
 			if entries[1].Level != logrusLevel {
-				t.Errorf("expected log event to be level %q but received %q instead", logrusLevel.String(), entries[1].Level.String())
+				t.Errorf(
+					"expected log event to be level %q but received %q instead",
+					logrusLevel.String(),
+					entries[1].Level.String(),
+				)
 			}
 
 			if got, want := entries[1].Message, "message 1 message 2"; got != want {
@@ -92,7 +100,11 @@ func TestShim(t *testing.T) {
 			}
 
 			if entries[2].Level != logrusLevel {
-				t.Errorf("expected log event to be level %q but received %q instead", logrusLevel.String(), entries[2].Level.String())
+				t.Errorf(
+					"expected log event to be level %q but received %q instead",
+					logrusLevel.String(),
+					entries[2].Level.String(),
+				)
 			}
 
 			if got, want := entries[2].Message, "formatted msg: message 1 message 2"; got != want {
