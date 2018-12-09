@@ -7,7 +7,7 @@ package logur
 type Logger interface {
 	// Trace logs a Trace event.
 	//
-	// Even more fine-grained information than Debug logs.
+	// Even more fine-grained information than Debug events.
 	// Loggers not supporting this level should fall back to Debug.
 	Trace(args ...interface{})
 
