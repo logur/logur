@@ -1,8 +1,11 @@
-package logur
+package logur_test
 
 import (
 	"reflect"
 	"testing"
+
+	. "github.com/goph/logur"
+	"github.com/goph/logur/internal/loggertesting"
 )
 
 func TestTestLogger(t *testing.T) {
@@ -104,4 +107,27 @@ func TestTestLogger(t *testing.T) {
 			}
 		})
 	}
+}
+
+func newTestLoggerSuite() *loggertesting.LoggerTestSuite {
+	return &loggertesting.LoggerTestSuite{
+		LoggerFactory: func() (Logger, func() []LogEvent) {
+			logger := NewTestLogger()
+			return logger, func() []LogEvent {
+				return logger.Events()
+			}
+		},
+	}
+}
+
+func TestTestLogger_Levels(t *testing.T) {
+	newTestLoggerSuite().TestLevels(t)
+}
+
+func TestTestLogger_Levelsln(t *testing.T) {
+	newTestLoggerSuite().TestLevelsln(t)
+}
+
+func TestTestLogger_Levelsf(t *testing.T) {
+	newTestLoggerSuite().TestLevelsf(t)
 }
