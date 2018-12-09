@@ -89,5 +89,5 @@ The following example creates a simple standard library logger for using as an H
 			ErrorLog: newStandardErrorLogger(),
 		}
 	}
- */
+*/
 package logur

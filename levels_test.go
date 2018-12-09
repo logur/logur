@@ -89,8 +89,9 @@ func TestLevelFunc(t *testing.T) {
 			logger := NewTestLogger()
 
 			logFunc := LevelFunc(logger, level)
+			const msg = "message"
 
-			logFunc("message")
+			logFunc(msg)
 
 			if logger.Count() < 1 {
 				t.Fatal("logger did not record any events")
@@ -102,8 +103,8 @@ func TestLevelFunc(t *testing.T) {
 				t.Errorf("expected level %q instead of %q", level.String(), event.Level.String())
 			}
 
-			if event.Line != "message" {
-				t.Errorf("expected message \"message\" instead of %q", event.Line)
+			if got, want := event.Line, msg; got != want {
+				t.Errorf("expected message %q instead of %q", want, got)
 			}
 		})
 	}

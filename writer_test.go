@@ -12,7 +12,9 @@ func TestNewLevelWriter(t *testing.T) {
 	writer := NewLevelWriter(logger, ErrorLevel)
 	defer writer.Close()
 
-	_, err := fmt.Fprintln(writer, "message")
+	const msg = "message"
+
+	_, err := fmt.Fprintln(writer, msg)
 	if err != nil {
 		t.Fatal("writing log event failed:", err.Error())
 	}
@@ -36,7 +38,7 @@ func TestNewLevelWriter(t *testing.T) {
 		t.Errorf("expected level %q instead of %q", ErrorLevel.String(), event.Level.String())
 	}
 
-	if event.Line != "message" {
-		t.Errorf("expected message \"message\" instead of %q", event.Line)
+	if got, want := event.Line, msg; got != want {
+		t.Errorf("expected message %q instead of %q", want, got)
 	}
 }
