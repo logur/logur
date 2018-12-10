@@ -85,7 +85,7 @@ ifneq (${TAG}, 1)
 	@echo "Finally, push the changes:"
 endif
 	@echo
-	@echo "git push; git push --tags"
+	@echo "git push; git push origin ${TAG_PREFIX}$*"
 
 .PHONY: patch
 patch: ## Release a new patch version
