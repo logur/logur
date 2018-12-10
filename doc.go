@@ -2,12 +2,13 @@
 Package logur is an opinionated collection of logging best practices.
 
 Features:
-	- Unified logger interface
-	- Test logger for testing log event recording
-	- Noop logger for discarding log events
-	- `io.Writer` support
-	- Standard library logger support
-	- github.com/goph/emperror compatible error handler
+
+* Unified logger interface
+* Test logger for testing log event recording
+* Noop logger for discarding log events
+* `io.Writer` support
+* Standard library logger support
+* github.com/goph/emperror compatible error handler
 
 An opinionated library should come with some best practices for usage and so does this one.
 
