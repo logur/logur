@@ -2,99 +2,68 @@ package hclogadapter
 
 import (
 	"bytes"
-	"fmt"
+	"regexp"
 	"strings"
 	"testing"
 
 	. "github.com/goph/logur"
+	"github.com/goph/logur/internal/loggertesting"
 	"github.com/hashicorp/go-hclog"
 )
 
-func TestAdapter(t *testing.T) {
-	tests := map[string]struct {
-		level     Level
-		logFunc   func(logger Logger, args ...interface{})
-		loglnFunc func(logger Logger, args ...interface{})
-		logfFunc  func(logger Logger, format string, args ...interface{})
-	}{
-		"Trace": {
-			level:     TraceLevel,
-			logFunc:   Logger.Trace,
-			loglnFunc: Logger.Traceln,
-			logfFunc:  Logger.Tracef,
-		},
-		"Debug": {
-			level:     DebugLevel,
-			logFunc:   Logger.Debug,
-			loglnFunc: Logger.Debugln,
-			logfFunc:  Logger.Debugf,
-		},
-		"Info": {
-			level:     InfoLevel,
-			logFunc:   Logger.Info,
-			loglnFunc: Logger.Infoln,
-			logfFunc:  Logger.Infof,
-		},
-		"Warn": {
-			level:     WarnLevel,
-			logFunc:   Logger.Warn,
-			loglnFunc: Logger.Warnln,
-			logfFunc:  Logger.Warnf,
-		},
-		"Error": {
-			level:     ErrorLevel,
-			logFunc:   Logger.Error,
-			loglnFunc: Logger.Errorln,
-			logfFunc:  Logger.Errorf,
-		},
-	}
+// nolint: gochecknoglobals
+var logLineRegex = regexp.MustCompile(`.* \[(.*)\] {1,2}(.*): (.*)`)
 
-	for level, test := range tests {
-		level, test := level, test
-
-		t.Run(level, func(t *testing.T) {
+func newTestSuite() *loggertesting.LoggerTestSuite {
+	return &loggertesting.LoggerTestSuite{
+		LogEventAssertionFlags: 0 | loggertesting.SkipRawLine | loggertesting.AllowNoNewLine,
+		LoggerFactory: func() (Logger, func() []LogEvent) {
 			var buf bytes.Buffer
-			hclogLogger := hclog.New(&hclog.LoggerOptions{
+			logger := hclog.New(&hclog.LoggerOptions{
 				Level:  hclog.Trace,
 				Output: &buf,
 			})
 
-			fields := Fields{"key": "value"}
-			logger := New(hclogLogger).WithFields(fields)
+			return New(logger), func() []LogEvent {
+				lines := strings.Split(strings.TrimSuffix(buf.String(), "\n"), "\n")
 
-			args := []interface{}{"message", 1, "message", 2}
-			format := "formatted msg: %s %d %s %d"
+				events := make([]LogEvent, len(lines))
 
-			test.logFunc(logger, args...)
-			test.loglnFunc(logger, args...)
-			test.logfFunc(logger, format, args...)
+				for key, line := range lines {
+					match := logLineRegex.FindStringSubmatch(line)
 
-			lines := strings.Split(strings.TrimSuffix(buf.String(), "\n"), "\n")
+					level, _ := ParseLevel(strings.ToLower(match[1]))
 
-			if got, want := len(lines), 3; got != want {
-				t.Fatalf("expected %d log events, got %d", want, got)
+					rawFields := strings.Fields(match[3])
+					fields := make(Fields)
+
+					for _, rawField := range rawFields {
+						field := strings.SplitN(rawField, "=", 2)
+
+						fields[field[0]] = field[1]
+					}
+
+					events[key] = LogEvent{
+						Line:   match[2],
+						Level:  level,
+						Fields: fields,
+					}
+				}
+
+				return events
 			}
-
-			levelString := fmt.Sprintf(
-				"[%s]%s",
-				strings.ToUpper(test.level.String()),
-				strings.Repeat(" ", 6-len(test.level.String())),
-			)
-
-			line := strings.SplitN(lines[0], " ", 2)[1]
-			if got, want := line, fmt.Sprintf("%smessage1message2: key=value", levelString); got != want {
-				t.Errorf("expected log messages to be equal\ngot:  %s\nwant: %s", got, want)
-			}
-
-			lineln := strings.SplitN(lines[1], " ", 2)[1]
-			if got, want := lineln, fmt.Sprintf("%smessage 1 message 2: key=value", levelString); got != want {
-				t.Errorf("expected log messages to be equal\ngot:  %s\nwant: %s", got, want)
-			}
-
-			linef := strings.SplitN(lines[2], " ", 2)[1]
-			if got, want := linef, fmt.Sprintf("%sformatted msg: message 1 message 2: key=value", levelString); got != want {
-				t.Errorf("expected log messages to be equal\ngot:  %s\nwant: %s", got, want)
-			}
-		})
+		},
 	}
+}
+
+func TestLogger_Levels(t *testing.T) {
+	newTestSuite().TestLevels(t)
+}
+
+func TestLogger_Levelsln(t *testing.T) {
+	newTestSuite().TestLevelsln(t)
+}
+
+func TestLogger_Levelsf(t *testing.T) {
+	newTestSuite().TestLevelsf(t)
 }

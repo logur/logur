@@ -1,107 +1,82 @@
-package logur
+package logur_test
 
 import (
-	"reflect"
 	"testing"
+
+	. "github.com/goph/logur"
+	"github.com/goph/logur/internal/loggertesting"
 )
 
-func TestTestLogger(t *testing.T) {
-	tests := map[string]struct {
-		level     Level
-		logFunc   func(logger *TestLogger, args ...interface{})
-		loglnFunc func(logger *TestLogger, args ...interface{})
-		logfFunc  func(logger *TestLogger, format string, args ...interface{})
-	}{
-		"Trace": {
-			level:     TraceLevel,
-			logFunc:   (*TestLogger).Trace,
-			loglnFunc: (*TestLogger).Traceln,
-			logfFunc:  (*TestLogger).Tracef,
-		},
-		"Debug": {
-			level:     DebugLevel,
-			logFunc:   (*TestLogger).Debug,
-			loglnFunc: (*TestLogger).Debugln,
-			logfFunc:  (*TestLogger).Debugf,
-		},
-		"Info": {
-			level:     InfoLevel,
-			logFunc:   (*TestLogger).Info,
-			loglnFunc: (*TestLogger).Infoln,
-			logfFunc:  (*TestLogger).Infof,
-		},
-		"Warn": {
-			level:     WarnLevel,
-			logFunc:   (*TestLogger).Warn,
-			loglnFunc: (*TestLogger).Warnln,
-			logfFunc:  (*TestLogger).Warnf,
-		},
-		"Error": {
-			level:     ErrorLevel,
-			logFunc:   (*TestLogger).Error,
-			loglnFunc: (*TestLogger).Errorln,
-			logfFunc:  (*TestLogger).Errorf,
+func newTestLoggerSuite() *loggertesting.LoggerTestSuite {
+	return &loggertesting.LoggerTestSuite{
+		LoggerFactory: func() (Logger, func() []LogEvent) {
+			logger := NewTestLogger()
+			return logger, func() []LogEvent { // nolint: gocritic
+				return logger.Events()
+			}
 		},
 	}
+}
 
-	for level, test := range tests {
-		level, test := level, test
+func TestTestLogger_Levels(t *testing.T) {
+	newTestLoggerSuite().TestLevels(t)
+}
 
-		t.Run(level, func(t *testing.T) {
-			fields := Fields{"key": "value"}
-			logger := NewTestLogger().WithFields(fields).(*TestLogger)
+func TestTestLogger_Levelsln(t *testing.T) {
+	newTestLoggerSuite().TestLevelsln(t)
+}
 
-			args := []interface{}{"message", 1, "message", 2}
-			format := "formatted msg: %s %d %s %d"
+func TestTestLogger_Levelsf(t *testing.T) {
+	newTestLoggerSuite().TestLevelsf(t)
+}
 
-			test.logFunc(logger, args...)
-			test.loglnFunc(logger, args...)
-			test.logfFunc(logger, format, args...)
+func TestTestLogger_Count(t *testing.T) {
+	logger := NewTestLogger()
 
-			if got, want := logger.Count(), 3; got != want {
-				t.Fatalf("expected %d log events, got %d", want, got)
-			}
+	logger.Debug("message")
 
-			events := logger.Events()
-
-			logEvent := LogEvent{
-				Line:    "message1message2",
-				RawLine: args,
-				Level:   test.level,
-				Fields:  fields,
-			}
-
-			if !reflect.DeepEqual(events[0], logEvent) {
-				t.Errorf("expected log events to be equal\ngot:  %v\nwant: %v", events[0], logEvent)
-			}
-
-			loglnEvent := LogEvent{
-				Line:    "message 1 message 2\n",
-				RawLine: args,
-				Level:   test.level,
-				Fields:  fields,
-			}
-
-			if !reflect.DeepEqual(events[1], loglnEvent) {
-				t.Errorf("expected log events to be equal\ngot:  %v\nwant: %v", events[1], loglnEvent)
-			}
-
-			logfEvent := LogEvent{
-				Line:    "formatted msg: message 1 message 2",
-				RawLine: append([]interface{}{format}, args...),
-				Level:   test.level,
-				Fields:  fields,
-			}
-
-			if !reflect.DeepEqual(events[2], logfEvent) {
-				t.Errorf("expected log events to be equal\ngot:  %v\nwant: %v", events[2], logfEvent)
-			}
-
-			lastEvent := logger.LastEvent()
-
-			if !reflect.DeepEqual(*lastEvent, logfEvent) {
-				t.Errorf("expected log events to be equal\ngot:  %v\nwant: %v", *lastEvent, logfEvent)
-			}
-		})
+	if got, want := logger.Count(), 1; got != want {
+		t.Errorf("expected log event count to be %d, got %d", want, got)
 	}
+}
+
+func TestTestLogger_Events(t *testing.T) {
+	logger := NewTestLogger()
+
+	logger.Debug("message")
+
+	events := logger.Events()
+
+	if got, want := len(events), 1; got != want {
+		t.Fatalf("expected log event count to be %d, got %d", want, got)
+	}
+
+	event := LogEvent{
+		Level:   DebugLevel,
+		Line:    "message",
+		RawLine: []interface{}{"message"},
+	}
+
+	loggertesting.AssertLogEvents(t, event, events[0], 0)
+}
+
+func TestTestLogger_LastEvent(t *testing.T) {
+	logger := NewTestLogger()
+
+	logger.Debug("message")
+	logger.Info("another message")
+
+	lastEvent := logger.LastEvent()
+
+	if lastEvent == nil {
+		t.Fatal("failed to get last event")
+	}
+
+	event := LogEvent{
+		Level:   InfoLevel,
+		Line:    "another message",
+		RawLine: []interface{}{"another message"},
+	}
+
+	loggertesting.AssertLogEvents(t, event, *lastEvent, 0)
 }
