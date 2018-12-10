@@ -20,8 +20,6 @@ endif
 GOLANGCI_VERSION = 1.12.2
 GOTESTSUM_VERSION = 0.3.2
 
-GOLANG_VERSION = 1.11
-
 # Add the ability to override some variables
 # Use with care
 -include override.mk
