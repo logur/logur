@@ -8,7 +8,7 @@ import (
 
 // NewWriter creates a new writer from a Logger with a default Info level.
 func NewWriter(logger Logger) *io.PipeWriter {
-	return NewLevelWriter(logger, InfoLevel)
+	return NewLevelWriter(logger, Info)
 }
 
 // NewLevelWriter creates a new writer from a Logger for a specific level of log events.

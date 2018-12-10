@@ -9,7 +9,7 @@ import (
 func TestNewLevelWriter(t *testing.T) {
 	logger := NewTestLogger()
 
-	writer := NewLevelWriter(logger, ErrorLevel)
+	writer := NewLevelWriter(logger, Error)
 	defer writer.Close()
 
 	const msg = "message"
@@ -34,8 +34,8 @@ func TestNewLevelWriter(t *testing.T) {
 
 	event := logger.LastEvent()
 
-	if event.Level != ErrorLevel {
-		t.Errorf("expected level %q instead of %q", ErrorLevel.String(), event.Level.String())
+	if event.Level != Error {
+		t.Errorf("expected level %q instead of %q", Error.String(), event.Level.String())
 	}
 
 	if got, want := event.Line, msg; got != want {

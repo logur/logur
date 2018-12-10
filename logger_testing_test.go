@@ -52,7 +52,7 @@ func TestTestLogger_Events(t *testing.T) {
 	}
 
 	event := LogEvent{
-		Level:   DebugLevel,
+		Level:   Debug,
 		Line:    "message",
 		RawLine: []interface{}{"message"},
 	}
@@ -73,7 +73,7 @@ func TestTestLogger_LastEvent(t *testing.T) {
 	}
 
 	event := LogEvent{
-		Level:   InfoLevel,
+		Level:   Info,
 		Line:    "another message",
 		RawLine: []interface{}{"another message"},
 	}
