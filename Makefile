@@ -61,17 +61,18 @@ bin/golangci-lint-${GOLANGCI_VERSION}:
 lint: bin/golangci-lint ## Run linter
 	bin/golangci-lint run
 
-release-%: ## Release a new version
+release-%: TAG_PREFIX = v
+release-%:
 	@sed -e "s/^## \[Unreleased\]$$/## [Unreleased]\\"$$'\n'"\\"$$'\n'"\\"$$'\n'"## [$*] - $$(date +%Y-%m-%d)/g" CHANGELOG.md > CHANGELOG.md.new
 	@mv CHANGELOG.md.new CHANGELOG.md
 
-	@sed -e "s|^\[Unreleased\]: \(.*\)HEAD$$|[Unreleased]: https://${PACKAGE}/compare/$*...HEAD\\"$$'\n'"[$*]: \1$*|g" CHANGELOG.md > CHANGELOG.md.new
+	@sed -e "s|^\[Unreleased\]: \(.*\)HEAD$$|[Unreleased]: https://${PACKAGE}/compare/${TAG_PREFIX}$*...HEAD\\"$$'\n'"[$*]: \1${TAG_PREFIX}$*|g" CHANGELOG.md > CHANGELOG.md.new
 	@mv CHANGELOG.md.new CHANGELOG.md
 
 ifeq (${TAG}, 1)
 	git add CHANGELOG.md
-	git commit -s -S -m 'Prepare release $*'
-	git tag -s -m 'Release $*' $*
+	git commit -m 'Prepare release $*'
+	git tag -m 'Release $*' ${TAG_PREFIX}$*
 endif
 
 	@echo "Version updated to $*!"
@@ -79,7 +80,7 @@ endif
 	@echo "Review the changes made by this script then execute the following:"
 ifneq (${TAG}, 1)
 	@echo
-	@echo "git add CHANGELOG.md && git commit -S -m 'Prepare release $*' && git tag -s -m 'Release $*' $*"
+	@echo "git add CHANGELOG.md && git commit -m 'Prepare release $*' && git tag -m 'Release $*' ${TAG_PREFIX}$*"
 	@echo
 	@echo "Finally, push the changes:"
 endif
