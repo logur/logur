@@ -15,7 +15,7 @@ func NewErrorHandler(logger Logger) *ErrorHandler {
 	return &ErrorHandler{logger}
 }
 
-// Handle records an error event.
+// Handle records an error event and forwards it to the underlying logger.
 func (h *ErrorHandler) Handle(err error) {
 	fields := make(Fields)
 
