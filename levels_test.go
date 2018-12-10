@@ -6,11 +6,11 @@ import (
 
 // nolint: gochecknoglobals
 var levelMap = map[string]Level{
-	"trace": TraceLevel,
-	"debug": DebugLevel,
-	"info":  InfoLevel,
-	"warn":  WarnLevel,
-	"error": ErrorLevel,
+	"trace": Trace,
+	"debug": Debug,
+	"info":  Info,
+	"warn":  Warn,
+	"error": Error,
 }
 
 func TestLevel_String(t *testing.T) {
@@ -35,12 +35,12 @@ func TestLevel_String_Unknown(t *testing.T) {
 
 func TestParseAndUnmarshalLevel(t *testing.T) {
 	tests := map[string]Level{
-		"trace":   TraceLevel,
-		"debug":   DebugLevel,
-		"info":    InfoLevel,
-		"warn":    WarnLevel,
-		"warning": WarnLevel,
-		"error":   ErrorLevel,
+		"trace":   Trace,
+		"debug":   Debug,
+		"info":    Info,
+		"warn":    Warn,
+		"warning": Warn,
+		"error":   Error,
 	}
 
 	for levelName, level := range tests {

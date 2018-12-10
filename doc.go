@@ -80,7 +80,7 @@ layer is recommended, even around functions.
 The following example creates a simple standard library logger for using as an HTTP server error log:
 
 	func newStandardErrorLogger() *log.Logger {
-		return logur.NewStandardLogger(logur.NewNoop(), logur.ErrorLevel, "", 0)
+		return logur.NewStandardLogger(logur.NewNoop(), logur.Error, "", 0)
 	}
 
 	func main() {

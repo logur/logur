@@ -12,20 +12,20 @@ type Level uint32
 const (
 	// Even more fine-grained information than Debug events.
 	// Loggers not supporting this level should fall back to Debug.
-	TraceLevel Level = iota
+	Trace Level = iota
 
 	// A verbose series of information events.
 	// They are useful when debugging the system.
-	DebugLevel
+	Debug
 
 	// General information about what's happening inside the system.
-	InfoLevel
+	Info
 
 	// Non-critical events that should be looked at.
-	WarnLevel
+	Warn
 
 	// Critical events that require immediate attention.
-	ErrorLevel
+	Error
 )
 
 // ParseLevel takes a string level and returns the defined log level constant.
@@ -33,19 +33,19 @@ const (
 func ParseLevel(level string) (Level, bool) {
 	switch strings.ToLower(level) {
 	case "trace":
-		return TraceLevel, true
+		return Trace, true
 
 	case "debug":
-		return DebugLevel, true
+		return Debug, true
 
 	case "info":
-		return InfoLevel, true
+		return Info, true
 
 	case "warn", "warning":
-		return WarnLevel, true
+		return Warn, true
 
 	case "error":
-		return ErrorLevel, true
+		return Error, true
 	}
 
 	return Level(999), false
@@ -54,19 +54,19 @@ func ParseLevel(level string) (Level, bool) {
 // String converts a Level to string.
 func (l Level) String() string {
 	switch l {
-	case TraceLevel:
+	case Trace:
 		return "trace"
 
-	case DebugLevel:
+	case Debug:
 		return "debug"
 
-	case InfoLevel:
+	case Info:
 		return "info"
 
-	case WarnLevel:
+	case Warn:
 		return "warn"
 
-	case ErrorLevel:
+	case Error:
 		return "error"
 	}
 
@@ -89,19 +89,19 @@ func (l *Level) UnmarshalText(text []byte) error {
 // If the level is invalid it falls back to Info level.
 func LevelFunc(logger Logger, level Level) LogFunc {
 	switch level {
-	case TraceLevel:
+	case Trace:
 		return logger.Trace
 
-	case DebugLevel:
+	case Debug:
 		return logger.Debug
 
-	case InfoLevel:
+	case Info:
 		return logger.Info
 
-	case WarnLevel:
+	case Warn:
 		return logger.Warn
 
-	case ErrorLevel:
+	case Error:
 		return logger.Error
 
 	default:

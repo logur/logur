@@ -7,7 +7,7 @@ import (
 
 func TestNewStandardLogger(t *testing.T) {
 	logger := NewTestLogger()
-	stdLogger := NewStandardLogger(logger, ErrorLevel, "", 0)
+	stdLogger := NewStandardLogger(logger, Error, "", 0)
 
 	const msg = "message"
 
@@ -28,8 +28,8 @@ func TestNewStandardLogger(t *testing.T) {
 
 	event := logger.LastEvent()
 
-	if event.Level != ErrorLevel {
-		t.Errorf("expected level %q instead of %q", ErrorLevel.String(), event.Level.String())
+	if event.Level != Error {
+		t.Errorf("expected level %q instead of %q", Error.String(), event.Level.String())
 	}
 
 	if got, want := event.Line, msg; got != want {

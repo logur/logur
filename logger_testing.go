@@ -103,27 +103,27 @@ func (l *TestLogger) record(level Level, args []interface{}) {
 
 // Trace records a Trace level event.
 func (l *TestLogger) Trace(args ...interface{}) {
-	l.record(TraceLevel, args)
+	l.record(Trace, args)
 }
 
 // Debug records a Debug level event.
 func (l *TestLogger) Debug(args ...interface{}) {
-	l.record(DebugLevel, args)
+	l.record(Debug, args)
 }
 
 // Info records a Info level event.
 func (l *TestLogger) Info(args ...interface{}) {
-	l.record(InfoLevel, args)
+	l.record(Info, args)
 }
 
 // Warn records a Warn level event.
 func (l *TestLogger) Warn(args ...interface{}) {
-	l.record(WarnLevel, args)
+	l.record(Warn, args)
 }
 
 // Error records a Error level event.
 func (l *TestLogger) Error(args ...interface{}) {
-	l.record(ErrorLevel, args)
+	l.record(Error, args)
 }
 
 func (l *TestLogger) recordln(level Level, args []interface{}) {
@@ -137,27 +137,27 @@ func (l *TestLogger) recordln(level Level, args []interface{}) {
 
 // Traceln records a Trace level event using fmt.Println characteristics.
 func (l *TestLogger) Traceln(args ...interface{}) {
-	l.recordln(TraceLevel, args)
+	l.recordln(Trace, args)
 }
 
 // Debugln records a Debug level event using fmt.Println characteristics.
 func (l *TestLogger) Debugln(args ...interface{}) {
-	l.recordln(DebugLevel, args)
+	l.recordln(Debug, args)
 }
 
 // Infoln records a Info level event using fmt.Println characteristics.
 func (l *TestLogger) Infoln(args ...interface{}) {
-	l.recordln(InfoLevel, args)
+	l.recordln(Info, args)
 }
 
 // Warnln records a Warn level event using fmt.Println characteristics.
 func (l *TestLogger) Warnln(args ...interface{}) {
-	l.recordln(WarnLevel, args)
+	l.recordln(Warn, args)
 }
 
 // Errorln records a Error level event using fmt.Println characteristics.
 func (l *TestLogger) Errorln(args ...interface{}) {
-	l.recordln(ErrorLevel, args)
+	l.recordln(Error, args)
 }
 
 func (l *TestLogger) recordf(level Level, format string, args []interface{}) {
@@ -171,27 +171,27 @@ func (l *TestLogger) recordf(level Level, format string, args []interface{}) {
 
 // Tracef records a Trace level event with a formatted message.
 func (l *TestLogger) Tracef(format string, args ...interface{}) {
-	l.recordf(TraceLevel, format, args)
+	l.recordf(Trace, format, args)
 }
 
 // Debugf records a Debug level event with a formatted message.
 func (l *TestLogger) Debugf(format string, args ...interface{}) {
-	l.recordf(DebugLevel, format, args)
+	l.recordf(Debug, format, args)
 }
 
 // Infof records a Info level event with a formatted message.
 func (l *TestLogger) Infof(format string, args ...interface{}) {
-	l.recordf(InfoLevel, format, args)
+	l.recordf(Info, format, args)
 }
 
 // Warnf records a Warn level event with a formatted message.
 func (l *TestLogger) Warnf(format string, args ...interface{}) {
-	l.recordf(WarnLevel, format, args)
+	l.recordf(Warn, format, args)
 }
 
 // Errorf records a Error level event with a formatted message.
 func (l *TestLogger) Errorf(format string, args ...interface{}) {
-	l.recordf(ErrorLevel, format, args)
+	l.recordf(Error, format, args)
 }
 
 // WithFields returns a new TestLogger with the appended fields.

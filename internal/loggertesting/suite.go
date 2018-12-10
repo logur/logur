@@ -13,27 +13,27 @@ var testLevelMap = map[logur.Level]struct {
 	loglnFunc func(logger logur.Logger, args ...interface{})
 	logfFunc  func(logger logur.Logger, format string, args ...interface{})
 }{
-	logur.TraceLevel: {
+	logur.Trace: {
 		logFunc:   logur.Logger.Trace,
 		loglnFunc: logur.Logger.Traceln,
 		logfFunc:  logur.Logger.Tracef,
 	},
-	logur.DebugLevel: {
+	logur.Debug: {
 		logFunc:   logur.Logger.Debug,
 		loglnFunc: logur.Logger.Debugln,
 		logfFunc:  logur.Logger.Debugf,
 	},
-	logur.InfoLevel: {
+	logur.Info: {
 		logFunc:   logur.Logger.Info,
 		loglnFunc: logur.Logger.Infoln,
 		logfFunc:  logur.Logger.Infof,
 	},
-	logur.WarnLevel: {
+	logur.Warn: {
 		logFunc:   logur.Logger.Warn,
 		loglnFunc: logur.Logger.Warnln,
 		logfFunc:  logur.Logger.Warnf,
 	},
-	logur.ErrorLevel: {
+	logur.Error: {
 		logFunc:   logur.Logger.Error,
 		loglnFunc: logur.Logger.Errorln,
 		logfFunc:  logur.Logger.Errorf,
