@@ -1,7 +1,6 @@
 package loggertesting
 
 import (
-	"reflect"
 	"strings"
 	"testing"
 
@@ -35,12 +34,28 @@ func AssertLogEvents(t *testing.T, expected logur.LogEvent, actual logur.LogEven
 	}
 
 	if flags&SkipRawLine == 0 {
-		if !reflect.DeepEqual(expected.RawLine, actual.RawLine) {
+		if len(expected.RawLine) != len(actual.RawLine) {
 			t.Errorf("expected raw log lines to be equal\ngot:  %v\nwant: %v", actual.RawLine, expected.RawLine)
+		}
+
+		for key, value := range expected.RawLine {
+			if actual.RawLine[key] != value {
+				t.Errorf("expected raw log lines to be equal\ngot:  %v\nwant: %v", actual.RawLine, expected.RawLine)
+
+				break
+			}
 		}
 	}
 
-	if !reflect.DeepEqual(expected.Fields, actual.Fields) {
+	if len(expected.Fields) != len(actual.Fields) {
 		t.Errorf("expected log fields to be equal\ngot:  %v\nwant: %v", actual.Fields, expected.Fields)
+	}
+
+	for key, value := range expected.Fields {
+		if actual.Fields[key] != value {
+			t.Errorf("expected log fields to be equal\ngot:  %v\nwant: %v", actual.Fields, expected.Fields)
+
+			break
+		}
 	}
 }

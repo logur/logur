@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- [github.com/goph/emperror](https://github.com/goph/emperror) compatible error handler
+
 ### Changed
 
 - Removed *Level* suffix from level constants

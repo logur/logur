@@ -7,6 +7,7 @@ Features:
 	- Noop logger for discarding log events
 	- `io.Writer` support
 	- Standard library logger support
+	- github.com/goph/emperror compatible error handler
 
 An opinionated library should come with some best practices for usage and so does this one.
 
