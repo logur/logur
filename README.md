@@ -16,6 +16,7 @@
 - Noop logger for discarding log events
 - `io.Writer` support
 - Standard library logger support
+- [github.com/goph/emperror](https://github.com/goph/emperror) compatible error handler
 
 
 ## Installation
