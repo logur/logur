@@ -18,7 +18,6 @@ func newLogrus() logur.Logger {
 	return logrusadapter.New(logger)
 }
 
-
 func newDisabledLogrus() logur.Logger {
 	logger := logrus.New()
 	logger.Level = logrus.ErrorLevel

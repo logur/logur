@@ -9,6 +9,7 @@ import (
 	"github.com/goph/logur"
 )
 
+// nolint: gochecknoglobals
 var (
 	errExample = errors.New("fail")
 
@@ -82,6 +83,7 @@ func fakeFields() logur.Fields {
 	}
 }
 
+// nolint: gochecknoglobals
 var loggers = map[string]struct {
 	newLogger         func() logur.Logger
 	newDisabledLogger func() logur.Logger

@@ -20,7 +20,6 @@ func newZap() logur.Logger {
 	return zapadapter.New(zap.New(zapcore.NewCore(enc, zapcore.AddSync(ioutil.Discard), zap.DebugLevel)).Sugar())
 }
 
-
 func newDisabledZap() logur.Logger {
 	ec := zap.NewProductionEncoderConfig()
 	ec.EncodeDuration = zapcore.NanosDurationEncoder
