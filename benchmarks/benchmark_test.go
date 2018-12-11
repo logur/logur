@@ -92,6 +92,7 @@ var loggers = map[string]struct {
 	"zap":     {newLogger: newZap, newDisabledLogger: newDisabledZap},
 	"hclog":   {newLogger: newHclog, newDisabledLogger: newDisabledHclog},
 	"zerolog": {newLogger: newZerolog, newDisabledLogger: newDisabledZerolog},
+	"kitlog":  {newLogger: newKitlog, newDisabledLogger: newDisabledKitlog},
 }
 
 func BenchmarkDisabledWithoutFields(b *testing.B) {
