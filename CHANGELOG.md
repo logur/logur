@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - Benchmarks
+- [github.com/rs/zerolog](https://github.com/rs/zerolog) adapter
 
 
 ## [0.3.0] - 2018-12-11

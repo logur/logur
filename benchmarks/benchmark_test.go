@@ -88,9 +88,10 @@ var loggers = map[string]struct {
 	newLogger         func() logur.Logger
 	newDisabledLogger func() logur.Logger
 }{
-	_logrus: {newLogger: newLogrus, newDisabledLogger: newDisabledLogrus},
-	_zap:    {newLogger: newZap, newDisabledLogger: newDisabledZap},
-	_hclog:  {newLogger: newHclog, newDisabledLogger: newDisabledHclog},
+	_logrus:  {newLogger: newLogrus, newDisabledLogger: newDisabledLogrus},
+	_zap:     {newLogger: newZap, newDisabledLogger: newDisabledZap},
+	_hclog:   {newLogger: newHclog, newDisabledLogger: newDisabledHclog},
+	_zerolog: {newLogger: newZerolog, newDisabledLogger: newDisabledZerolog},
 }
 
 func BenchmarkDisabledWithoutFields(b *testing.B) {
