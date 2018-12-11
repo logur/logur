@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Benchmarks
 - [github.com/rs/zerolog](https://github.com/rs/zerolog) adapter
+- [github.com/go-kit/kit](https://github.com/go-kit/kit) adapter
 
 
 ## [0.3.0] - 2018-12-11
