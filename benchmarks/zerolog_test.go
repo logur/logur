@@ -8,8 +8,6 @@ import (
 	"github.com/rs/zerolog"
 )
 
-const _zerolog = "github.com/rs/zerolog"
-
 func newZerolog() logur.Logger {
 	logger := zerolog.New(ioutil.Discard)
 	logger.Level(zerolog.DebugLevel)

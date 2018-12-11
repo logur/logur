@@ -9,8 +9,6 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-const _zap = "go.uber.org/zap"
-
 func newZap() logur.Logger {
 	ec := zap.NewProductionEncoderConfig()
 	ec.EncodeDuration = zapcore.NanosDurationEncoder

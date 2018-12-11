@@ -8,8 +8,6 @@ import (
 	"github.com/hashicorp/go-hclog"
 )
 
-const _hclog = "github.com/hashicorp/go-hclog"
-
 func newHclog() logur.Logger {
 	logger := hclog.New(&hclog.LoggerOptions{
 		Level:  hclog.Trace,

@@ -8,8 +8,6 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-const _logrus = "github.com/sirupsen/logrus"
-
 func newLogrus() logur.Logger {
 	logger := logrus.New()
 	logger.Level = logrus.TraceLevel
