@@ -17,6 +17,13 @@
 - `io.Writer` support
 - Standard library logger support
 - [github.com/goph/emperror](https://github.com/goph/emperror) compatible error handler
+- Adapters for well-known logging libraries:
+    * [hclog](https://github.com/hashicorp/go-hclog)
+    * [go-kit log](https://github.com/go-kit/kit)
+    * [logrus](https://github.com/sirupsen/logrus)
+    * [zap](https://github.com/uber-go/zap)
+    * [zerolog](https://github.com/rs/zerolog)
+    * Next one contributed by You!
 
 
 ## Installation
