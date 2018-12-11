@@ -46,6 +46,8 @@ $ dep ensure -add github.com/goph/logur
 
 An opinionated library should come with some best practices for usage and so does this one.
 
+**TL;DR:** See example usage and best practices in [github.com/sagikazarmark/modern-go-application](https://github.com/sagikazarmark/modern-go-application).
+
 ### Create a custom interface
 
 Interfaces should be defined by the consumer, so the `Logger` interface in this library should not be used directly.
