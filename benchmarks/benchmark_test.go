@@ -82,86 +82,119 @@ func fakeFields() logur.Fields {
 	}
 }
 
+var loggers = map[string]struct {
+	newLogger         func() logur.Logger
+	newDisabledLogger func() logur.Logger
+}{
+	_logrus: {newLogger: newLogrus, newDisabledLogger: newDisabledLogrus},
+	_zap:    {newLogger: newZap, newDisabledLogger: newDisabledZap},
+	_hclog:  {newLogger: newHclog, newDisabledLogger: newDisabledHclog},
+}
+
 func BenchmarkDisabledWithoutFields(b *testing.B) {
 	b.Log("Logging at a disabled level without any structured context.")
 
-	b.Run(logrusPackage, func(b *testing.B) {
-		logger := newDisabledLogrus()
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				logger.Info(getMessage(0))
-			}
+	for name, factory := range loggers {
+		name, factory := name, factory
+
+		b.Run(name, func(b *testing.B) {
+			logger := factory.newDisabledLogger()
+			b.ResetTimer()
+			b.RunParallel(func(pb *testing.PB) {
+				for pb.Next() {
+					logger.Info(getMessage(0))
+				}
+			})
 		})
-	})
+	}
 }
 
 func BenchmarkDisabledAccumulatedContext(b *testing.B) {
 	b.Log("Logging at a disabled level with some accumulated context.")
 
-	b.Run(logrusPackage, func(b *testing.B) {
-		logger := newDisabledLogrus().WithFields(fakeFields())
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				logger.Info(getMessage(0))
-			}
+	for name, factory := range loggers {
+		name, factory := name, factory
+
+		b.Run(name, func(b *testing.B) {
+			logger := factory.newDisabledLogger().WithFields(fakeFields())
+			b.ResetTimer()
+			b.RunParallel(func(pb *testing.PB) {
+				for pb.Next() {
+					logger.Info(getMessage(0))
+				}
+			})
 		})
-	})
+	}
 }
 
 func BenchmarkDisabledAddingFields(b *testing.B) {
 	b.Log("Logging at a disabled level, adding context at each log site.")
 
-	b.Run(logrusPackage, func(b *testing.B) {
-		logger := newDisabledLogrus()
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				logger.WithFields(fakeFields()).Info(getMessage(0))
-			}
+	for name, factory := range loggers {
+		name, factory := name, factory
+
+		b.Run(name, func(b *testing.B) {
+			logger := factory.newDisabledLogger()
+			b.ResetTimer()
+			b.RunParallel(func(pb *testing.PB) {
+				for pb.Next() {
+					logger.WithFields(fakeFields()).Info(getMessage(0))
+				}
+			})
 		})
-	})
+	}
 }
 
 func BenchmarkWithoutFields(b *testing.B) {
 	b.Log("Logging without any structured context.")
 
-	b.Run(logrusPackage, func(b *testing.B) {
-		logger := newLogrus()
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				logger.Info(getMessage(0))
-			}
+	for name, factory := range loggers {
+		name, factory := name, factory
+
+		b.Run(name, func(b *testing.B) {
+			logger := factory.newLogger()
+			b.ResetTimer()
+			b.RunParallel(func(pb *testing.PB) {
+				for pb.Next() {
+					logger.Info(getMessage(0))
+				}
+			})
 		})
-	})
+	}
 }
 
 func BenchmarkAccumulatedContext(b *testing.B) {
 	b.Log("Logging with some accumulated context.")
 
-	b.Run(logrusPackage, func(b *testing.B) {
-		logger := newLogrus().WithFields(fakeFields())
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				logger.Info(getMessage(0))
-			}
+	for name, factory := range loggers {
+		name, factory := name, factory
+
+		b.Run(name, func(b *testing.B) {
+			logger := factory.newLogger().WithFields(fakeFields())
+			b.ResetTimer()
+			b.RunParallel(func(pb *testing.PB) {
+				for pb.Next() {
+					logger.Info(getMessage(0))
+				}
+			})
 		})
-	})
+	}
 }
 
 func BenchmarkAddingFields(b *testing.B) {
 	b.Log("Logging with additional context at each log site.")
 
-	b.Run(logrusPackage, func(b *testing.B) {
-		logger := newLogrus()
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				logger.WithFields(fakeFields()).Info(getMessage(0))
-			}
+	for name, factory := range loggers {
+		name, factory := name, factory
+
+		b.Run(name, func(b *testing.B) {
+			logger := factory.newLogger()
+			b.ResetTimer()
+			b.RunParallel(func(pb *testing.PB) {
+				for pb.Next() {
+					logger.WithFields(fakeFields()).Info(getMessage(0))
+				}
+			})
 		})
-	})
+	}
 }

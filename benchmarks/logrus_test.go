@@ -8,19 +8,20 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-const logrusPackage = "github.com/sirupsen/logrus"
+const _logrus = "github.com/sirupsen/logrus"
 
-func newDisabledLogrus() logur.Logger {
+func newLogrus() logur.Logger {
 	logger := logrus.New()
-	logger.Level = logrus.ErrorLevel
+	logger.Level = logrus.TraceLevel
 	logger.Out = ioutil.Discard
 
 	return logrusadapter.New(logger)
 }
 
-func newLogrus() logur.Logger {
+
+func newDisabledLogrus() logur.Logger {
 	logger := logrus.New()
-	logger.Level = logrus.DebugLevel
+	logger.Level = logrus.ErrorLevel
 	logger.Out = ioutil.Discard
 
 	return logrusadapter.New(logger)
