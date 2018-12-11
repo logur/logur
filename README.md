@@ -1,5 +1,6 @@
 # Logur
 
+[![Go Version](https://img.shields.io/badge/go%20version-%3E=1.10-orange.svg?style=flat-square)]()
 [![Go Report Card](https://goreportcard.com/badge/github.com/goph/logur?style=flat-square)](https://goreportcard.com/report/github.com/goph/logur)
 [![GolangCI](https://golangci.com/badges/github.com/goph/logur.svg)](https://golangci.com/r/github.com/goph/logur)
 [![GoDoc](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](https://godoc.org/github.com/goph/logur)
