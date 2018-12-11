@@ -43,6 +43,7 @@ var testLevelMap = map[logur.Level]struct {
 type LoggerTestSuite struct {
 	LoggerFactory          func() (logur.Logger, func() []logur.LogEvent)
 	LogEventAssertionFlags uint8
+	TraceFallbackToDebug   bool
 }
 
 func (s *LoggerTestSuite) TestLevels(t *testing.T) {
@@ -54,6 +55,10 @@ func (s *LoggerTestSuite) TestLevels(t *testing.T) {
 		level, test := level, test
 
 		t.Run(strings.ToTitle(level.String()), func(t *testing.T) {
+			if level == logur.Trace && s.TraceFallbackToDebug {
+				level = logur.Debug
+			}
+
 			fields := logur.Fields{"key": "value"}
 
 			logger, getLogEvents := s.LoggerFactory()
@@ -91,6 +96,10 @@ func (s *LoggerTestSuite) TestLevelsln(t *testing.T) {
 		level, test := level, test
 
 		t.Run(strings.ToTitle(level.String()), func(t *testing.T) {
+			if level == logur.Trace && s.TraceFallbackToDebug {
+				level = logur.Debug
+			}
+
 			fields := logur.Fields{"key": "value"}
 
 			logger, getLogEvents := s.LoggerFactory()
@@ -128,6 +137,10 @@ func (s *LoggerTestSuite) TestLevelsf(t *testing.T) {
 		level, test := level, test
 
 		t.Run(strings.ToTitle(level.String()), func(t *testing.T) {
+			if level == logur.Trace && s.TraceFallbackToDebug {
+				level = logur.Debug
+			}
+
 			fields := logur.Fields{"key": "value"}
 
 			logger, getLogEvents := s.LoggerFactory()
