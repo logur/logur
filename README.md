@@ -215,6 +215,91 @@ why the authors ended up with an interface like this. Go check it out, you might
 which could make the go-kit interface a better fit than the one in this library.
 
 
+### Why not `logger.With(keyvals ...interface{})`?
+
+There is an increasing tendency of logging libraries implementing the following interface:
+
+```go
+type Logger interface {
+	// ...
+	With(keyvals ...interface{})
+}
+```
+
+The arguments behind this interface are being simple and convenient, not as verbose as a map of fields.
+There are also usual arguments *against* the alternative solutions, (eg. a `map[string]interface{}` endorsed by this library)
+like not being able to order fields or being forced to import a concrete type, like `logur.Fields`.
+Ultimately, this is not completely independent from personal taste, so one will always prefer one or the other.
+(You can read more in the above linked [go-kit proposal](https://docs.google.com/document/d/1shW9DZJXOeGbG9Mr9Us9MiaPqmlcVatD_D8lrOXRNMU)).
+
+Let's take a look at these arguments one by one:
+
+**1. Simplicity and verbosity**
+
+This is something that's hard to argue with, but also a little bit subjective.
+Here is a comparison of a single line context logging:
+
+```go
+logger = log.With(logger, "key", "value", "key2", "value")
+logger = logger.WithFields(log.Fields{"key": "value", "key2": "value"})
+```
+
+Obviously the second one is more verbose, takes a bit more efforts to write, but this is rather a question of habits.
+
+Let's take a look at a multiline example as well:
+
+```go
+logger = log.With(
+	logger,
+	"key", "value",
+	"key2", "value",
+)
+
+logger = logger.WithFields(log.Fields{
+	"key": "value",
+	"key2": "value",
+})
+```
+
+The difference is less visible in this case and harder to argue that one is better than the other.
+
+
+**2. Ordering fields**
+
+This is one of the less known arguments against maps in the context of logging, you can read about it in the
+[go-kit proposal](https://docs.google.com/document/d/1shW9DZJXOeGbG9Mr9Us9MiaPqmlcVatD_D8lrOXRNMU).
+
+Since maps are unordered in Go, fields added to a log line might not always look like the same on the output.
+Variadic (slice) arguments do not suffer from this issue. However, most implementations convert slices internally to maps,
+so if ordering matters, most logging libraries won't work anyway.
+
+Also, this library is not a one size fits all proposal and doesn't try to solve [100% of the problems](https://dev.to/nickjj/optimize-your-programming-decisions-for-the-95-not-the-5-2n42)
+(unlike the official logger proposal), but rather aim for the most common use cases which doesn't include ordering of fields.
+
+
+**3. Importing a concrete type**
+
+As discussed earlier, one should not import the interface in this library directly to the application's code,
+but instead use adapters, so this problem is basically nonexistent.
+
+
+Comparing the slice and the map solution, there are also some arguments against using a variadic slice:
+
+**1. Odd number of arguments**
+
+The variadic slice interface implementation has to deal with the case when an odd number of arguments are passed to
+the function. While the [go-kit proposal](https://docs.google.com/document/d/1shW9DZJXOeGbG9Mr9Us9MiaPqmlcVatD_D8lrOXRNMU)
+argues that this is extremely hard mistake to make, the risk is still there that the logs will lack some information.
+
+**2. Converting the slice to key value pairs**
+
+In order to display the context as key-value pairs the logging implementations has to convert the key parameters
+to string in most of the cases (while the value parameter can be handled by the marshaling protocol).
+This adds an extra step to outputting the logs (an extra loop going through all the parameters).
+While I don't have scientific evidence proving one to be slower than the other (yet), it seems to be an unnecessary
+complication at first.
+
+
 ## Inspiration
 
 This package is heavily inspired by a set of logging libraries:
