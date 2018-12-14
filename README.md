@@ -9,6 +9,17 @@
 
 **Logur is an opinionated collection of logging best practices.**
 
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [FAQ](#faq)
+    - [Why not just X logger?](#why-not-just-x-logger)
+    - [Why not go-kit logger?](#why-not-go-kit-logger)
+    - [Why not `logger.With(keyvals ...interface{})`?](#why-not-loggerwithkeyvals-interface)
+- [Inspiration](#inspiration)
+
 
 ## Features
 
