@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - [Watermill](https://watermill.io) compatible logger
 
+### Changed
+
+- Dropped the custom `Fields` type from the `Logger` interface (replaced with `map[string]interface{}`)
+
 
 ## [0.4.0] - 2018-12-11
 

@@ -69,10 +69,11 @@ type Logger interface {
 	Errorf(format string, args ...interface{})
 
 	// WithFields appends structured fields to a new (child) logger instance.
-	WithFields(fields Fields) Logger
+	WithFields(fields map[string]interface{}) Logger
 }
 
 // Fields is used to define structured fields which are appended to log events.
+// It can be used as a shorthand for map[string]interface{}.
 type Fields map[string]interface{}
 
 // LogFunc is a function recording a log event.

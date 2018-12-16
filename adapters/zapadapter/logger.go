@@ -53,7 +53,7 @@ func (a *adapter) Tracef(format string, args ...interface{}) {
 	a.Debugf(format, args...)
 }
 
-func (a *adapter) WithFields(fields logur.Fields) logur.Logger {
+func (a *adapter) WithFields(fields map[string]interface{}) logur.Logger {
 	keyvals := make([]interface{}, len(fields)*2)
 	i := 0
 

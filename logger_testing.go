@@ -10,7 +10,7 @@ type LogEvent struct {
 	Line    string
 	RawLine []interface{}
 	Level   Level
-	Fields  Fields
+	Fields  map[string]interface{}
 }
 
 // TestLogger is a simple stub for the logger interface.
@@ -18,7 +18,7 @@ type LogEvent struct {
 // The TestLogger is safe for concurrent use.
 type TestLogger struct {
 	events []LogEvent
-	fields Fields
+	fields map[string]interface{}
 	mu     sync.RWMutex
 
 	parent *TestLogger
@@ -195,7 +195,7 @@ func (l *TestLogger) Errorf(format string, args ...interface{}) {
 }
 
 // WithFields returns a new TestLogger with the appended fields.
-func (l *TestLogger) WithFields(fields Fields) Logger {
+func (l *TestLogger) WithFields(fields map[string]interface{}) Logger {
 	var f = l.fields
 
 	if f == nil {

@@ -95,6 +95,6 @@ func (a *adapter) Errorf(format string, args ...interface{}) {
 	a.Error(fmt.Sprintf(format, args...))
 }
 
-func (a *adapter) WithFields(fields logur.Fields) logur.Logger {
+func (a *adapter) WithFields(fields map[string]interface{}) logur.Logger {
 	return &adapter{a.Logger.WithFields(Fields(fields))}
 }
