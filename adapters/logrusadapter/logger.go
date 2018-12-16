@@ -22,7 +22,7 @@ func New(logger *logrus.Logger) logur.Logger {
 
 // WithFields returns a new logger based on the original logger with
 // the additional supplied fields.
-func (a *adapter) WithFields(fields logur.Fields) logur.Logger {
+func (a *adapter) WithFields(fields map[string]interface{}) logur.Logger {
 	return &adapter{
 		a.Entry.WithFields(logrus.Fields(fields)),
 	}

@@ -26,4 +26,4 @@ func (*noop) Infof(format string, args ...interface{})  {}
 func (*noop) Warnf(format string, args ...interface{})  {}
 func (*noop) Errorf(format string, args ...interface{}) {}
 
-func (n *noop) WithFields(fields Fields) Logger { return n }
+func (n *noop) WithFields(fields map[string]interface{}) Logger { return n }
