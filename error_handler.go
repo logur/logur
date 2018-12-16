@@ -12,7 +12,13 @@ type ErrorHandler struct {
 
 // NewErrorHandler returns a new ErrorHandler.
 func NewErrorHandler(logger Logger) *ErrorHandler {
-	return &ErrorHandler{logger}
+	if logger == nil {
+		logger = NewNoop()
+	}
+
+	return &ErrorHandler{
+		logger: logger,
+	}
 }
 
 // Handle records an error event and forwards it to the underlying logger.
