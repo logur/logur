@@ -51,23 +51,6 @@ type Logger interface {
 	// Errorln is the Println counterpart of Error.
 	Errorln(args ...interface{})
 
-	// Tracef is the formatter counterpart of Trace.
-	//
-	// Loggers not supporting this level should fall back to Debug.
-	Tracef(format string, args ...interface{})
-
-	// Debugf is the formatter counterpart of Debug.
-	Debugf(format string, args ...interface{})
-
-	// Infof is the formatter counterpart of Info.
-	Infof(format string, args ...interface{})
-
-	// Warnf is the formatter counterpart of Warn.
-	Warnf(format string, args ...interface{})
-
-	// Errorf is the formatter counterpart of Error.
-	Errorf(format string, args ...interface{})
-
 	// WithFields appends structured fields to a new (child) logger instance.
 	WithFields(fields map[string]interface{}) Logger
 }

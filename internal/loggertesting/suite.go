@@ -11,32 +11,26 @@ import (
 var testLevelMap = map[logur.Level]struct {
 	logFunc   func(logger logur.Logger, args ...interface{})
 	loglnFunc func(logger logur.Logger, args ...interface{})
-	logfFunc  func(logger logur.Logger, format string, args ...interface{})
 }{
 	logur.Trace: {
 		logFunc:   logur.Logger.Trace,
 		loglnFunc: logur.Logger.Traceln,
-		logfFunc:  logur.Logger.Tracef,
 	},
 	logur.Debug: {
 		logFunc:   logur.Logger.Debug,
 		loglnFunc: logur.Logger.Debugln,
-		logfFunc:  logur.Logger.Debugf,
 	},
 	logur.Info: {
 		logFunc:   logur.Logger.Info,
 		loglnFunc: logur.Logger.Infoln,
-		logfFunc:  logur.Logger.Infof,
 	},
 	logur.Warn: {
 		logFunc:   logur.Logger.Warn,
 		loglnFunc: logur.Logger.Warnln,
-		logfFunc:  logur.Logger.Warnf,
 	},
 	logur.Error: {
 		logFunc:   logur.Logger.Error,
 		loglnFunc: logur.Logger.Errorln,
-		logfFunc:  logur.Logger.Errorf,
 	},
 }
 
@@ -119,48 +113,6 @@ func (s *LoggerTestSuite) TestLevelsln(t *testing.T) {
 			logEvent := logur.LogEvent{
 				Line:    "message 1 message 2\n",
 				RawLine: args,
-				Level:   level,
-				Fields:  fields,
-			}
-
-			AssertLogEvents(t, logEvent, logEvents[0], s.LogEventAssertionFlags)
-		})
-	}
-}
-
-func (s *LoggerTestSuite) TestLevelsf(t *testing.T) {
-	if s.LoggerFactory == nil {
-		t.Fatal("logger factory is not configured")
-	}
-
-	for level, test := range testLevelMap {
-		level, test := level, test
-
-		t.Run(strings.ToTitle(level.String()), func(t *testing.T) {
-			if level == logur.Trace && s.TraceFallbackToDebug {
-				level = logur.Debug
-			}
-
-			fields := logur.Fields{"key": "value"}
-
-			logger, getLogEvents := s.LoggerFactory()
-
-			logger = logger.WithFields(fields)
-
-			args := []interface{}{"message", 1, "message", 2}
-			format := "formatted msg: %s %d %s %d"
-
-			test.logfFunc(logger, format, args...)
-
-			logEvents := getLogEvents()
-
-			if got, want := len(logEvents), 1; got != want {
-				t.Fatalf("expected %d log events, got %d", want, got)
-			}
-
-			logEvent := logur.LogEvent{
-				Line:    "formatted msg: message 1 message 2",
-				RawLine: append([]interface{}{"formatted msg: %s %d %s %d"}, args...),
 				Level:   level,
 				Fields:  fields,
 			}

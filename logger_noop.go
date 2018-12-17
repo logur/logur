@@ -20,10 +20,4 @@ func (*noop) Infoln(args ...interface{})  {}
 func (*noop) Warnln(args ...interface{})  {}
 func (*noop) Errorln(args ...interface{}) {}
 
-func (*noop) Tracef(format string, args ...interface{}) {}
-func (*noop) Debugf(format string, args ...interface{}) {}
-func (*noop) Infof(format string, args ...interface{})  {}
-func (*noop) Warnf(format string, args ...interface{})  {}
-func (*noop) Errorf(format string, args ...interface{}) {}
-
 func (n *noop) WithFields(fields map[string]interface{}) Logger { return n }
