@@ -8,10 +8,10 @@ func NewNoop() Logger {
 	return &noop{}
 }
 
-func (*noop) Trace(msg string) {}
-func (*noop) Debug(msg string) {}
-func (*noop) Info(msg string)  {}
-func (*noop) Warn(msg string)  {}
-func (*noop) Error(msg string) {}
+func (*noop) Trace(msg string, fields map[string]interface{}) {}
+func (*noop) Debug(msg string, fields map[string]interface{}) {}
+func (*noop) Info(msg string, fields map[string]interface{})  {}
+func (*noop) Warn(msg string, fields map[string]interface{})  {}
+func (*noop) Error(msg string, fields map[string]interface{}) {}
 
 func (n *noop) WithFields(fields map[string]interface{}) Logger { return n }

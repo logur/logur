@@ -19,19 +19,19 @@ func New(l logur.Logger) log.Logger {
 }
 
 func (l *logger) Debug(msg ...interface{}) {
-	l.logger.Debug(fmt.Sprint(msg...))
+	l.logger.Debug(fmt.Sprint(msg...), nil)
 }
 
 func (l *logger) Info(msg ...interface{}) {
-	l.logger.Info(fmt.Sprint(msg...))
+	l.logger.Info(fmt.Sprint(msg...), nil)
 }
 
 func (l *logger) Warn(msg ...interface{}) {
-	l.logger.Warn(fmt.Sprint(msg...))
+	l.logger.Warn(fmt.Sprint(msg...), nil)
 }
 
 func (l *logger) Error(msg ...interface{}) {
-	l.logger.Error(fmt.Sprint(msg...))
+	l.logger.Error(fmt.Sprint(msg...), nil)
 }
 
 func (l *logger) Debugln(msg ...interface{}) {

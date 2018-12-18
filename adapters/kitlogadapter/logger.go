@@ -20,24 +20,24 @@ func New(logger log.Logger) logur.Logger {
 	return &adapter{logger}
 }
 
-func (a *adapter) Trace(msg string) {
+func (a *adapter) Trace(msg string, fields map[string]interface{}) {
 	// Fall back to Debug
-	a.Debug(msg)
+	a.Debug(msg, nil)
 }
 
-func (a *adapter) Debug(msg string) {
+func (a *adapter) Debug(msg string, fields map[string]interface{}) {
 	_ = level.Debug(a.logger).Log("msg", msg)
 }
 
-func (a *adapter) Info(msg string) {
+func (a *adapter) Info(msg string, fields map[string]interface{}) {
 	_ = level.Info(a.logger).Log("msg", msg)
 }
 
-func (a *adapter) Warn(msg string) {
+func (a *adapter) Warn(msg string, fields map[string]interface{}) {
 	_ = level.Warn(a.logger).Log("msg", msg)
 }
 
-func (a *adapter) Error(msg string) {
+func (a *adapter) Error(msg string, fields map[string]interface{}) {
 	_ = level.Error(a.logger).Log("msg", msg)
 }
 

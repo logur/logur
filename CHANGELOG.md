@@ -12,10 +12,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - Contextual logger (preparing the removal of `Logger.WithFields`)
+- Field parameter to log functions
 
 ### Changed
 
 - Replace log func variadic arguments with a single message argument
+
+### Deprecated
+
+- `Logger.WithField` (use field parameter of log functions instead)
 
 ### Removed
 

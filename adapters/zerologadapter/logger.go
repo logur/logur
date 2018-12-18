@@ -15,24 +15,24 @@ func New(logger zerolog.Logger) logur.Logger {
 	return &adapter{logger}
 }
 
-func (a *adapter) Trace(msg string) {
+func (a *adapter) Trace(msg string, fields map[string]interface{}) {
 	// Fall back to Debug
-	a.Debug(msg)
+	a.Debug(msg, nil)
 }
 
-func (a *adapter) Debug(msg string) {
+func (a *adapter) Debug(msg string, fields map[string]interface{}) {
 	a.logger.Debug().Msg(msg)
 }
 
-func (a *adapter) Info(msg string) {
+func (a *adapter) Info(msg string, fields map[string]interface{}) {
 	a.logger.Info().Msg(msg)
 }
 
-func (a *adapter) Warn(msg string) {
+func (a *adapter) Warn(msg string, fields map[string]interface{}) {
 	a.logger.Warn().Msg(msg)
 }
 
-func (a *adapter) Error(msg string) {
+func (a *adapter) Error(msg string, fields map[string]interface{}) {
 	a.logger.Error().Msg(msg)
 }
 

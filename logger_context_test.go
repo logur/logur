@@ -31,7 +31,7 @@ func TestWithFields(t *testing.T) {
 		map[string]interface{}{"key": "value3"},
 	)
 
-	ctxlogger.Info("message")
+	ctxlogger.Info("message", nil)
 
 	logEvent := LogEvent{
 		Line:   "message",

@@ -19,24 +19,24 @@ func New(logger *zap.SugaredLogger) logur.Logger {
 	return &adapter{logger}
 }
 
-func (a *adapter) Trace(msg string) {
+func (a *adapter) Trace(msg string, fields map[string]interface{}) {
 	// Fall back to Debug
-	a.Debug(msg)
+	a.Debug(msg, fields)
 }
 
-func (a *adapter) Debug(msg string) {
+func (a *adapter) Debug(msg string, fields map[string]interface{}) {
 	a.logger.Debug(msg)
 }
 
-func (a *adapter) Info(msg string) {
+func (a *adapter) Info(msg string, fields map[string]interface{}) {
 	a.logger.Info(msg)
 }
 
-func (a *adapter) Warn(msg string) {
+func (a *adapter) Warn(msg string, fields map[string]interface{}) {
 	a.logger.Warn(msg)
 }
 
-func (a *adapter) Error(msg string) {
+func (a *adapter) Error(msg string, fields map[string]interface{}) {
 	a.logger.Error(msg)
 }
 
