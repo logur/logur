@@ -26,7 +26,7 @@ func newTestSuite() *loggertesting.LoggerTestSuite {
 				),
 			)
 
-			return New(logger.Sugar()), func() []LogEvent {
+			return New(logger), func() []LogEvent {
 				lines := strings.Split(strings.TrimSuffix(buf.String(), "\n"), "\n")
 
 				events := make([]LogEvent, len(lines))

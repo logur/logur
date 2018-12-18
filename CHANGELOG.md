@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - Replace log func variadic arguments with a single message argument
+- Check if level is enabled (to prevent unwanted context conversions) when the underlying logger supports it
 
 ### Removed
 

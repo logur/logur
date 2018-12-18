@@ -22,21 +22,41 @@ func New(logger hclog.Logger) logur.Logger {
 }
 
 func (a *adapter) Trace(msg string, fields map[string]interface{}) {
+	if !a.logger.IsTrace() {
+		return
+	}
+
 	a.logger.Trace(msg, keyvals.FromMap(fields)...)
 }
 
 func (a *adapter) Debug(msg string, fields map[string]interface{}) {
+	if !a.logger.IsDebug() {
+		return
+	}
+
 	a.logger.Debug(msg, keyvals.FromMap(fields)...)
 }
 
 func (a *adapter) Info(msg string, fields map[string]interface{}) {
+	if !a.logger.IsInfo() {
+		return
+	}
+
 	a.logger.Info(msg, keyvals.FromMap(fields)...)
 }
 
 func (a *adapter) Warn(msg string, fields map[string]interface{}) {
+	if !a.logger.IsWarn() {
+		return
+	}
+
 	a.logger.Warn(msg, keyvals.FromMap(fields)...)
 }
 
 func (a *adapter) Error(msg string, fields map[string]interface{}) {
+	if !a.logger.IsError() {
+		return
+	}
+
 	a.logger.Error(msg, keyvals.FromMap(fields)...)
 }

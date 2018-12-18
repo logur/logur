@@ -21,21 +21,41 @@ func New(logger *logrus.Logger) logur.Logger {
 }
 
 func (a *adapter) Trace(msg string, fields map[string]interface{}) {
+	if !a.logger.Logger.IsLevelEnabled(logrus.TraceLevel) {
+		return
+	}
+
 	a.logger.WithFields(logrus.Fields(fields)).Trace(msg)
 }
 
 func (a *adapter) Debug(msg string, fields map[string]interface{}) {
+	if !a.logger.Logger.IsLevelEnabled(logrus.DebugLevel) {
+		return
+	}
+
 	a.logger.WithFields(logrus.Fields(fields)).Debug(msg)
 }
 
 func (a *adapter) Info(msg string, fields map[string]interface{}) {
+	if !a.logger.Logger.IsLevelEnabled(logrus.InfoLevel) {
+		return
+	}
+
 	a.logger.WithFields(logrus.Fields(fields)).Info(msg)
 }
 
 func (a *adapter) Warn(msg string, fields map[string]interface{}) {
+	if !a.logger.Logger.IsLevelEnabled(logrus.WarnLevel) {
+		return
+	}
+
 	a.logger.WithFields(logrus.Fields(fields)).Warn(msg)
 }
 
 func (a *adapter) Error(msg string, fields map[string]interface{}) {
+	if !a.logger.Logger.IsLevelEnabled(logrus.ErrorLevel) {
+		return
+	}
+
 	a.logger.WithFields(logrus.Fields(fields)).Error(msg)
 }
