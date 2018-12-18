@@ -16,7 +16,6 @@ type LogEvent struct {
 // The TestLogger is safe for concurrent use.
 type TestLogger struct {
 	events []LogEvent
-	fields map[string]interface{}
 	mu     sync.RWMutex
 
 	parent *TestLogger
@@ -90,53 +89,35 @@ func (l *TestLogger) recordEvent(event LogEvent) {
 	l.events = append(l.events, event)
 }
 
-func (l *TestLogger) record(level Level, msg string) {
+func (l *TestLogger) record(level Level, msg string, fields map[string]interface{}) {
 	l.recordEvent(LogEvent{
 		Line:   msg,
 		Level:  level,
-		Fields: l.fields,
+		Fields: fields,
 	})
 }
 
 // Trace records a Trace level event.
-func (l *TestLogger) Trace(msg string) {
-	l.record(Trace, msg)
+func (l *TestLogger) Trace(msg string, fields map[string]interface{}) {
+	l.record(Trace, msg, fields)
 }
 
 // Debug records a Debug level event.
-func (l *TestLogger) Debug(msg string) {
-	l.record(Debug, msg)
+func (l *TestLogger) Debug(msg string, fields map[string]interface{}) {
+	l.record(Debug, msg, fields)
 }
 
 // Info records a Info level event.
-func (l *TestLogger) Info(msg string) {
-	l.record(Info, msg)
+func (l *TestLogger) Info(msg string, fields map[string]interface{}) {
+	l.record(Info, msg, fields)
 }
 
 // Warn records a Warn level event.
-func (l *TestLogger) Warn(msg string) {
-	l.record(Warn, msg)
+func (l *TestLogger) Warn(msg string, fields map[string]interface{}) {
+	l.record(Warn, msg, fields)
 }
 
 // Error records a Error level event.
-func (l *TestLogger) Error(msg string) {
-	l.record(Error, msg)
-}
-
-// WithFields returns a new TestLogger with the appended fields.
-func (l *TestLogger) WithFields(fields map[string]interface{}) Logger {
-	var f = l.fields
-
-	if f == nil {
-		f = make(Fields)
-	}
-
-	for key, value := range fields {
-		f[key] = value
-	}
-
-	return &TestLogger{
-		fields: f,
-		parent: l,
-	}
+func (l *TestLogger) Error(msg string, fields map[string]interface{}) {
+	l.record(Error, msg, fields)
 }

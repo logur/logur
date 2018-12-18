@@ -106,7 +106,7 @@ func BenchmarkDisabledWithoutFields(b *testing.B) {
 			b.ResetTimer()
 			b.RunParallel(func(pb *testing.PB) {
 				for pb.Next() {
-					logger.Info(getMessage(b.N))
+					logger.Info(getMessage(b.N), nil)
 				}
 			})
 		})
@@ -120,11 +120,11 @@ func BenchmarkDisabledAccumulatedContext(b *testing.B) {
 		name, factory := name, factory
 
 		b.Run(name, func(b *testing.B) {
-			logger := factory.newDisabledLogger().WithFields(fakeFields())
+			logger := logur.WithFields(factory.newDisabledLogger(), fakeFields())
 			b.ResetTimer()
 			b.RunParallel(func(pb *testing.PB) {
 				for pb.Next() {
-					logger.Info(getMessage(b.N))
+					logger.Info(getMessage(b.N), nil)
 				}
 			})
 		})
@@ -142,7 +142,7 @@ func BenchmarkDisabledAddingFields(b *testing.B) {
 			b.ResetTimer()
 			b.RunParallel(func(pb *testing.PB) {
 				for pb.Next() {
-					logger.WithFields(fakeFields()).Info(getMessage(b.N))
+					logger.Info(getMessage(b.N), fakeFields())
 				}
 			})
 		})
@@ -160,7 +160,7 @@ func BenchmarkWithoutFields(b *testing.B) {
 			b.ResetTimer()
 			b.RunParallel(func(pb *testing.PB) {
 				for pb.Next() {
-					logger.Info(getMessage(b.N))
+					logger.Info(getMessage(b.N), nil)
 				}
 			})
 		})
@@ -174,11 +174,11 @@ func BenchmarkAccumulatedContext(b *testing.B) {
 		name, factory := name, factory
 
 		b.Run(name, func(b *testing.B) {
-			logger := factory.newLogger().WithFields(fakeFields())
+			logger := logur.WithFields(factory.newLogger(), fakeFields())
 			b.ResetTimer()
 			b.RunParallel(func(pb *testing.PB) {
 				for pb.Next() {
-					logger.Info(getMessage(b.N))
+					logger.Info(getMessage(b.N), nil)
 				}
 			})
 		})
@@ -196,7 +196,7 @@ func BenchmarkAddingFields(b *testing.B) {
 			b.ResetTimer()
 			b.RunParallel(func(pb *testing.PB) {
 				for pb.Next() {
-					logger.WithFields(fakeFields()).Info(getMessage(b.N))
+					logger.Info(getMessage(b.N), fakeFields())
 				}
 			})
 		})

@@ -20,30 +20,22 @@ func New(logger *logrus.Logger) logur.Logger {
 	return &adapter{logrus.NewEntry(logger)}
 }
 
-func (a *adapter) Trace(msg string) {
-	a.logger.Trace(msg)
+func (a *adapter) Trace(msg string, fields map[string]interface{}) {
+	a.logger.WithFields(logrus.Fields(fields)).Trace(msg)
 }
 
-func (a *adapter) Debug(msg string) {
-	a.logger.Debug(msg)
+func (a *adapter) Debug(msg string, fields map[string]interface{}) {
+	a.logger.WithFields(logrus.Fields(fields)).Debug(msg)
 }
 
-func (a *adapter) Info(msg string) {
-	a.logger.Info(msg)
+func (a *adapter) Info(msg string, fields map[string]interface{}) {
+	a.logger.WithFields(logrus.Fields(fields)).Info(msg)
 }
 
-func (a *adapter) Warn(msg string) {
-	a.logger.Warn(msg)
+func (a *adapter) Warn(msg string, fields map[string]interface{}) {
+	a.logger.WithFields(logrus.Fields(fields)).Warn(msg)
 }
 
-func (a *adapter) Error(msg string) {
-	a.logger.Error(msg)
-}
-
-// WithFields returns a new logger based on the original logger with
-// the additional supplied fields.
-func (a *adapter) WithFields(fields map[string]interface{}) logur.Logger {
-	return &adapter{
-		a.logger.WithFields(logrus.Fields(fields)),
-	}
+func (a *adapter) Error(msg string, fields map[string]interface{}) {
+	a.logger.WithFields(logrus.Fields(fields)).Error(msg)
 }

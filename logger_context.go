@@ -6,44 +6,9 @@ func WithFields(logger Logger, fields map[string]interface{}) Logger {
 		return logger
 	}
 
-	return &ContextualLogger{logger: logger, fields: fields}
-}
-
-type ContextualLogger struct {
-	logger Logger
-	fields map[string]interface{}
-}
-
-func (l *ContextualLogger) Trace(msg string) {
-	l.logger.WithFields(l.fields).Trace(msg)
-}
-
-func (l *ContextualLogger) Debug(msg string) {
-	l.logger.WithFields(l.fields).Debug(msg)
-}
-
-func (l *ContextualLogger) Info(msg string) {
-	l.logger.WithFields(l.fields).Info(msg)
-}
-
-func (l *ContextualLogger) Warn(msg string) {
-	l.logger.WithFields(l.fields).Warn(msg)
-}
-
-func (l *ContextualLogger) Error(msg string) {
-	l.logger.WithFields(l.fields).Error(msg)
-}
-
-func (l *ContextualLogger) WithFields(fields map[string]interface{}) Logger {
-	if len(fields) == 0 {
-		return l
-	}
-
-	logger := l.logger
-
 	// Do not add a new layer
 	// Create a new logger instead with the parent fields
-	if ctxlogger, ok := l.logger.(*ContextualLogger); ok && len(ctxlogger.fields) > 0 {
+	if ctxlogger, ok := logger.(*ContextualLogger); ok && len(ctxlogger.fields) > 0 {
 		_fields := make(map[string]interface{}, len(ctxlogger.fields)+len(fields))
 
 		for key, value := range ctxlogger.fields {
@@ -59,4 +24,51 @@ func (l *ContextualLogger) WithFields(fields map[string]interface{}) Logger {
 	}
 
 	return &ContextualLogger{logger: logger, fields: fields}
+}
+
+type ContextualLogger struct {
+	logger Logger
+	fields map[string]interface{}
+}
+
+func (l *ContextualLogger) Trace(msg string, fields map[string]interface{}) {
+	l.logger.Trace(msg, l.mergeFields(fields))
+}
+
+func (l *ContextualLogger) Debug(msg string, fields map[string]interface{}) {
+	l.logger.Debug(msg, l.mergeFields(fields))
+}
+
+func (l *ContextualLogger) Info(msg string, fields map[string]interface{}) {
+	l.logger.Info(msg, l.mergeFields(fields))
+}
+
+func (l *ContextualLogger) Warn(msg string, fields map[string]interface{}) {
+	l.logger.Warn(msg, l.mergeFields(fields))
+}
+
+func (l *ContextualLogger) Error(msg string, fields map[string]interface{}) {
+	l.logger.Error(msg, l.mergeFields(fields))
+}
+
+func (l *ContextualLogger) mergeFields(fields map[string]interface{}) map[string]interface{} {
+	if len(fields) == 0 { // Not having any fields passed to the log function has a higher chance
+		return l.fields
+	}
+
+	if len(l.fields) == 0 { // This is possible too, but has a much lower probability
+		return fields
+	}
+
+	f := make(map[string]interface{}, len(fields)+len(l.fields))
+
+	for key, value := range l.fields {
+		f[key] = value
+	}
+
+	for key, value := range fields {
+		f[key] = value
+	}
+
+	return f
 }

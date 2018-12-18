@@ -9,7 +9,7 @@ import (
 
 // nolint: gochecknoglobals
 var testLevelMap = map[logur.Level]struct {
-	logFunc func(logger logur.Logger, msg string)
+	logFunc func(logger logur.Logger, msg string, fields map[string]interface{})
 }{
 	logur.Trace: {
 		logFunc: logur.Logger.Trace,
@@ -51,9 +51,7 @@ func (s *LoggerTestSuite) TestLevels(t *testing.T) {
 
 			logger, getLogEvents := s.LoggerFactory()
 
-			logger = logger.WithFields(fields)
-
-			test.logFunc(logger, "message1message2")
+			test.logFunc(logger, "message1message2", fields)
 
 			logEvents := getLogEvents()
 

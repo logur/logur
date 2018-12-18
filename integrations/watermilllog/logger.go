@@ -15,17 +15,19 @@ func New(l logur.Logger) watermill.LoggerAdapter {
 }
 
 func (l *logger) Error(msg string, err error, fields watermill.LogFields) {
-	l.logger.WithFields(logur.Fields(fields)).WithFields(logur.Fields{"err": err}).Error(msg)
+	fields["err"] = err
+
+	l.logger.Error(msg, fields)
 }
 
 func (l *logger) Info(msg string, fields watermill.LogFields) {
-	l.logger.WithFields(logur.Fields(fields)).Info(msg)
+	l.logger.Info(msg, fields)
 }
 
 func (l *logger) Debug(msg string, fields watermill.LogFields) {
-	l.logger.WithFields(logur.Fields(fields)).Debug(msg)
+	l.logger.Debug(msg, fields)
 }
 
 func (l *logger) Trace(msg string, fields watermill.LogFields) {
-	l.logger.WithFields(logur.Fields(fields)).Trace(msg)
+	l.logger.Trace(msg, fields)
 }
