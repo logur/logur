@@ -29,9 +29,8 @@ var testLevelMap = map[logur.Level]struct {
 }
 
 type LoggerTestSuite struct {
-	LoggerFactory          func() (logur.Logger, func() []logur.LogEvent)
-	LogEventAssertionFlags uint8
-	TraceFallbackToDebug   bool
+	LoggerFactory        func() (logur.Logger, func() []logur.LogEvent)
+	TraceFallbackToDebug bool
 }
 
 func (s *LoggerTestSuite) TestLevels(t *testing.T) {
@@ -65,7 +64,7 @@ func (s *LoggerTestSuite) TestLevels(t *testing.T) {
 				Fields: fields,
 			}
 
-			AssertLogEvents(t, logEvent, logEvents[0], s.LogEventAssertionFlags)
+			AssertLogEvents(t, logEvent, logEvents[0])
 		})
 	}
 }

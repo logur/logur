@@ -1,7 +1,6 @@
 package loggertesting
 
 import (
-	"strings"
 	"testing"
 
 	"github.com/goph/logur"
@@ -13,21 +12,15 @@ const (
 )
 
 // AssertLogEvents asserts that two LogEvents are identical.
-func AssertLogEvents(t *testing.T, expected logur.LogEvent, actual logur.LogEvent, flags uint8) {
+func AssertLogEvents(t *testing.T, expected logur.LogEvent, actual logur.LogEvent) {
 	t.Helper()
 
 	if expected.Level != actual.Level {
 		t.Errorf("expected log levels to be equal\ngot:  %s\nwant: %s", actual.Level, expected.Level)
 	}
 
-	if flags&AllowNoNewLine != 0 {
-		if expected.Line != actual.Line && strings.TrimSuffix(expected.Line, "\n") != actual.Line {
-			t.Errorf("expected log lines to be equal\ngot:  %q\nwant: %q", actual.Line, expected.Line)
-		}
-	} else {
-		if expected.Line != actual.Line {
-			t.Errorf("expected log lines to be equal\ngot:  %q\nwant: %q", actual.Line, expected.Line)
-		}
+	if expected.Line != actual.Line {
+		t.Errorf("expected log lines to be equal\ngot:  %q\nwant: %q", actual.Line, expected.Line)
 	}
 
 	if len(expected.Fields) != len(actual.Fields) {

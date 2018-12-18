@@ -48,7 +48,7 @@ func TestTestLogger_Events(t *testing.T) {
 		Line:  "message",
 	}
 
-	loggertesting.AssertLogEvents(t, event, events[0], 0)
+	loggertesting.AssertLogEvents(t, event, events[0])
 }
 
 func TestTestLogger_LastEvent(t *testing.T) {
@@ -68,5 +68,5 @@ func TestTestLogger_LastEvent(t *testing.T) {
 		Line:  "another message",
 	}
 
-	loggertesting.AssertLogEvents(t, event, *lastEvent, 0)
+	loggertesting.AssertLogEvents(t, event, *lastEvent)
 }

@@ -14,8 +14,7 @@ import (
 
 func newTestSuite() *loggertesting.LoggerTestSuite {
 	return &loggertesting.LoggerTestSuite{
-		LogEventAssertionFlags: 0 | loggertesting.AllowNoNewLine,
-		TraceFallbackToDebug:   true,
+		TraceFallbackToDebug: true,
 		LoggerFactory: func() (Logger, func() []LogEvent) {
 			var buf bytes.Buffer
 

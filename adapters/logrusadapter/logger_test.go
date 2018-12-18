@@ -11,7 +11,6 @@ import (
 
 func newTestSuite() *loggertesting.LoggerTestSuite {
 	return &loggertesting.LoggerTestSuite{
-		LogEventAssertionFlags: 0 | loggertesting.AllowNoNewLine,
 		LoggerFactory: func() (Logger, func() []LogEvent) {
 			logrusLogger, hook := logrustest.NewNullLogger()
 			logrusLogger.SetLevel(logrus.TraceLevel)
