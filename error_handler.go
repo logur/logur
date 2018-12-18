@@ -27,7 +27,7 @@ func (h *ErrorHandler) Handle(err error) {
 		return
 	}
 
-	fields := make(Fields)
+	fields := make(map[string]interface{})
 
 	// Extract context from the error and attach it to the log
 	if keyvals := errorContext(err); len(keyvals) > 0 {

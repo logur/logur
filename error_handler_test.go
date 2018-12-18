@@ -56,12 +56,12 @@ func TestErrorHandler_Handle(t *testing.T) {
 			{
 				Line:   "error 1",
 				Level:  Error,
-				Fields: Fields{"parent": "multiple error happened"},
+				Fields: map[string]interface{}{"parent": "multiple error happened"},
 			},
 			{
 				Line:   "error 2",
 				Level:  Error,
-				Fields: Fields{"parent": "multiple error happened"},
+				Fields: map[string]interface{}{"parent": "multiple error happened"},
 			},
 		},
 		&errorStub{
@@ -71,7 +71,7 @@ func TestErrorHandler_Handle(t *testing.T) {
 			{
 				Line:   "error",
 				Level:  Error,
-				Fields: Fields{"key": "value"},
+				Fields: map[string]interface{}{"key": "value"},
 			},
 		},
 		&errorStub{
@@ -85,7 +85,7 @@ func TestErrorHandler_Handle(t *testing.T) {
 			{
 				Line:   "error 1",
 				Level:  Error,
-				Fields: Fields{"key": "value 1"},
+				Fields: map[string]interface{}{"key": "value 1"},
 			},
 		},
 		&errorStub{
@@ -99,7 +99,7 @@ func TestErrorHandler_Handle(t *testing.T) {
 			{
 				Line:   "error 1",
 				Level:  Error,
-				Fields: Fields{"key 1": "value 1", "key 2": "value 2"},
+				Fields: map[string]interface{}{"key 1": "value 1", "key 2": "value 2"},
 			},
 		},
 		&errorStub{
@@ -109,7 +109,7 @@ func TestErrorHandler_Handle(t *testing.T) {
 			{
 				Line:   "error",
 				Level:  Error,
-				Fields: Fields{"key": nil},
+				Fields: map[string]interface{}{"key": nil},
 			},
 		},
 		&errorStub{
@@ -136,7 +136,7 @@ func TestErrorHandler_Handle(t *testing.T) {
 			{
 				Line:   "error 1",
 				Level:  Error,
-				Fields: Fields{"key 1": "value 1", "key 2": "value 2", "key 3": nil, "key 4": "value 4"},
+				Fields: map[string]interface{}{"key 1": "value 1", "key 2": "value 2", "key 3": nil, "key 4": "value 4"},
 			},
 		},
 	}

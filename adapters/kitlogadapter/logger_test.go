@@ -38,12 +38,10 @@ func newTestSuite() *loggertesting.LoggerTestSuite {
 					delete(event, "level")
 					delete(event, "msg")
 
-					fields := Fields(event)
-
 					events[key] = LogEvent{
 						Line:   msg,
 						Level:  level,
-						Fields: fields,
+						Fields: event,
 					}
 				}
 

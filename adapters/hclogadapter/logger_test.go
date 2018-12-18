@@ -35,7 +35,7 @@ func newTestSuite() *loggertesting.LoggerTestSuite {
 					level, _ := ParseLevel(strings.ToLower(match[1]))
 
 					rawFields := strings.Fields(match[3])
-					fields := make(Fields)
+					fields := make(map[string]interface{})
 
 					for _, rawField := range rawFields {
 						field := strings.SplitN(rawField, "=", 2)

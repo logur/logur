@@ -47,7 +47,7 @@ func (s *LoggerTestSuite) TestLevels(t *testing.T) {
 				level = logur.Debug
 			}
 
-			fields := logur.Fields{"key": "value"}
+			fields := map[string]interface{}{"key": "value"}
 
 			logger, getLogEvents := s.LoggerFactory()
 

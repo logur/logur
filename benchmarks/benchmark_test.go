@@ -68,8 +68,8 @@ type user struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-func fakeFields() logur.Fields {
-	return logur.Fields{
+func fakeFields() map[string]interface{} {
+	return map[string]interface{}{
 		"int":     _tenInts[0],
 		"ints":    _tenInts,
 		"string":  _tenStrings[0],

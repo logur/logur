@@ -37,7 +37,7 @@ func newTestSuite() *loggertesting.LoggerTestSuite {
 
 					level, _ := ParseLevel(strings.ToLower(log[1]))
 
-					var fields Fields
+					var fields map[string]interface{}
 
 					if len(log) > 3 {
 						err := json.Unmarshal([]byte(log[3]), &fields)

@@ -27,7 +27,7 @@ func newTestSuite() *loggertesting.LoggerTestSuite {
 					events[key] = LogEvent{
 						Line:   entry.Message,
 						Level:  level,
-						Fields: Fields(entry.Data),
+						Fields: entry.Data,
 					}
 				}
 
