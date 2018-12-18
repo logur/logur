@@ -126,40 +126,6 @@ func (l *TestLogger) Error(args ...interface{}) {
 	l.record(Error, args)
 }
 
-func (l *TestLogger) recordln(level Level, args []interface{}) {
-	l.recordEvent(LogEvent{
-		Line:    fmt.Sprintln(args...),
-		RawLine: args,
-		Level:   level,
-		Fields:  l.fields,
-	})
-}
-
-// Traceln records a Trace level event using fmt.Println characteristics.
-func (l *TestLogger) Traceln(args ...interface{}) {
-	l.recordln(Trace, args)
-}
-
-// Debugln records a Debug level event using fmt.Println characteristics.
-func (l *TestLogger) Debugln(args ...interface{}) {
-	l.recordln(Debug, args)
-}
-
-// Infoln records a Info level event using fmt.Println characteristics.
-func (l *TestLogger) Infoln(args ...interface{}) {
-	l.recordln(Info, args)
-}
-
-// Warnln records a Warn level event using fmt.Println characteristics.
-func (l *TestLogger) Warnln(args ...interface{}) {
-	l.recordln(Warn, args)
-}
-
-// Errorln records a Error level event using fmt.Println characteristics.
-func (l *TestLogger) Errorln(args ...interface{}) {
-	l.recordln(Error, args)
-}
-
 // WithFields returns a new TestLogger with the appended fields.
 func (l *TestLogger) WithFields(fields map[string]interface{}) Logger {
 	var f = l.fields

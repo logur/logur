@@ -3,6 +3,7 @@ package invisionlog
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/InVisionApp/go-logger"
 	"github.com/goph/logur"
@@ -15,6 +16,22 @@ type logger struct {
 // New returns a new github.com/InVisionApp/go-logger.Logger compatible logger.
 func New(l logur.Logger) log.Logger {
 	return &logger{l}
+}
+
+func (l *logger) Debugln(msg ...interface{}) {
+	l.Debug(strings.TrimSuffix(fmt.Sprintln(msg...), "\n"))
+}
+
+func (l *logger) Infoln(msg ...interface{}) {
+	l.Info(strings.TrimSuffix(fmt.Sprintln(msg...), "\n"))
+}
+
+func (l *logger) Warnln(msg ...interface{}) {
+	l.Warn(strings.TrimSuffix(fmt.Sprintln(msg...), "\n"))
+}
+
+func (l *logger) Errorln(msg ...interface{}) {
+	l.Error(strings.TrimSuffix(fmt.Sprintln(msg...), "\n"))
 }
 
 func (l *logger) Debugf(format string, args ...interface{}) {

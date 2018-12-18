@@ -34,23 +34,6 @@ type Logger interface {
 	// but exiting and panicing is out of scope for a logging library.
 	Error(args ...interface{})
 
-	// Traceln is the Println counterpart of Trace.
-	//
-	// Loggers not supporting this level should fall back to Debug.
-	Traceln(args ...interface{})
-
-	// Debugln is the Println counterpart of Debug.
-	Debugln(args ...interface{})
-
-	// Infoln is the Println counterpart of Info.
-	Infoln(args ...interface{})
-
-	// Warnln is the Println counterpart of Warn.
-	Warnln(args ...interface{})
-
-	// Errorln is the Println counterpart of Error.
-	Errorln(args ...interface{})
-
 	// WithFields appends structured fields to a new (child) logger instance.
 	WithFields(fields map[string]interface{}) Logger
 }

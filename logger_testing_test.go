@@ -22,10 +22,6 @@ func TestTestLogger_Levels(t *testing.T) {
 	newTestLoggerSuite().TestLevels(t)
 }
 
-func TestTestLogger_Levelsln(t *testing.T) {
-	newTestLoggerSuite().TestLevelsln(t)
-}
-
 func TestTestLogger_Count(t *testing.T) {
 	logger := NewTestLogger()
 
