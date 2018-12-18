@@ -6,6 +6,23 @@ func WithFields(logger Logger, fields map[string]interface{}) Logger {
 		return logger
 	}
 
+	// Do not add a new layer
+	// Create a new logger instead with the parent fields
+	if ctxlogger, ok := logger.(*ContextualLogger); ok && len(ctxlogger.fields) > 0 {
+		_fields := make(map[string]interface{}, len(ctxlogger.fields)+len(fields))
+
+		for key, value := range ctxlogger.fields {
+			_fields[key] = value
+		}
+
+		for key, value := range fields {
+			_fields[key] = value
+		}
+
+		fields = _fields
+		logger = ctxlogger.logger
+	}
+
 	return &ContextualLogger{logger: logger, fields: fields}
 }
 
@@ -54,31 +71,4 @@ func (l *ContextualLogger) mergeFields(fields map[string]interface{}) map[string
 	}
 
 	return f
-}
-
-func (l *ContextualLogger) WithFields(fields map[string]interface{}) Logger {
-	if len(fields) == 0 {
-		return l
-	}
-
-	logger := l.logger
-
-	// Do not add a new layer
-	// Create a new logger instead with the parent fields
-	if ctxlogger, ok := l.logger.(*ContextualLogger); ok && len(ctxlogger.fields) > 0 {
-		_fields := make(map[string]interface{}, len(ctxlogger.fields)+len(fields))
-
-		for key, value := range ctxlogger.fields {
-			_fields[key] = value
-		}
-
-		for key, value := range fields {
-			_fields[key] = value
-		}
-
-		fields = _fields
-		logger = ctxlogger.logger
-	}
-
-	return &ContextualLogger{logger: logger, fields: fields}
 }

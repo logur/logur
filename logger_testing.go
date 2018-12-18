@@ -16,7 +16,6 @@ type LogEvent struct {
 // The TestLogger is safe for concurrent use.
 type TestLogger struct {
 	events []LogEvent
-	fields map[string]interface{}
 	mu     sync.RWMutex
 
 	parent *TestLogger
@@ -121,22 +120,4 @@ func (l *TestLogger) Warn(msg string, fields map[string]interface{}) {
 // Error records a Error level event.
 func (l *TestLogger) Error(msg string, fields map[string]interface{}) {
 	l.record(Error, msg, fields)
-}
-
-// WithFields returns a new TestLogger with the appended fields.
-func (l *TestLogger) WithFields(fields map[string]interface{}) Logger {
-	var f = l.fields
-
-	if f == nil {
-		f = make(Fields)
-	}
-
-	for key, value := range fields {
-		f[key] = value
-	}
-
-	return &TestLogger{
-		fields: f,
-		parent: l,
-	}
 }

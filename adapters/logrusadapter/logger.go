@@ -39,11 +39,3 @@ func (a *adapter) Warn(msg string, fields map[string]interface{}) {
 func (a *adapter) Error(msg string, fields map[string]interface{}) {
 	a.logger.WithFields(logrus.Fields(fields)).Error(msg)
 }
-
-// WithFields returns a new logger based on the original logger with
-// the additional supplied fields.
-func (a *adapter) WithFields(fields map[string]interface{}) logur.Logger {
-	return &adapter{
-		a.logger.WithFields(logrus.Fields(fields)),
-	}
-}

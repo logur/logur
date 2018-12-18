@@ -42,21 +42,3 @@ func (a *adapter) Warn(msg string, fields map[string]interface{}) {
 func (a *adapter) Error(msg string, fields map[string]interface{}) {
 	_ = level.Error(a.logger).Log(append(keyvals.FromMap(fields), "msg", msg)...)
 }
-
-func (a *adapter) WithFields(fields map[string]interface{}) logur.Logger {
-	keyvals := make([]interface{}, len(fields)*2)
-	i := 0
-
-	for key, value := range fields {
-		keyvals[i] = key
-		keyvals[i+1] = value
-
-		i += 2
-	}
-
-	if keyvals == nil {
-		return a
-	}
-
-	return &adapter{log.With(a.logger, keyvals...)}
-}

@@ -13,5 +13,3 @@ func (*noop) Debug(msg string, fields map[string]interface{}) {}
 func (*noop) Info(msg string, fields map[string]interface{})  {}
 func (*noop) Warn(msg string, fields map[string]interface{})  {}
 func (*noop) Error(msg string, fields map[string]interface{}) {}
-
-func (n *noop) WithFields(fields map[string]interface{}) Logger { return n }

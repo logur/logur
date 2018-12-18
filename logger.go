@@ -33,10 +33,6 @@ type Logger interface {
 	// Loggers commonly provide Fatal and Panic levels above Error level,
 	// but exiting and panicing is out of scope for a logging library.
 	Error(msg string, fields map[string]interface{})
-
-	// WithFields appends structured fields to a new (child) logger instance.
-	// Deprecated: use the fields parameter of the log functions.
-	WithFields(fields map[string]interface{}) Logger
 }
 
 // Fields is used to define structured fields which are appended to log events.

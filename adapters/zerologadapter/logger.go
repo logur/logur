@@ -35,7 +35,3 @@ func (a *adapter) Warn(msg string, fields map[string]interface{}) {
 func (a *adapter) Error(msg string, fields map[string]interface{}) {
 	a.logger.Error().Fields(fields).Msg(msg)
 }
-
-func (a *adapter) WithFields(fields map[string]interface{}) logur.Logger {
-	return &adapter{a.logger.With().Fields(fields).Logger()}
-}

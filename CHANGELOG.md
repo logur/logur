@@ -11,22 +11,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-- Contextual logger (preparing the removal of `Logger.WithFields`)
+- Contextual logger (instead of `Logger.WithFields`)
 - Field parameter to log functions
 
 ### Changed
 
 - Replace log func variadic arguments with a single message argument
 
-### Deprecated
-
-- `Logger.WithField` (use field parameter of log functions instead)
-
 ### Removed
 
 - Remove format functions from `Logger` interface
 - Remove ln functions from `Logger` interface
 - Simple log adapter (implementing format and ln functions)
+- `Logger.WithFields` method (use field parameter of log functions instead)
 
 
 ## [0.5.0] - 2018-12-17
