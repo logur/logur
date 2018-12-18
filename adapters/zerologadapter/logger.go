@@ -17,23 +17,23 @@ func New(logger zerolog.Logger) logur.Logger {
 
 func (a *adapter) Trace(msg string, fields map[string]interface{}) {
 	// Fall back to Debug
-	a.Debug(msg, nil)
+	a.Debug(msg, fields)
 }
 
 func (a *adapter) Debug(msg string, fields map[string]interface{}) {
-	a.logger.Debug().Msg(msg)
+	a.logger.Debug().Fields(fields).Msg(msg)
 }
 
 func (a *adapter) Info(msg string, fields map[string]interface{}) {
-	a.logger.Info().Msg(msg)
+	a.logger.Info().Fields(fields).Msg(msg)
 }
 
 func (a *adapter) Warn(msg string, fields map[string]interface{}) {
-	a.logger.Warn().Msg(msg)
+	a.logger.Warn().Fields(fields).Msg(msg)
 }
 
 func (a *adapter) Error(msg string, fields map[string]interface{}) {
-	a.logger.Error().Msg(msg)
+	a.logger.Error().Fields(fields).Msg(msg)
 }
 
 func (a *adapter) WithFields(fields map[string]interface{}) logur.Logger {

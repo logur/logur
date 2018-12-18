@@ -2,6 +2,7 @@ package zapadapter
 
 import (
 	"github.com/goph/logur"
+	"github.com/goph/logur/internal/keyvals"
 	"go.uber.org/zap"
 )
 
@@ -25,19 +26,19 @@ func (a *adapter) Trace(msg string, fields map[string]interface{}) {
 }
 
 func (a *adapter) Debug(msg string, fields map[string]interface{}) {
-	a.logger.Debug(msg)
+	a.logger.Debugw(msg, keyvals.FromMap(fields)...)
 }
 
 func (a *adapter) Info(msg string, fields map[string]interface{}) {
-	a.logger.Info(msg)
+	a.logger.Infow(msg, keyvals.FromMap(fields)...)
 }
 
 func (a *adapter) Warn(msg string, fields map[string]interface{}) {
-	a.logger.Warn(msg)
+	a.logger.Warnw(msg, keyvals.FromMap(fields)...)
 }
 
 func (a *adapter) Error(msg string, fields map[string]interface{}) {
-	a.logger.Error(msg)
+	a.logger.Errorw(msg, keyvals.FromMap(fields)...)
 }
 
 func (a *adapter) WithFields(fields map[string]interface{}) logur.Logger {

@@ -15,23 +15,45 @@ type ContextualLogger struct {
 }
 
 func (l *ContextualLogger) Trace(msg string, fields map[string]interface{}) {
-	l.logger.WithFields(l.fields).Trace(msg, fields)
+	l.logger.Trace(msg, l.mergeFields(fields))
 }
 
 func (l *ContextualLogger) Debug(msg string, fields map[string]interface{}) {
-	l.logger.WithFields(l.fields).Debug(msg, fields)
+	l.logger.Debug(msg, l.mergeFields(fields))
 }
 
 func (l *ContextualLogger) Info(msg string, fields map[string]interface{}) {
-	l.logger.WithFields(l.fields).Info(msg, fields)
+	l.logger.Info(msg, l.mergeFields(fields))
 }
 
 func (l *ContextualLogger) Warn(msg string, fields map[string]interface{}) {
-	l.logger.WithFields(l.fields).Warn(msg, fields)
+	l.logger.Warn(msg, l.mergeFields(fields))
 }
 
 func (l *ContextualLogger) Error(msg string, fields map[string]interface{}) {
-	l.logger.WithFields(l.fields).Error(msg, fields)
+	l.logger.Error(msg, l.mergeFields(fields))
+}
+
+func (l *ContextualLogger) mergeFields(fields map[string]interface{}) map[string]interface{} {
+	if len(fields) == 0 { // Not having any fields passed to the log function has a higher chance
+		return l.fields
+	}
+
+	if len(l.fields) == 0 { // This is possible too, but has a much lower probability
+		return fields
+	}
+
+	f := make(map[string]interface{}, len(fields)+len(l.fields))
+
+	for key, value := range l.fields {
+		f[key] = value
+	}
+
+	for key, value := range fields {
+		f[key] = value
+	}
+
+	return f
 }
 
 func (l *ContextualLogger) WithFields(fields map[string]interface{}) Logger {

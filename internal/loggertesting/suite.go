@@ -51,9 +51,7 @@ func (s *LoggerTestSuite) TestLevels(t *testing.T) {
 
 			logger, getLogEvents := s.LoggerFactory()
 
-			logger = logger.WithFields(fields)
-
-			test.logFunc(logger, "message1message2", nil)
+			test.logFunc(logger, "message1message2", fields)
 
 			logEvents := getLogEvents()
 

@@ -68,5 +68,5 @@ func (l *logger) Errorf(format string, args ...interface{}) {
 
 // WithFields returns a new logger with the additional supplied fields.
 func (l *logger) WithFields(fields log.Fields) log.Logger {
-	return &logger{l.logger.WithFields(logur.Fields(fields))}
+	return &logger{logur.WithFields(l.logger, logur.Fields(fields))}
 }

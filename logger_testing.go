@@ -90,11 +90,11 @@ func (l *TestLogger) recordEvent(event LogEvent) {
 	l.events = append(l.events, event)
 }
 
-func (l *TestLogger) record(level Level, msg string, _ map[string]interface{}) {
+func (l *TestLogger) record(level Level, msg string, fields map[string]interface{}) {
 	l.recordEvent(LogEvent{
 		Line:   msg,
 		Level:  level,
-		Fields: l.fields,
+		Fields: fields,
 	})
 }
 

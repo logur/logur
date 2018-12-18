@@ -21,23 +21,23 @@ func New(logger *logrus.Logger) logur.Logger {
 }
 
 func (a *adapter) Trace(msg string, fields map[string]interface{}) {
-	a.logger.Trace(msg)
+	a.logger.WithFields(logrus.Fields(fields)).Trace(msg)
 }
 
 func (a *adapter) Debug(msg string, fields map[string]interface{}) {
-	a.logger.Debug(msg)
+	a.logger.WithFields(logrus.Fields(fields)).Debug(msg)
 }
 
 func (a *adapter) Info(msg string, fields map[string]interface{}) {
-	a.logger.Info(msg)
+	a.logger.WithFields(logrus.Fields(fields)).Info(msg)
 }
 
 func (a *adapter) Warn(msg string, fields map[string]interface{}) {
-	a.logger.Warn(msg)
+	a.logger.WithFields(logrus.Fields(fields)).Warn(msg)
 }
 
 func (a *adapter) Error(msg string, fields map[string]interface{}) {
-	a.logger.Error(msg)
+	a.logger.WithFields(logrus.Fields(fields)).Error(msg)
 }
 
 // WithFields returns a new logger based on the original logger with

@@ -43,10 +43,10 @@ func (h *ErrorHandler) Handle(err error) {
 			fields := fields
 			fields["parent"] = err.Error()
 
-			h.logger.WithFields(fields).Error(e.Error(), nil)
+			h.logger.Error(e.Error(), fields)
 		}
 	} else {
-		h.logger.WithFields(fields).Error(err.Error(), nil)
+		h.logger.Error(err.Error(), fields)
 	}
 }
 

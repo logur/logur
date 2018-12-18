@@ -4,6 +4,7 @@ import (
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
 	"github.com/goph/logur"
+	"github.com/goph/logur/internal/keyvals"
 )
 
 type adapter struct {
@@ -22,23 +23,24 @@ func New(logger log.Logger) logur.Logger {
 
 func (a *adapter) Trace(msg string, fields map[string]interface{}) {
 	// Fall back to Debug
-	a.Debug(msg, nil)
+	a.Debug(msg, fields)
 }
 
 func (a *adapter) Debug(msg string, fields map[string]interface{}) {
-	_ = level.Debug(a.logger).Log("msg", msg)
+
+	_ = level.Debug(a.logger).Log(append(keyvals.FromMap(fields), "msg", msg)...)
 }
 
 func (a *adapter) Info(msg string, fields map[string]interface{}) {
-	_ = level.Info(a.logger).Log("msg", msg)
+	_ = level.Info(a.logger).Log(append(keyvals.FromMap(fields), "msg", msg)...)
 }
 
 func (a *adapter) Warn(msg string, fields map[string]interface{}) {
-	_ = level.Warn(a.logger).Log("msg", msg)
+	_ = level.Warn(a.logger).Log(append(keyvals.FromMap(fields), "msg", msg)...)
 }
 
 func (a *adapter) Error(msg string, fields map[string]interface{}) {
-	_ = level.Error(a.logger).Log("msg", msg)
+	_ = level.Error(a.logger).Log(append(keyvals.FromMap(fields), "msg", msg)...)
 }
 
 func (a *adapter) WithFields(fields map[string]interface{}) logur.Logger {
