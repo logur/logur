@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- Contextual logger (preparing the removal of `Logger.WithFields`)
+
 ### Removed
 
 - Remove format functions from `Logger` interface
