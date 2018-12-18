@@ -44,9 +44,8 @@ func TestTestLogger_Events(t *testing.T) {
 	}
 
 	event := LogEvent{
-		Level:   Debug,
-		Line:    "message",
-		RawLine: []interface{}{"message"},
+		Level: Debug,
+		Line:  "message",
 	}
 
 	loggertesting.AssertLogEvents(t, event, events[0], 0)
@@ -65,9 +64,8 @@ func TestTestLogger_LastEvent(t *testing.T) {
 	}
 
 	event := LogEvent{
-		Level:   Info,
-		Line:    "another message",
-		RawLine: []interface{}{"another message"},
+		Level: Info,
+		Line:  "another message",
 	}
 
 	loggertesting.AssertLogEvents(t, event, *lastEvent, 0)

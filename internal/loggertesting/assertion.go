@@ -8,11 +8,8 @@ import (
 )
 
 const (
-	// Makes the log event assertion skip raw line comparison
-	SkipRawLine uint8 = 1 << iota
-
 	// Matches lines without matching the last newline character
-	AllowNoNewLine
+	AllowNoNewLine uint8 = 1 << iota
 )
 
 // AssertLogEvents asserts that two LogEvents are identical.
@@ -30,20 +27,6 @@ func AssertLogEvents(t *testing.T, expected logur.LogEvent, actual logur.LogEven
 	} else {
 		if expected.Line != actual.Line {
 			t.Errorf("expected log lines to be equal\ngot:  %q\nwant: %q", actual.Line, expected.Line)
-		}
-	}
-
-	if flags&SkipRawLine == 0 {
-		if len(expected.RawLine) != len(actual.RawLine) {
-			t.Errorf("expected raw log lines to be equal\ngot:  %v\nwant: %v", actual.RawLine, expected.RawLine)
-		}
-
-		for key, value := range expected.RawLine {
-			if actual.RawLine[key] != value {
-				t.Errorf("expected raw log lines to be equal\ngot:  %v\nwant: %v", actual.RawLine, expected.RawLine)
-
-				break
-			}
 		}
 	}
 

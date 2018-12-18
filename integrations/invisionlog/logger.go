@@ -10,12 +10,28 @@ import (
 )
 
 type logger struct {
-	logur.Logger
+	logger logur.Logger
 }
 
 // New returns a new github.com/InVisionApp/go-logger.Logger compatible logger.
 func New(l logur.Logger) log.Logger {
 	return &logger{l}
+}
+
+func (l *logger) Debug(msg ...interface{}) {
+	l.logger.Debug(fmt.Sprint(msg...))
+}
+
+func (l *logger) Info(msg ...interface{}) {
+	l.logger.Info(fmt.Sprint(msg...))
+}
+
+func (l *logger) Warn(msg ...interface{}) {
+	l.logger.Warn(fmt.Sprint(msg...))
+}
+
+func (l *logger) Error(msg ...interface{}) {
+	l.logger.Error(fmt.Sprint(msg...))
 }
 
 func (l *logger) Debugln(msg ...interface{}) {
@@ -52,5 +68,5 @@ func (l *logger) Errorf(format string, args ...interface{}) {
 
 // WithFields returns a new logger with the additional supplied fields.
 func (l *logger) WithFields(fields log.Fields) log.Logger {
-	return &logger{l.Logger.WithFields(logur.Fields(fields))}
+	return &logger{l.logger.WithFields(logur.Fields(fields))}
 }

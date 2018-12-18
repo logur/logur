@@ -9,30 +9,30 @@ type Logger interface {
 	//
 	// Even more fine-grained information than Debug events.
 	// Loggers not supporting this level should fall back to Debug.
-	Trace(args ...interface{})
+	Trace(msg string)
 
 	// Debug logs a Debug event.
 	//
 	// A verbose series of information events.
 	// They are useful when debugging the system.
-	Debug(args ...interface{})
+	Debug(msg string)
 
 	// Info logs an Info event.
 	//
 	// General information about what's happening inside the system.
-	Info(args ...interface{})
+	Info(msg string)
 
 	// Warn logs a Warn(ing) event.
 	//
 	// Non-critical events that should be looked at.
-	Warn(args ...interface{})
+	Warn(msg string)
 
 	// Error logs an Error event.
 	//
 	// Critical events that require immediate attention.
 	// Loggers commonly provide Fatal and Panic levels above Error level,
 	// but exiting and panicing is out of scope for a logging library.
-	Error(args ...interface{})
+	Error(msg string)
 
 	// WithFields appends structured fields to a new (child) logger instance.
 	WithFields(fields map[string]interface{}) Logger
@@ -43,4 +43,4 @@ type Logger interface {
 type Fields map[string]interface{}
 
 // LogFunc is a function recording a log event.
-type LogFunc func(args ...interface{})
+type LogFunc func(msg string)
