@@ -75,26 +75,6 @@ func (a *adapter) Errorln(args ...interface{}) {
 	a.Error(strings.TrimSuffix(fmt.Sprintln(args...), "\n"))
 }
 
-func (a *adapter) Tracef(format string, args ...interface{}) {
-	a.Trace(fmt.Sprintf(format, args...))
-}
-
-func (a *adapter) Debugf(format string, args ...interface{}) {
-	a.Debug(fmt.Sprintf(format, args...))
-}
-
-func (a *adapter) Infof(format string, args ...interface{}) {
-	a.Info(fmt.Sprintf(format, args...))
-}
-
-func (a *adapter) Warnf(format string, args ...interface{}) {
-	a.Warn(fmt.Sprintf(format, args...))
-}
-
-func (a *adapter) Errorf(format string, args ...interface{}) {
-	a.Error(fmt.Sprintf(format, args...))
-}
-
 func (a *adapter) WithFields(fields map[string]interface{}) logur.Logger {
 	return &adapter{a.Logger.WithFields(Fields(fields))}
 }

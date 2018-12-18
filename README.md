@@ -18,6 +18,7 @@
     - [Why not just X logger?](#why-not-just-x-logger)
     - [Why not go-kit logger?](#why-not-go-kit-logger)
     - [Why not `logger.With(keyvals ...interface{})`?](#why-not-loggerwithkeyvals-interface)
+    - [Why no `*f` (format) functions?](#why-no-f-format-functions)
 - [Inspiration](#inspiration)
 
 
@@ -309,6 +310,26 @@ to string in most of the cases (while the value parameter can be handled by the 
 This adds an extra step to outputting the logs (an extra loop going through all the parameters).
 While I don't have scientific evidence proving one to be slower than the other (yet), it seems to be an unnecessary
 complication at first.
+
+
+### Why no `*f` (format) functions?
+
+A previous version of this interface contained a set of functions that allowed messages to be formatted with arguments:
+
+```go
+type Logger interface {
+	// ...
+	Tracef(format string, args ...interface{})
+	Debugf(format string, args ...interface{})
+	Infof(format string, args ...interface{})
+	Warnf(format string, args ...interface{})
+	Errorf(format string, args ...interface{})
+}
+```
+
+The reason why they were originally included in the interface is that most logging libraries implement these methods,
+but experience showed that they are not used frequently. Also, nowadays structured logging is a better practice than
+formatting log messages with structured data, thus these methods were removed from the core interface.
 
 
 ## Inspiration

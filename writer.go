@@ -2,6 +2,7 @@ package logur
 
 import (
 	"bufio"
+	"fmt"
 	"io"
 	"runtime"
 )
@@ -31,7 +32,7 @@ func writerScanner(logger Logger, level Level, reader io.ReadCloser) {
 		logFunc(scanner.Text())
 	}
 	if err := scanner.Err(); err != nil {
-		logger.Errorf("error while reading from log pipe: %s", err)
+		logger.Error(fmt.Sprintf("error while reading from log pipe: %s", err))
 	}
 
 	_ = reader.Close()

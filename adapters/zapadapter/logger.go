@@ -48,11 +48,6 @@ func (a *adapter) Errorln(args ...interface{}) {
 	a.Error(strings.TrimSuffix(fmt.Sprintln(args...), "\n"))
 }
 
-func (a *adapter) Tracef(format string, args ...interface{}) {
-	// Fall back to Debug
-	a.Debugf(format, args...)
-}
-
 func (a *adapter) WithFields(fields map[string]interface{}) logur.Logger {
 	keyvals := make([]interface{}, len(fields)*2)
 	i := 0
