@@ -1,3 +1,4 @@
+// Package zapadapter provides a logur compatible adapter for Uber's Zap.
 package zapadapter
 
 import (

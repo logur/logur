@@ -1,3 +1,4 @@
+// Package zerologadapter provides a logur compatible adapter for zerolog.
 package zerologadapter
 
 import (

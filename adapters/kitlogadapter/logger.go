@@ -1,3 +1,4 @@
+// Package kitlogadapter provides a logur compatible adapter for go-kit logger.
 package kitlogadapter
 
 import (

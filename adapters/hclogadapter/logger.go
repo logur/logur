@@ -1,3 +1,4 @@
+// Package hclogadapter provides a logur compatible adapter for hclog.
 package hclogadapter
 
 import (
