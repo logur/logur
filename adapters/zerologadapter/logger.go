@@ -1,8 +1,6 @@
 package zerologadapter
 
 import (
-	"fmt"
-
 	"github.com/goph/logur"
 	"github.com/rs/zerolog"
 )
@@ -17,25 +15,25 @@ func New(logger zerolog.Logger) logur.Logger {
 	return &adapter{logger}
 }
 
-func (a *adapter) Trace(args ...interface{}) {
+func (a *adapter) Trace(msg string) {
 	// Fall back to Debug
-	a.Debug(args...)
+	a.Debug(msg)
 }
 
-func (a *adapter) Debug(args ...interface{}) {
-	a.logger.Debug().Msg(fmt.Sprint(args...))
+func (a *adapter) Debug(msg string) {
+	a.logger.Debug().Msg(msg)
 }
 
-func (a *adapter) Info(args ...interface{}) {
-	a.logger.Info().Msg(fmt.Sprint(args...))
+func (a *adapter) Info(msg string) {
+	a.logger.Info().Msg(msg)
 }
 
-func (a *adapter) Warn(args ...interface{}) {
-	a.logger.Warn().Msg(fmt.Sprint(args...))
+func (a *adapter) Warn(msg string) {
+	a.logger.Warn().Msg(msg)
 }
 
-func (a *adapter) Error(args ...interface{}) {
-	a.logger.Error().Msg(fmt.Sprint(args...))
+func (a *adapter) Error(msg string) {
+	a.logger.Error().Msg(msg)
 }
 
 func (a *adapter) WithFields(fields map[string]interface{}) logur.Logger {

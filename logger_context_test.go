@@ -34,10 +34,9 @@ func TestWithFields(t *testing.T) {
 	ctxlogger.Info("message")
 
 	logEvent := LogEvent{
-		Line:    "message",
-		RawLine: []interface{}{"message"},
-		Level:   Info,
-		Fields:  map[string]interface{}{"key": "value3"},
+		Line:   "message",
+		Level:  Info,
+		Fields: map[string]interface{}{"key": "value3"},
 	}
 
 	loggertesting.AssertLogEvents(t, logEvent, logEvent, 0)

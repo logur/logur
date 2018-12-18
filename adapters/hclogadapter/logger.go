@@ -1,8 +1,6 @@
 package hclogadapter
 
 import (
-	"fmt"
-
 	"github.com/goph/logur"
 	"github.com/hashicorp/go-hclog"
 )
@@ -21,24 +19,24 @@ func New(logger hclog.Logger) logur.Logger {
 	return &adapter{logger}
 }
 
-func (a *adapter) Trace(args ...interface{}) {
-	a.logger.Trace(fmt.Sprint(args...))
+func (a *adapter) Trace(msg string) {
+	a.logger.Trace(msg)
 }
 
-func (a *adapter) Debug(args ...interface{}) {
-	a.logger.Debug(fmt.Sprint(args...))
+func (a *adapter) Debug(msg string) {
+	a.logger.Debug(msg)
 }
 
-func (a *adapter) Info(args ...interface{}) {
-	a.logger.Info(fmt.Sprint(args...))
+func (a *adapter) Info(msg string) {
+	a.logger.Info(msg)
 }
 
-func (a *adapter) Warn(args ...interface{}) {
-	a.logger.Warn(fmt.Sprint(args...))
+func (a *adapter) Warn(msg string) {
+	a.logger.Warn(msg)
 }
 
-func (a *adapter) Error(args ...interface{}) {
-	a.logger.Error(fmt.Sprint(args...))
+func (a *adapter) Error(msg string) {
+	a.logger.Error(msg)
 }
 
 func (a *adapter) WithFields(fields map[string]interface{}) logur.Logger {

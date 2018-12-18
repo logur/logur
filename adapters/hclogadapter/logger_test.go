@@ -16,7 +16,7 @@ var logLineRegex = regexp.MustCompile(`.* \[(.*)\] {1,2}(.*): (.*)`)
 
 func newTestSuite() *loggertesting.LoggerTestSuite {
 	return &loggertesting.LoggerTestSuite{
-		LogEventAssertionFlags: 0 | loggertesting.SkipRawLine | loggertesting.AllowNoNewLine,
+		LogEventAssertionFlags: 0 | loggertesting.AllowNoNewLine,
 		LoggerFactory: func() (Logger, func() []LogEvent) {
 			var buf bytes.Buffer
 			logger := hclog.New(&hclog.LoggerOptions{

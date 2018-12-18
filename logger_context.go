@@ -14,24 +14,24 @@ type ContextualLogger struct {
 	fields map[string]interface{}
 }
 
-func (l *ContextualLogger) Trace(args ...interface{}) {
-	l.logger.WithFields(l.fields).Trace(args...)
+func (l *ContextualLogger) Trace(msg string) {
+	l.logger.WithFields(l.fields).Trace(msg)
 }
 
-func (l *ContextualLogger) Debug(args ...interface{}) {
-	l.logger.WithFields(l.fields).Debug(args...)
+func (l *ContextualLogger) Debug(msg string) {
+	l.logger.WithFields(l.fields).Debug(msg)
 }
 
-func (l *ContextualLogger) Info(args ...interface{}) {
-	l.logger.WithFields(l.fields).Info(args...)
+func (l *ContextualLogger) Info(msg string) {
+	l.logger.WithFields(l.fields).Info(msg)
 }
 
-func (l *ContextualLogger) Warn(args ...interface{}) {
-	l.logger.WithFields(l.fields).Warn(args...)
+func (l *ContextualLogger) Warn(msg string) {
+	l.logger.WithFields(l.fields).Warn(msg)
 }
 
-func (l *ContextualLogger) Error(args ...interface{}) {
-	l.logger.WithFields(l.fields).Error(args...)
+func (l *ContextualLogger) Error(msg string) {
+	l.logger.WithFields(l.fields).Error(msg)
 }
 
 func (l *ContextualLogger) WithFields(fields map[string]interface{}) Logger {

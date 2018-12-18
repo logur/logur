@@ -6,7 +6,7 @@ import (
 )
 
 type adapter struct {
-	*zap.SugaredLogger
+	logger *zap.SugaredLogger
 }
 
 // New returns a new logur compatible logger with zap as the logging library.
@@ -19,9 +19,25 @@ func New(logger *zap.SugaredLogger) logur.Logger {
 	return &adapter{logger}
 }
 
-func (a *adapter) Trace(args ...interface{}) {
+func (a *adapter) Trace(msg string) {
 	// Fall back to Debug
-	a.Debug(args...)
+	a.Debug(msg)
+}
+
+func (a *adapter) Debug(msg string) {
+	a.logger.Debug(msg)
+}
+
+func (a *adapter) Info(msg string) {
+	a.logger.Info(msg)
+}
+
+func (a *adapter) Warn(msg string) {
+	a.logger.Warn(msg)
+}
+
+func (a *adapter) Error(msg string) {
+	a.logger.Error(msg)
 }
 
 func (a *adapter) WithFields(fields map[string]interface{}) logur.Logger {
@@ -39,5 +55,5 @@ func (a *adapter) WithFields(fields map[string]interface{}) logur.Logger {
 		return a
 	}
 
-	return &adapter{a.SugaredLogger.With(keyvals...)}
+	return &adapter{a.logger.With(keyvals...)}
 }

@@ -1,16 +1,14 @@
 package logur
 
 import (
-	"fmt"
 	"sync"
 )
 
 // LogEvent represents a single log event recorded by the test logger.
 type LogEvent struct {
-	Line    string
-	RawLine []interface{}
-	Level   Level
-	Fields  map[string]interface{}
+	Line   string
+	Level  Level
+	Fields map[string]interface{}
 }
 
 // TestLogger is a simple stub for the logger interface.
@@ -92,38 +90,37 @@ func (l *TestLogger) recordEvent(event LogEvent) {
 	l.events = append(l.events, event)
 }
 
-func (l *TestLogger) record(level Level, args []interface{}) {
+func (l *TestLogger) record(level Level, msg string) {
 	l.recordEvent(LogEvent{
-		Line:    fmt.Sprint(args...),
-		RawLine: args,
-		Level:   level,
-		Fields:  l.fields,
+		Line:   msg,
+		Level:  level,
+		Fields: l.fields,
 	})
 }
 
 // Trace records a Trace level event.
-func (l *TestLogger) Trace(args ...interface{}) {
-	l.record(Trace, args)
+func (l *TestLogger) Trace(msg string) {
+	l.record(Trace, msg)
 }
 
 // Debug records a Debug level event.
-func (l *TestLogger) Debug(args ...interface{}) {
-	l.record(Debug, args)
+func (l *TestLogger) Debug(msg string) {
+	l.record(Debug, msg)
 }
 
 // Info records a Info level event.
-func (l *TestLogger) Info(args ...interface{}) {
-	l.record(Info, args)
+func (l *TestLogger) Info(msg string) {
+	l.record(Info, msg)
 }
 
 // Warn records a Warn level event.
-func (l *TestLogger) Warn(args ...interface{}) {
-	l.record(Warn, args)
+func (l *TestLogger) Warn(msg string) {
+	l.record(Warn, msg)
 }
 
 // Error records a Error level event.
-func (l *TestLogger) Error(args ...interface{}) {
-	l.record(Error, args)
+func (l *TestLogger) Error(msg string) {
+	l.record(Error, msg)
 }
 
 // WithFields returns a new TestLogger with the appended fields.
