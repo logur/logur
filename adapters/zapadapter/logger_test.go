@@ -62,7 +62,3 @@ func newTestSuite() *loggertesting.LoggerTestSuite {
 func TestLogger_Levels(t *testing.T) {
 	newTestSuite().TestLevels(t)
 }
-
-func TestLogger_Levelsln(t *testing.T) {
-	newTestSuite().TestLevelsln(t)
-}

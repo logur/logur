@@ -1,9 +1,6 @@
 package zapadapter
 
 import (
-	"fmt"
-	"strings"
-
 	"github.com/goph/logur"
 	"go.uber.org/zap"
 )
@@ -25,27 +22,6 @@ func New(logger *zap.SugaredLogger) logur.Logger {
 func (a *adapter) Trace(args ...interface{}) {
 	// Fall back to Debug
 	a.Debug(args...)
-}
-
-func (a *adapter) Traceln(args ...interface{}) {
-	// Fall back to Debug
-	a.Debugln(args...)
-}
-
-func (a *adapter) Debugln(args ...interface{}) {
-	a.Debug(strings.TrimSuffix(fmt.Sprintln(args...), "\n"))
-}
-
-func (a *adapter) Infoln(args ...interface{}) {
-	a.Info(strings.TrimSuffix(fmt.Sprintln(args...), "\n"))
-}
-
-func (a *adapter) Warnln(args ...interface{}) {
-	a.Warn(strings.TrimSuffix(fmt.Sprintln(args...), "\n"))
-}
-
-func (a *adapter) Errorln(args ...interface{}) {
-	a.Error(strings.TrimSuffix(fmt.Sprintln(args...), "\n"))
 }
 
 func (a *adapter) WithFields(fields map[string]interface{}) logur.Logger {

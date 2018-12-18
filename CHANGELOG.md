@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 
 - Remove format functions from `Logger` interface
+- Remove ln functions from `Logger` interface
 
 
 ## [0.5.0] - 2018-12-17

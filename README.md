@@ -19,6 +19,7 @@
     - [Why not go-kit logger?](#why-not-go-kit-logger)
     - [Why not `logger.With(keyvals ...interface{})`?](#why-not-loggerwithkeyvals-interface)
     - [Why no `*f` (format) functions?](#why-no-f-format-functions)
+    - [Why no `*ln` functions?](#why-no-ln-functions)
 - [Inspiration](#inspiration)
 
 
@@ -330,6 +331,30 @@ type Logger interface {
 The reason why they were originally included in the interface is that most logging libraries implement these methods,
 but experience showed that they are not used frequently. Also, nowadays structured logging is a better practice than
 formatting log messages with structured data, thus these methods were removed from the core interface.
+
+
+### Why no `*ln` functions?
+
+Another common group of logging functions originally included in the interface is `*ln` function group:
+
+```go
+type Logger interface {
+	// ...
+	Traceln(args ...interface{})
+	Debugln(args ...interface{})
+	Infoln(args ...interface{})
+	Warnln(args ...interface{})
+	Errorln(args ...interface{})
+}
+```
+
+Usually separate log events are represented on separate lines anyway, so the added value is not newlines in this case,
+but the different semantics between `fmt.Print` and `fmt.Println`.
+See [this](https://play.golang.org/p/32GnCpXttbH) example illustrating the difference.
+
+Common logging libraries include these functions, but experience showed they are not used frequently,
+so they got removed.
+
 
 
 ## Inspiration

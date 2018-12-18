@@ -14,10 +14,4 @@ func (*noop) Info(args ...interface{})  {}
 func (*noop) Warn(args ...interface{})  {}
 func (*noop) Error(args ...interface{}) {}
 
-func (*noop) Traceln(args ...interface{}) {}
-func (*noop) Debugln(args ...interface{}) {}
-func (*noop) Infoln(args ...interface{})  {}
-func (*noop) Warnln(args ...interface{})  {}
-func (*noop) Errorln(args ...interface{}) {}
-
 func (n *noop) WithFields(fields map[string]interface{}) Logger { return n }

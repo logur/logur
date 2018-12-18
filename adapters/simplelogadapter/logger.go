@@ -2,9 +2,6 @@
 package simplelogadapter
 
 import (
-	"fmt"
-	"strings"
-
 	"github.com/goph/logur"
 )
 
@@ -53,26 +50,6 @@ type adapter struct {
 
 func New(logger Logger) logur.Logger {
 	return &adapter{logger}
-}
-
-func (a *adapter) Traceln(args ...interface{}) {
-	a.Trace(strings.TrimSuffix(fmt.Sprintln(args...), "\n"))
-}
-
-func (a *adapter) Debugln(args ...interface{}) {
-	a.Debug(strings.TrimSuffix(fmt.Sprintln(args...), "\n"))
-}
-
-func (a *adapter) Infoln(args ...interface{}) {
-	a.Info(strings.TrimSuffix(fmt.Sprintln(args...), "\n"))
-}
-
-func (a *adapter) Warnln(args ...interface{}) {
-	a.Warn(strings.TrimSuffix(fmt.Sprintln(args...), "\n"))
-}
-
-func (a *adapter) Errorln(args ...interface{}) {
-	a.Error(strings.TrimSuffix(fmt.Sprintln(args...), "\n"))
 }
 
 func (a *adapter) WithFields(fields map[string]interface{}) logur.Logger {
