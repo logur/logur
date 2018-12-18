@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/goph/logur"
-	"github.com/goph/logur/adapters/simplelogadapter"
 	"github.com/rs/zerolog"
 )
 
@@ -15,7 +14,7 @@ type adapter struct {
 // New returns a new logur compatible logger with hclog as the logging library.
 // If nil is passed as logger, the global hclog instance is used as fallback.
 func New(logger zerolog.Logger) logur.Logger {
-	return simplelogadapter.New(&adapter{logger})
+	return &adapter{logger}
 }
 
 func (a *adapter) Trace(args ...interface{}) {
@@ -39,6 +38,6 @@ func (a *adapter) Error(args ...interface{}) {
 	a.logger.Error().Msg(fmt.Sprint(args...))
 }
 
-func (a *adapter) WithFields(fields simplelogadapter.Fields) simplelogadapter.Logger {
+func (a *adapter) WithFields(fields map[string]interface{}) logur.Logger {
 	return &adapter{a.logger.With().Fields(fields).Logger()}
 }

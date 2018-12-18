@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/goph/logur"
-	"github.com/goph/logur/adapters/simplelogadapter"
 	"github.com/hashicorp/go-hclog"
 )
 
@@ -19,7 +18,7 @@ func New(logger hclog.Logger) logur.Logger {
 		logger = hclog.Default()
 	}
 
-	return simplelogadapter.New(&adapter{logger})
+	return &adapter{logger}
 }
 
 func (a *adapter) Trace(args ...interface{}) {
@@ -42,7 +41,7 @@ func (a *adapter) Error(args ...interface{}) {
 	a.logger.Error(fmt.Sprint(args...))
 }
 
-func (a *adapter) WithFields(fields simplelogadapter.Fields) simplelogadapter.Logger {
+func (a *adapter) WithFields(fields map[string]interface{}) logur.Logger {
 	keyvals := make([]interface{}, len(fields)*2)
 	i := 0
 

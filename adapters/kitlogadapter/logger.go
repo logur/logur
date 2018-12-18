@@ -6,7 +6,6 @@ import (
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
 	"github.com/goph/logur"
-	"github.com/goph/logur/adapters/simplelogadapter"
 )
 
 type adapter struct {
@@ -20,7 +19,7 @@ func New(logger log.Logger) logur.Logger {
 		logger = log.NewNopLogger()
 	}
 
-	return simplelogadapter.New(&adapter{logger})
+	return &adapter{logger}
 }
 
 func (a *adapter) Trace(args ...interface{}) {
@@ -44,7 +43,7 @@ func (a *adapter) Error(args ...interface{}) {
 	_ = level.Error(a.logger).Log("msg", fmt.Sprint(args...))
 }
 
-func (a *adapter) WithFields(fields simplelogadapter.Fields) simplelogadapter.Logger {
+func (a *adapter) WithFields(fields map[string]interface{}) logur.Logger {
 	keyvals := make([]interface{}, len(fields)*2)
 	i := 0
 
