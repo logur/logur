@@ -9,11 +9,20 @@ import (
 	logrustest "github.com/sirupsen/logrus/hooks/test"
 )
 
+// nolint: gochecknoglobals
+var levelMap = map[Level]logrus.Level{
+	Trace: logrus.TraceLevel,
+	Debug: logrus.DebugLevel,
+	Info:  logrus.InfoLevel,
+	Warn:  logrus.WarnLevel,
+	Error: logrus.ErrorLevel,
+}
+
 func newTestSuite() *loggertesting.LoggerTestSuite {
 	return &loggertesting.LoggerTestSuite{
-		LoggerFactory: func() (Logger, func() []LogEvent) {
+		LoggerFactory: func(level Level) (Logger, func() []LogEvent) {
 			logrusLogger, hook := logrustest.NewNullLogger()
-			logrusLogger.SetLevel(logrus.TraceLevel)
+			logrusLogger.SetLevel(levelMap[level])
 
 			return New(logrusLogger), func() []LogEvent {
 				entries := hook.AllEntries()
@@ -36,6 +45,6 @@ func newTestSuite() *loggertesting.LoggerTestSuite {
 	}
 }
 
-func TestLogger_Levels(t *testing.T) {
-	newTestSuite().TestLevels(t)
+func TestLoggerSuite(t *testing.T) {
+	newTestSuite().Execute(t)
 }

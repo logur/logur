@@ -108,3 +108,10 @@ func LevelFunc(logger Logger, level Level) LogFunc {
 		return logger.Info
 	}
 }
+
+// LevelEnabler checks if a level is enabled in a logger.
+// If the logger cannot reliably decide the correct level this method MUST return true.
+type LevelEnabler interface {
+	// LevelEnabled checks if a level is enabled in a logger.
+	LevelEnabled(level Level) bool
+}

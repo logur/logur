@@ -12,21 +12,30 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
+// nolint: gochecknoglobals
+var levelMap = map[Level]zapcore.Level{
+	Trace: zap.DebugLevel,
+	Debug: zap.DebugLevel,
+	Info:  zap.InfoLevel,
+	Warn:  zap.WarnLevel,
+	Error: zap.ErrorLevel,
+}
+
 func newTestSuite() *loggertesting.LoggerTestSuite {
 	return &loggertesting.LoggerTestSuite{
 		TraceFallbackToDebug: true,
-		LoggerFactory: func() (Logger, func() []LogEvent) {
+		LoggerFactory: func(level Level) (Logger, func() []LogEvent) {
 			var buf bytes.Buffer
 
 			logger := zap.New(
 				zapcore.NewCore(
 					zapcore.NewConsoleEncoder(zap.NewDevelopmentEncoderConfig()),
 					zapcore.AddSync(&buf),
-					zap.DebugLevel,
+					levelMap[level],
 				),
 			)
 
-			return New(logger.Sugar()), func() []LogEvent {
+			return New(logger), func() []LogEvent {
 				lines := strings.Split(strings.TrimSuffix(buf.String(), "\n"), "\n")
 
 				events := make([]LogEvent, len(lines))
@@ -58,6 +67,6 @@ func newTestSuite() *loggertesting.LoggerTestSuite {
 	}
 }
 
-func TestLogger_Levels(t *testing.T) {
-	newTestSuite().TestLevels(t)
+func TestLoggerSuite(t *testing.T) {
+	newTestSuite().Execute(t)
 }

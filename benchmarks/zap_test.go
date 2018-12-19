@@ -15,7 +15,7 @@ func newZap() logur.Logger {
 	ec.EncodeTime = zapcore.EpochNanosTimeEncoder
 	enc := zapcore.NewJSONEncoder(ec)
 
-	return zapadapter.New(zap.New(zapcore.NewCore(enc, zapcore.AddSync(ioutil.Discard), zap.DebugLevel)).Sugar())
+	return zapadapter.New(zap.New(zapcore.NewCore(enc, zapcore.AddSync(ioutil.Discard), zap.DebugLevel)))
 }
 
 func newDisabledZap() logur.Logger {
@@ -24,5 +24,5 @@ func newDisabledZap() logur.Logger {
 	ec.EncodeTime = zapcore.EpochNanosTimeEncoder
 	enc := zapcore.NewJSONEncoder(ec)
 
-	return zapadapter.New(zap.New(zapcore.NewCore(enc, zapcore.AddSync(ioutil.Discard), zap.ErrorLevel)).Sugar())
+	return zapadapter.New(zap.New(zapcore.NewCore(enc, zapcore.AddSync(ioutil.Discard), zap.ErrorLevel)))
 }

@@ -16,10 +16,10 @@ var logLineRegex = regexp.MustCompile(`.* \[(.*)\] {1,2}(.*): (.*)`)
 
 func newTestSuite() *loggertesting.LoggerTestSuite {
 	return &loggertesting.LoggerTestSuite{
-		LoggerFactory: func() (Logger, func() []LogEvent) {
+		LoggerFactory: func(level Level) (Logger, func() []LogEvent) {
 			var buf bytes.Buffer
 			logger := hclog.New(&hclog.LoggerOptions{
-				Level:  hclog.Trace,
+				Level:  hclog.Level(level + 1),
 				Output: &buf,
 			})
 
@@ -55,6 +55,6 @@ func newTestSuite() *loggertesting.LoggerTestSuite {
 	}
 }
 
-func TestLogger_Levels(t *testing.T) {
-	newTestSuite().TestLevels(t)
+func TestLoggerSuite(t *testing.T) {
+	newTestSuite().Execute(t)
 }
