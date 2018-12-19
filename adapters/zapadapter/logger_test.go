@@ -12,6 +12,15 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
+// nolint: gochecknoglobals
+var levelMap = map[Level]zapcore.Level{
+	Trace: zap.DebugLevel,
+	Debug: zap.DebugLevel,
+	Info:  zap.InfoLevel,
+	Warn:  zap.WarnLevel,
+	Error: zap.ErrorLevel,
+}
+
 func newTestSuite() *loggertesting.LoggerTestSuite {
 	return &loggertesting.LoggerTestSuite{
 		TraceFallbackToDebug: true,

@@ -60,20 +60,19 @@ func (a *adapter) Error(msg string, fields map[string]interface{}) {
 	a.logger.WithFields(logrus.Fields(fields)).Error(msg)
 }
 
-// nolint: gochecknoglobals
-var levelMap = map[logur.Level]logrus.Level{
-	logur.Trace: logrus.TraceLevel,
-	logur.Debug: logrus.DebugLevel,
-	logur.Info:  logrus.InfoLevel,
-	logur.Warn:  logrus.WarnLevel,
-	logur.Error: logrus.ErrorLevel,
-}
-
 func (a *adapter) LevelEnabled(level logur.Level) bool {
-	checkLevel, ok := levelMap[level]
-	if !ok {
-		return true
+	switch level {
+	case logur.Trace:
+		return a.logger.Logger.IsLevelEnabled(logrus.TraceLevel)
+	case logur.Debug:
+		return a.logger.Logger.IsLevelEnabled(logrus.DebugLevel)
+	case logur.Info:
+		return a.logger.Logger.IsLevelEnabled(logrus.InfoLevel)
+	case logur.Warn:
+		return a.logger.Logger.IsLevelEnabled(logrus.WarnLevel)
+	case logur.Error:
+		return a.logger.Logger.IsLevelEnabled(logrus.ErrorLevel)
 	}
 
-	return a.logger.Logger.IsLevelEnabled(checkLevel)
+	return true
 }

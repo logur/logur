@@ -5,8 +5,18 @@ import (
 
 	. "github.com/goph/logur"
 	"github.com/goph/logur/internal/loggertesting"
+	"github.com/sirupsen/logrus"
 	logrustest "github.com/sirupsen/logrus/hooks/test"
 )
+
+// nolint: gochecknoglobals
+var levelMap = map[Level]logrus.Level{
+	Trace: logrus.TraceLevel,
+	Debug: logrus.DebugLevel,
+	Info:  logrus.InfoLevel,
+	Warn:  logrus.WarnLevel,
+	Error: logrus.ErrorLevel,
+}
 
 func newTestSuite() *loggertesting.LoggerTestSuite {
 	return &loggertesting.LoggerTestSuite{

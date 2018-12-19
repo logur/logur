@@ -61,20 +61,19 @@ func (a *adapter) Error(msg string, fields map[string]interface{}) {
 	a.logger.Error(msg, keyvals.FromMap(fields)...)
 }
 
-// nolint: gochecknoglobals
-var levelChecker = map[logur.Level]func(hclog.Logger) bool{
-	logur.Trace: hclog.Logger.IsTrace,
-	logur.Debug: hclog.Logger.IsDebug,
-	logur.Info:  hclog.Logger.IsInfo,
-	logur.Warn:  hclog.Logger.IsWarn,
-	logur.Error: hclog.Logger.IsError,
-}
-
 func (a *adapter) LevelEnabled(level logur.Level) bool {
-	checker, ok := levelChecker[level]
-	if !ok {
-		return true
+	switch level {
+	case logur.Trace:
+		return a.logger.IsTrace()
+	case logur.Debug:
+		return a.logger.IsDebug()
+	case logur.Info:
+		return a.logger.IsInfo()
+	case logur.Warn:
+		return a.logger.IsWarn()
+	case logur.Error:
+		return a.logger.IsError()
 	}
 
-	return checker(a.logger)
+	return true
 }
