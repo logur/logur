@@ -29,8 +29,16 @@ var testLevelMap = map[logur.Level]struct {
 }
 
 type LoggerTestSuite struct {
-	LoggerFactory        func() (logur.Logger, func() []logur.LogEvent)
+	LoggerFactory        func(level logur.Level) (logur.Logger, func() []logur.LogEvent)
 	TraceFallbackToDebug bool
+}
+
+func (s *LoggerTestSuite) Execute(t *testing.T) {
+	t.Parallel()
+
+	t.Run("Levels", s.TestLevels)
+	t.Run("LevelEnabler", s.TestLevelEnabler)
+	t.Run("LevelEnabler_UnknownReturnsTrue", s.TestLevelEnablerUnknownReturnsTrue)
 }
 
 func (s *LoggerTestSuite) TestLevels(t *testing.T) {
@@ -48,7 +56,7 @@ func (s *LoggerTestSuite) TestLevels(t *testing.T) {
 
 			fields := map[string]interface{}{"key": "value"}
 
-			logger, getLogEvents := s.LoggerFactory()
+			logger, getLogEvents := s.LoggerFactory(logur.Trace)
 
 			test.logFunc(logger, "message1message2", fields)
 
@@ -66,5 +74,64 @@ func (s *LoggerTestSuite) TestLevels(t *testing.T) {
 
 			AssertLogEvents(t, logEvent, logEvents[0])
 		})
+	}
+}
+
+// nolint: gochecknoglobals
+var allLevels = []logur.Level{logur.Trace, logur.Debug, logur.Info, logur.Warn, logur.Error}
+
+func (s *LoggerTestSuite) TestLevelEnabler(t *testing.T) {
+	if s.LoggerFactory == nil {
+		t.Fatal("logger factory is not configured")
+	}
+
+	for _, level := range allLevels {
+		level := level
+
+		t.Run(strings.ToTitle(level.String()), func(t *testing.T) {
+			if level == logur.Trace && s.TraceFallbackToDebug {
+				return
+			}
+
+			logger, _ := s.LoggerFactory(level)
+
+			enabler, ok := logger.(logur.LevelEnabler)
+			if !ok {
+				t.Skip("logger does not implement logur.LevelEnabler interface")
+			}
+
+			for _, l := range allLevels {
+				if l == logur.Trace && s.TraceFallbackToDebug {
+					continue
+				}
+
+				enabled := enabler.LevelEnabled(l)
+
+				if l >= level && !enabled {
+					t.Errorf("expected level %q to be enabled when the minimum level is %q", l, level)
+				} else if l < level && enabled {
+					t.Errorf("expected level %q to be disabled when the minimum level is %q", l, level)
+				}
+			}
+		})
+	}
+}
+
+func (s *LoggerTestSuite) TestLevelEnablerUnknownReturnsTrue(t *testing.T) {
+	if s.LoggerFactory == nil {
+		t.Fatal("logger factory is not configured")
+	}
+
+	logger, _ := s.LoggerFactory(logur.Trace)
+
+	enabler, ok := logger.(logur.LevelEnabler)
+	if !ok {
+		t.Skip("logger does not implement logur.LevelEnabler interface")
+	}
+
+	enabled := enabler.LevelEnabled(logur.Level(999))
+
+	if !enabled {
+		t.Error("logur.LevelEnabler implementation should return true when it cannot detect a level")
 	}
 }

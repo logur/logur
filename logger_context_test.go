@@ -9,7 +9,7 @@ import (
 
 func newContextualLoggerTestSuite() *loggertesting.LoggerTestSuite {
 	return &loggertesting.LoggerTestSuite{
-		LoggerFactory: func() (Logger, func() []LogEvent) {
+		LoggerFactory: func(level Level) (Logger, func() []LogEvent) {
 			logger := NewTestLogger()
 
 			return WithFields(logger, map[string]interface{}{"key": "value"}), logger.Events

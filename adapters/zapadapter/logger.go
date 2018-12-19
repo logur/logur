@@ -62,3 +62,21 @@ func (a *adapter) Error(msg string, fields map[string]interface{}) {
 
 	a.logger.Errorw(msg, keyvals.FromMap(fields)...)
 }
+
+// nolint: gochecknoglobals
+var levelMap = map[logur.Level]zapcore.Level{
+	logur.Trace: zap.DebugLevel,
+	logur.Debug: zap.DebugLevel,
+	logur.Info:  zap.InfoLevel,
+	logur.Warn:  zap.WarnLevel,
+	logur.Error: zap.ErrorLevel,
+}
+
+func (a *adapter) LevelEnabled(level logur.Level) bool {
+	checkLevel, ok := levelMap[level]
+	if !ok {
+		return true
+	}
+
+	return a.core.Enabled(checkLevel)
+}

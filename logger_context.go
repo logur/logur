@@ -23,31 +23,58 @@ func WithFields(logger Logger, fields map[string]interface{}) Logger {
 		logger = ctxlogger.logger
 	}
 
-	return &ContextualLogger{logger: logger, fields: fields}
+	ctxlogger := &ContextualLogger{logger: logger, fields: fields}
+
+	if levelEnabler, ok := logger.(LevelEnabler); ok {
+		ctxlogger.levelEnabler = levelEnabler
+	}
+
+	return ctxlogger
 }
 
 type ContextualLogger struct {
-	logger Logger
-	fields map[string]interface{}
+	logger       Logger
+	fields       map[string]interface{}
+	levelEnabler LevelEnabler
 }
 
 func (l *ContextualLogger) Trace(msg string, fields map[string]interface{}) {
+	if !l.levelEnabled(Trace) {
+		return
+	}
+
 	l.logger.Trace(msg, l.mergeFields(fields))
 }
 
 func (l *ContextualLogger) Debug(msg string, fields map[string]interface{}) {
+	if !l.levelEnabled(Debug) {
+		return
+	}
+
 	l.logger.Debug(msg, l.mergeFields(fields))
 }
 
 func (l *ContextualLogger) Info(msg string, fields map[string]interface{}) {
+	if !l.levelEnabled(Info) {
+		return
+	}
+
 	l.logger.Info(msg, l.mergeFields(fields))
 }
 
 func (l *ContextualLogger) Warn(msg string, fields map[string]interface{}) {
+	if !l.levelEnabled(Warn) {
+		return
+	}
+
 	l.logger.Warn(msg, l.mergeFields(fields))
 }
 
 func (l *ContextualLogger) Error(msg string, fields map[string]interface{}) {
+	if !l.levelEnabled(Error) {
+		return
+	}
+
 	l.logger.Error(msg, l.mergeFields(fields))
 }
 
@@ -71,4 +98,12 @@ func (l *ContextualLogger) mergeFields(fields map[string]interface{}) map[string
 	}
 
 	return f
+}
+
+func (l *ContextualLogger) levelEnabled(level Level) bool {
+	if l.levelEnabler != nil {
+		return l.levelEnabler.LevelEnabled(level)
+	}
+
+	return true
 }

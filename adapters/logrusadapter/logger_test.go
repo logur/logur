@@ -5,15 +5,14 @@ import (
 
 	. "github.com/goph/logur"
 	"github.com/goph/logur/internal/loggertesting"
-	"github.com/sirupsen/logrus"
 	logrustest "github.com/sirupsen/logrus/hooks/test"
 )
 
 func newTestSuite() *loggertesting.LoggerTestSuite {
 	return &loggertesting.LoggerTestSuite{
-		LoggerFactory: func() (Logger, func() []LogEvent) {
+		LoggerFactory: func(level Level) (Logger, func() []LogEvent) {
 			logrusLogger, hook := logrustest.NewNullLogger()
-			logrusLogger.SetLevel(logrus.TraceLevel)
+			logrusLogger.SetLevel(levelMap[level])
 
 			return New(logrusLogger), func() []LogEvent {
 				entries := hook.AllEntries()
@@ -36,6 +35,6 @@ func newTestSuite() *loggertesting.LoggerTestSuite {
 	}
 }
 
-func TestLogger_Levels(t *testing.T) {
-	newTestSuite().TestLevels(t)
+func TestLoggerSuite(t *testing.T) {
+	newTestSuite().Execute(t)
 }

@@ -28,7 +28,6 @@ func (a *adapter) Trace(msg string, fields map[string]interface{}) {
 }
 
 func (a *adapter) Debug(msg string, fields map[string]interface{}) {
-
 	_ = level.Debug(a.logger).Log(append(keyvals.FromMap(fields), "msg", msg)...)
 }
 

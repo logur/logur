@@ -9,7 +9,7 @@ import (
 
 func newTestLoggerSuite() *loggertesting.LoggerTestSuite {
 	return &loggertesting.LoggerTestSuite{
-		LoggerFactory: func() (Logger, func() []LogEvent) {
+		LoggerFactory: func(level Level) (Logger, func() []LogEvent) {
 			logger := NewTestLogger()
 			return logger, func() []LogEvent { // nolint: gocritic
 				return logger.Events()
