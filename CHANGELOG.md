@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Contextual logger (instead of `Logger.WithFields`)
 - Field parameter to log functions
+- [gRPC log](https://godoc.org/google.golang.org/grpc/grpclog) integration
 
 ### Changed
 
