@@ -1,5 +1,5 @@
 /*
-Package grpclog provides a V2 gRPC logger.
+Package grpcloglog provides a V2 gRPC logger.
 
 gRPC operates with a globally configured logger that implements the google.golang.org/grpc/grpclog.LoggerV2w interface.
 
@@ -7,16 +7,16 @@ With logur you can easily wire the logging library of your choice into gRPC:
 	package main
 
 	import (
-		grpclogintegration "github.com/goph/logur/integrations/grpclog"
+		"github.com/goph/logur/integrations/grpcloglog"
 		"google.golang.org/grpc/grpclog"
 	)
 
 	func main() {
 		logger := logur.NewNoop() // choose an actual implementation
-		grpclog.SetLoggerV2(grpclogintegration.New(logger))
+		grpclog.SetLoggerV2(grpcloglog.New(logger))
 	}
  */
-package grpclog
+package grpcloglog
 
 import (
 	"fmt"
