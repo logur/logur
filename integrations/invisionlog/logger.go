@@ -1,4 +1,21 @@
-// Package invisionlog provides logur integration for github.com/InVisionApp/go-logger.
+/*
+Package invisionlog provides a github.com/InVisionApp/go-logger logger.
+
+With logur you can easily wire the logging library of your choice into any Invision logger compatible library:
+	package main
+
+	import (
+		"github.com/goph/logur"
+		"github.com/goph/logur/integrations/invisionlog"
+	)
+
+	func main() {
+		logger := logur.NewNoop() // choose an actual implementation
+		ilogger := invisionlog.New(logger)
+
+		// inject the logger somewhere
+	}
+*/
 package invisionlog
 
 import (
@@ -13,7 +30,7 @@ type logger struct {
 	logger logur.Logger
 }
 
-// New returns a new github.com/InVisionApp/go-logger.Logger compatible logger.
+// New returns a new github.com/InVisionApp/go-logger.Logger logger.
 func New(l logur.Logger) log.Logger {
 	return &logger{l}
 }
