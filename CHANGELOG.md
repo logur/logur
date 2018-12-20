@@ -23,8 +23,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Removed
 
-- Remove format functions from `Logger` interface
-- Remove ln functions from `Logger` interface
+- format functions from `Logger` interface
+- ln functions from `Logger` interface
 - Simple log adapter (implementing format and ln functions)
 - `Logger.WithFields` method (use field parameter of log functions instead)
 
