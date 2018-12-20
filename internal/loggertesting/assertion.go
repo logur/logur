@@ -6,11 +6,6 @@ import (
 	"github.com/goph/logur"
 )
 
-const (
-	// Matches lines without matching the last newline character
-	AllowNoNewLine uint8 = 1 << iota
-)
-
 // AssertLogEvents asserts that two LogEvents are identical.
 func AssertLogEvents(t *testing.T, expected logur.LogEvent, actual logur.LogEvent) {
 	t.Helper()
