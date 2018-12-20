@@ -1,3 +1,24 @@
+/*
+Package watermilllog provides a Watermill logger.
+
+Watermill accepts a logger that implements the github.com/ThreeDotsLabs/watermill.LoggerAdapter interface.
+
+With logur you can easily wire the logging library of your choice into Watermill:
+
+	package main
+
+	import (
+		"github.com/goph/logur"
+		"github.com/goph/logur/integrations/watermilllog"
+	)
+
+	func main() {
+		logger := logur.NewNoop() // choose an actual implementation
+		wlogger := watermilllog.New(logger)
+
+		// inject the logger somewhere
+	}
+*/
 package watermilllog
 
 import (

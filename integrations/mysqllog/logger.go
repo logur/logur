@@ -1,4 +1,3 @@
-// Package mysqllog provides a MySQL database driver logger.
 /*
 Package mysqllog provides a MySQL database driver logger.
 
