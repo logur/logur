@@ -4,6 +4,7 @@ Package grpcloglog provides a V2 gRPC logger.
 gRPC operates with a globally configured logger that implements the google.golang.org/grpc/grpclog.LoggerV2 interface.
 
 With logur you can easily wire the logging library of your choice into gRPC:
+
 	package main
 
 	import (

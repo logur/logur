@@ -1,7 +1,8 @@
 /*
 Package invisionlog provides a github.com/InVisionApp/go-logger logger.
 
-With logur you can easily wire the logging library of your choice into any Invision logger compatible library:
+With logur you can easily wire the logging library of your choice into any InVision logger compatible library:
+
 	package main
 
 	import (
