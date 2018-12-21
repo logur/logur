@@ -32,15 +32,17 @@
 - Standard library logger support
 - [github.com/goph/emperror](https://github.com/goph/emperror) compatible error handler
 - Integrations with well-known libraries:
-    - [gRPC log](https://godoc.org/google.golang.org/grpc/grpclog) integration
-    - [MySQL driver](https://github.com/go-sql-driver/mysql) integration
+    - [gRPC log](https://godoc.org/google.golang.org/grpc/grpclog)
+    - [MySQL driver](https://github.com/go-sql-driver/mysql)
+    - [Watermill](https://watermill.io/)
+    - [InvisionApp logger](https://github.com/InVisionApp/go-logger) interface
 - Adapters for well-known logging libraries:
-    * [hclog](https://github.com/hashicorp/go-hclog)
-    * [go-kit log](https://github.com/go-kit/kit)
-    * [logrus](https://github.com/sirupsen/logrus)
-    * [zap](https://github.com/uber-go/zap)
-    * [zerolog](https://github.com/rs/zerolog)
-    * Next one contributed by You!
+    - [hclog](https://github.com/hashicorp/go-hclog)
+    - [go-kit log](https://github.com/go-kit/kit)
+    - [logrus](https://github.com/sirupsen/logrus)
+    - [zap](https://github.com/uber-go/zap)
+    - [zerolog](https://github.com/rs/zerolog)
+    - Next one contributed by You!
 
 
 ## Installation
