@@ -122,7 +122,7 @@ func (s *LoggerTestSuite) TestLevelEnabler(t *testing.T) {
 	}
 }
 
-// TestLevelEnabler tests unknown enabled levels.
+// TestLevelEnablerUnknownReturnsTrue tests unknown enabled levels.
 // Note: this is not mandatory, incompatible loggers will be skipped.
 func (s *LoggerTestSuite) TestLevelEnablerUnknownReturnsTrue(t *testing.T) {
 	if s.LoggerFactory == nil {
