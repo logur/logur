@@ -28,11 +28,13 @@ var testLevelMap = map[logur.Level]struct {
 	},
 }
 
+// LoggerTestSuite implements a minimal set of tests that must be satisfied by every logur compatible logger implementation.
 type LoggerTestSuite struct {
 	LoggerFactory        func(level logur.Level) (logur.Logger, func() []logur.LogEvent)
 	TraceFallbackToDebug bool
 }
 
+// Execute executes the complete test suite.
 func (s *LoggerTestSuite) Execute(t *testing.T) {
 	t.Parallel()
 
@@ -41,6 +43,7 @@ func (s *LoggerTestSuite) Execute(t *testing.T) {
 	t.Run("LevelEnabler_UnknownReturnsTrue", s.TestLevelEnablerUnknownReturnsTrue)
 }
 
+// TestLevels tests leveled logging capabilities.
 func (s *LoggerTestSuite) TestLevels(t *testing.T) {
 	if s.LoggerFactory == nil {
 		t.Fatal("logger factory is not configured")
@@ -80,6 +83,8 @@ func (s *LoggerTestSuite) TestLevels(t *testing.T) {
 // nolint: gochecknoglobals
 var allLevels = []logur.Level{logur.Trace, logur.Debug, logur.Info, logur.Warn, logur.Error}
 
+// TestLevelEnabler tests enabled levels.
+// Note: this is not mandatory, incompatible loggers will be skipped.
 func (s *LoggerTestSuite) TestLevelEnabler(t *testing.T) {
 	if s.LoggerFactory == nil {
 		t.Fatal("logger factory is not configured")
@@ -117,6 +122,8 @@ func (s *LoggerTestSuite) TestLevelEnabler(t *testing.T) {
 	}
 }
 
+// TestLevelEnabler tests unknown enabled levels.
+// Note: this is not mandatory, incompatible loggers will be skipped.
 func (s *LoggerTestSuite) TestLevelEnablerUnknownReturnsTrue(t *testing.T) {
 	if s.LoggerFactory == nil {
 		t.Fatal("logger factory is not configured")
