@@ -74,10 +74,11 @@ A custom interface should be defined instead:
 
 ```go
 type MyLogger interface {
-	Debug(args ...interface{})
-	Info(args ...interface{})
-	Warn(args ...interface{})
-	Error(args ...interface{})
+	Trace(msg string, fields map[string]interface{})
+	Debug(msg string, fields map[string]interface{})
+	Info(msg string, fields map[string]interface{})
+	Warn(msg string, fields map[string]interface{})
+	Error(msg string, fields map[string]interface{})
 }
 ```
 
@@ -91,21 +92,24 @@ func main() {
 }
 
 func myFunc(logger MyLogger) {
-	logger.Debug("myFunc ran")
+	logger.Debug("myFunc ran", nil)
+	// OR
+	logger.Debug("myFunc ran", map[string]interface{}{"key": "value"})
 }
 ```
 
-In case you need structured logging, the interface becomes a bit more complicated:
+In case you need to populate the logger with some common context, the interface becomes a bit more complicated:
 
 ```go
 type MyLogger interface {
-	Debug(args ...interface{})
+	Trace(msg string, fields map[string]interface{})
+	Debug(msg string, fields map[string]interface{})
 	// ...
 	WithFields(fields map[string]interface{}) MyLogger
 }
 ```
 
-As you can see `MyLogger` holds a reference to itself, which makes it incompatible with the logur interface.
+As you can see `MyLogger` holds a reference to itself, which makes it incompatible with the logur implementations.
 The solution in this case is implementing a custom adapter:
 
 ```go
@@ -113,10 +117,10 @@ type myLogger struct {
 	logger logur.Logger
 }
 
-func (l *myLogger) Debug(args ...interface{}) { l.logger.Debug(args...) }
+func (l *myLogger) Debug(msg string, fields map[string]interface{}) { l.logger.Debug(msg, fields) }
 // ...
 func (l *myLogger) WithFields(fields map[string]interface{}) MyLogger { 
-	return myLogger{l.logger.WithFields(logur.Fields(fields))}
+	return myLogger{logur.WithFields(l.logger, fields)}
 }
 ```
 
@@ -130,7 +134,7 @@ func main() {
 }
 
 func myFunc(logger MyLogger) {
-	logger.WithFields(map[string]interface{}{"key": "value"}).Debug("myFunc ran")
+	logger.WithFields(map[string]interface{}{"key": "value"}).Debug("myFunc ran", nil)
 }
 ```
 
@@ -259,7 +263,7 @@ Here is a comparison of a single line context logging:
 
 ```go
 logger = log.With(logger, "key", "value", "key2", "value")
-logger = logger.WithFields(log.Fields{"key": "value", "key2": "value"})
+logger = logur.WithFields(logger, map[string]interface{}{"key": "value", "key2": "value"})
 ```
 
 Obviously the second one is more verbose, takes a bit more efforts to write, but this is rather a question of habits.
@@ -273,7 +277,7 @@ logger = log.With(
 	"key2", "value",
 )
 
-logger = logger.WithFields(log.Fields{
+logger = logger.WithFields(map[string]interface{}{
 	"key": "value",
 	"key2": "value",
 })
@@ -293,12 +297,6 @@ so if ordering matters, most logging libraries won't work anyway.
 
 Also, this library is not a one size fits all proposal and doesn't try to solve [100% of the problems](https://dev.to/nickjj/optimize-your-programming-decisions-for-the-95-not-the-5-2n42)
 (unlike the official logger proposal), but rather aim for the most common use cases which doesn't include ordering of fields.
-
-
-**3. Importing a concrete type**
-
-As discussed earlier, one should not import the interface in this library directly to the application's code,
-but instead use adapters, so this problem is basically nonexistent.
 
 
 Comparing the slice and the map solution, there are also some arguments against using a variadic slice:
