@@ -1,6 +1,7 @@
 package logur
 
 import (
+	"fmt"
 	"sync"
 )
 
@@ -9,6 +10,29 @@ type LogEvent struct {
 	Line   string
 	Level  Level
 	Fields map[string]interface{}
+}
+
+// AssertLogEventsEqual asserts that two LogEvents are identical and returns an error with detailed information if not.
+func AssertLogEventsEqual(expected LogEvent, actual LogEvent) error {
+	if expected.Level != actual.Level {
+		return fmt.Errorf("expected log levels to be equal\ngot:  %s\nwant: %s", actual.Level, expected.Level)
+	}
+
+	if expected.Line != actual.Line {
+		return fmt.Errorf("expected log lines to be equal\ngot:  %q\nwant: %q", actual.Line, expected.Line)
+	}
+
+	if len(expected.Fields) != len(actual.Fields) {
+		return fmt.Errorf("expected log fields to be equal\ngot:  %v\nwant: %v", actual.Fields, expected.Fields)
+	}
+
+	for key, value := range expected.Fields {
+		if actual.Fields[key] != value {
+			return fmt.Errorf("expected log fields to be equal\ngot:  %v\nwant: %v", actual.Fields, expected.Fields)
+		}
+	}
+
+	return nil
 }
 
 // TestLogger is a simple stub for the logger interface.
