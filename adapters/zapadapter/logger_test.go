@@ -6,25 +6,25 @@ import (
 	"strings"
 	"testing"
 
-	. "github.com/goph/logur"
+	"github.com/goph/logur"
 	"github.com/goph/logur/internal/loggertesting"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
 
 // nolint: gochecknoglobals
-var levelMap = map[Level]zapcore.Level{
-	Trace: zap.DebugLevel,
-	Debug: zap.DebugLevel,
-	Info:  zap.InfoLevel,
-	Warn:  zap.WarnLevel,
-	Error: zap.ErrorLevel,
+var levelMap = map[logur.Level]zapcore.Level{
+	logur.Trace: zap.DebugLevel,
+	logur.Debug: zap.DebugLevel,
+	logur.Info:  zap.InfoLevel,
+	logur.Warn:  zap.WarnLevel,
+	logur.Error: zap.ErrorLevel,
 }
 
 func newTestSuite() *loggertesting.LoggerTestSuite {
 	return &loggertesting.LoggerTestSuite{
 		TraceFallbackToDebug: true,
-		LoggerFactory: func(level Level) (Logger, func() []LogEvent) {
+		LoggerFactory: func(level logur.Level) (logur.Logger, func() []logur.LogEvent) {
 			var buf bytes.Buffer
 
 			logger := zap.New(
@@ -35,15 +35,15 @@ func newTestSuite() *loggertesting.LoggerTestSuite {
 				),
 			)
 
-			return New(logger), func() []LogEvent {
+			return New(logger), func() []logur.LogEvent {
 				lines := strings.Split(strings.TrimSuffix(buf.String(), "\n"), "\n")
 
-				events := make([]LogEvent, len(lines))
+				events := make([]logur.LogEvent, len(lines))
 
 				for key, line := range lines {
 					log := strings.SplitN(line, "\t", 4)
 
-					level, _ := ParseLevel(strings.ToLower(log[1]))
+					level, _ := logur.ParseLevel(strings.ToLower(log[1]))
 
 					var fields map[string]interface{}
 
@@ -54,7 +54,7 @@ func newTestSuite() *loggertesting.LoggerTestSuite {
 						}
 					}
 
-					events[key] = LogEvent{
+					events[key] = logur.LogEvent{
 						Line:   log[2],
 						Level:  level,
 						Fields: fields,

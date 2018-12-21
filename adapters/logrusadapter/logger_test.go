@@ -3,36 +3,36 @@ package logrusadapter
 import (
 	"testing"
 
-	. "github.com/goph/logur"
+	"github.com/goph/logur"
 	"github.com/goph/logur/internal/loggertesting"
 	"github.com/sirupsen/logrus"
 	logrustest "github.com/sirupsen/logrus/hooks/test"
 )
 
 // nolint: gochecknoglobals
-var levelMap = map[Level]logrus.Level{
-	Trace: logrus.TraceLevel,
-	Debug: logrus.DebugLevel,
-	Info:  logrus.InfoLevel,
-	Warn:  logrus.WarnLevel,
-	Error: logrus.ErrorLevel,
+var levelMap = map[logur.Level]logrus.Level{
+	logur.Trace: logrus.TraceLevel,
+	logur.Debug: logrus.DebugLevel,
+	logur.Info:  logrus.InfoLevel,
+	logur.Warn:  logrus.WarnLevel,
+	logur.Error: logrus.ErrorLevel,
 }
 
 func newTestSuite() *loggertesting.LoggerTestSuite {
 	return &loggertesting.LoggerTestSuite{
-		LoggerFactory: func(level Level) (Logger, func() []LogEvent) {
+		LoggerFactory: func(level logur.Level) (logur.Logger, func() []logur.LogEvent) {
 			logrusLogger, hook := logrustest.NewNullLogger()
 			logrusLogger.SetLevel(levelMap[level])
 
-			return New(logrusLogger), func() []LogEvent {
+			return New(logrusLogger), func() []logur.LogEvent {
 				entries := hook.AllEntries()
 
-				events := make([]LogEvent, len(entries))
+				events := make([]logur.LogEvent, len(entries))
 
 				for key, entry := range entries {
-					level, _ := ParseLevel(entry.Level.String())
+					level, _ := logur.ParseLevel(entry.Level.String())
 
-					events[key] = LogEvent{
+					events[key] = logur.LogEvent{
 						Line:   entry.Message,
 						Level:  level,
 						Fields: entry.Data,

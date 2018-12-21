@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	. "github.com/goph/logur"
+	"github.com/goph/logur"
 	"github.com/goph/logur/internal/loggertesting"
 	"github.com/hashicorp/go-hclog"
 )
@@ -16,22 +16,22 @@ var logLineRegex = regexp.MustCompile(`.* \[(.*)\] {1,2}(.*): (.*)`)
 
 func newTestSuite() *loggertesting.LoggerTestSuite {
 	return &loggertesting.LoggerTestSuite{
-		LoggerFactory: func(level Level) (Logger, func() []LogEvent) {
+		LoggerFactory: func(level logur.Level) (logur.Logger, func() []logur.LogEvent) {
 			var buf bytes.Buffer
 			logger := hclog.New(&hclog.LoggerOptions{
 				Level:  hclog.Level(level + 1),
 				Output: &buf,
 			})
 
-			return New(logger), func() []LogEvent {
+			return New(logger), func() []logur.LogEvent {
 				lines := strings.Split(strings.TrimSuffix(buf.String(), "\n"), "\n")
 
-				events := make([]LogEvent, len(lines))
+				events := make([]logur.LogEvent, len(lines))
 
 				for key, line := range lines {
 					match := logLineRegex.FindStringSubmatch(line)
 
-					level, _ := ParseLevel(strings.ToLower(match[1]))
+					level, _ := logur.ParseLevel(strings.ToLower(match[1]))
 
 					rawFields := strings.Fields(match[3])
 					fields := make(map[string]interface{})
@@ -42,7 +42,7 @@ func newTestSuite() *loggertesting.LoggerTestSuite {
 						fields[field[0]] = field[1]
 					}
 
-					events[key] = LogEvent{
+					events[key] = logur.LogEvent{
 						Line:   match[2],
 						Level:  level,
 						Fields: fields,

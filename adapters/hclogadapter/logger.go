@@ -7,72 +7,75 @@ import (
 	"github.com/hashicorp/go-hclog"
 )
 
-type adapter struct {
+// Logger is a logur compatible logger for hclog.
+type Logger struct {
 	logger hclog.Logger
 }
 
 // New returns a new logur compatible logger with hclog as the logging library.
 // If nil is passed as logger, the global hclog instance is used as fallback.
-func New(logger hclog.Logger) logur.Logger {
+func New(logger hclog.Logger) *Logger {
 	if logger == nil {
 		logger = hclog.Default()
 	}
 
-	return &adapter{logger}
+	return &Logger{
+		logger: logger,
+	}
 }
 
-func (a *adapter) Trace(msg string, fields map[string]interface{}) {
-	if !a.logger.IsTrace() {
+func (l *Logger) Trace(msg string, fields map[string]interface{}) {
+	if !l.logger.IsTrace() {
 		return
 	}
 
-	a.logger.Trace(msg, keyvals.FromMap(fields)...)
+	l.logger.Trace(msg, keyvals.FromMap(fields)...)
 }
 
-func (a *adapter) Debug(msg string, fields map[string]interface{}) {
-	if !a.logger.IsDebug() {
+func (l *Logger) Debug(msg string, fields map[string]interface{}) {
+	if !l.logger.IsDebug() {
 		return
 	}
 
-	a.logger.Debug(msg, keyvals.FromMap(fields)...)
+	l.logger.Debug(msg, keyvals.FromMap(fields)...)
 }
 
-func (a *adapter) Info(msg string, fields map[string]interface{}) {
-	if !a.logger.IsInfo() {
+func (l *Logger) Info(msg string, fields map[string]interface{}) {
+	if !l.logger.IsInfo() {
 		return
 	}
 
-	a.logger.Info(msg, keyvals.FromMap(fields)...)
+	l.logger.Info(msg, keyvals.FromMap(fields)...)
 }
 
-func (a *adapter) Warn(msg string, fields map[string]interface{}) {
-	if !a.logger.IsWarn() {
+func (l *Logger) Warn(msg string, fields map[string]interface{}) {
+	if !l.logger.IsWarn() {
 		return
 	}
 
-	a.logger.Warn(msg, keyvals.FromMap(fields)...)
+	l.logger.Warn(msg, keyvals.FromMap(fields)...)
 }
 
-func (a *adapter) Error(msg string, fields map[string]interface{}) {
-	if !a.logger.IsError() {
+func (l *Logger) Error(msg string, fields map[string]interface{}) {
+	if !l.logger.IsError() {
 		return
 	}
 
-	a.logger.Error(msg, keyvals.FromMap(fields)...)
+	l.logger.Error(msg, keyvals.FromMap(fields)...)
 }
 
-func (a *adapter) LevelEnabled(level logur.Level) bool {
+func (l *Logger) LevelEnabled(level logur.Level) bool {
 	switch level {
 	case logur.Trace:
-		return a.logger.IsTrace()
+		return l.logger.IsTrace()
 	case logur.Debug:
-		return a.logger.IsDebug()
+		return l.logger.IsDebug()
 	case logur.Info:
-		return a.logger.IsInfo()
+		return l.logger.IsInfo()
 	case logur.Warn:
-		return a.logger.IsWarn()
+		return l.logger.IsWarn()
 	case logur.Error:
-		return a.logger.IsError()
+		return l.logger.IsError()
 	}
 
 	return true

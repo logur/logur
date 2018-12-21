@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	. "github.com/goph/logur"
+	"github.com/goph/logur"
 	"github.com/goph/logur/internal/loggertesting"
 	"github.com/rs/zerolog"
 )
@@ -14,14 +14,14 @@ import (
 func newTestSuite() *loggertesting.LoggerTestSuite {
 	return &loggertesting.LoggerTestSuite{
 		TraceFallbackToDebug: true,
-		LoggerFactory: func(level Level) (Logger, func() []LogEvent) {
+		LoggerFactory: func(level logur.Level) (logur.Logger, func() []logur.LogEvent) {
 			var buf bytes.Buffer
 			logger := zerolog.New(&buf).Level(zerolog.Level(level))
 
-			return New(logger), func() []LogEvent {
+			return New(logger), func() []logur.LogEvent {
 				lines := strings.Split(strings.TrimSuffix(buf.String(), "\n"), "\n")
 
-				events := make([]LogEvent, len(lines))
+				events := make([]logur.LogEvent, len(lines))
 
 				for key, line := range lines {
 					var event map[string]interface{}
@@ -31,13 +31,13 @@ func newTestSuite() *loggertesting.LoggerTestSuite {
 						panic(err)
 					}
 
-					level, _ := ParseLevel(strings.ToLower(event["level"].(string)))
+					level, _ := logur.ParseLevel(strings.ToLower(event["level"].(string)))
 					msg := event["message"].(string)
 
 					delete(event, "level")
 					delete(event, "message")
 
-					events[key] = LogEvent{
+					events[key] = logur.LogEvent{
 						Line:   msg,
 						Level:  level,
 						Fields: event,

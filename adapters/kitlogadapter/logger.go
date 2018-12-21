@@ -4,41 +4,43 @@ package kitlogadapter
 import (
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
-	"github.com/goph/logur"
 	"github.com/goph/logur/internal/keyvals"
 )
 
-type adapter struct {
+// Logger is a logur compatible logger for go-kit logger.
+type Logger struct {
 	logger log.Logger
 }
 
-// New returns a new logur compatible logger with hclog as the logging library.
-// If nil is passed as logger, the global hclog instance is used as fallback.
-func New(logger log.Logger) logur.Logger {
+// New returns a new logur compatible logger with go-kit log as the logging library.
+// If nil is passed as logger, a noop logger is used as fallback.
+func New(logger log.Logger) *Logger {
 	if logger == nil {
 		logger = log.NewNopLogger()
 	}
 
-	return &adapter{logger}
+	return &Logger{
+		logger: logger,
+	}
 }
 
-func (a *adapter) Trace(msg string, fields map[string]interface{}) {
+func (l *Logger) Trace(msg string, fields map[string]interface{}) {
 	// Fall back to Debug
-	a.Debug(msg, fields)
+	l.Debug(msg, fields)
 }
 
-func (a *adapter) Debug(msg string, fields map[string]interface{}) {
-	_ = level.Debug(a.logger).Log(append(keyvals.FromMap(fields), "msg", msg)...)
+func (l *Logger) Debug(msg string, fields map[string]interface{}) {
+	_ = level.Debug(l.logger).Log(append(keyvals.FromMap(fields), "msg", msg)...)
 }
 
-func (a *adapter) Info(msg string, fields map[string]interface{}) {
-	_ = level.Info(a.logger).Log(append(keyvals.FromMap(fields), "msg", msg)...)
+func (l *Logger) Info(msg string, fields map[string]interface{}) {
+	_ = level.Info(l.logger).Log(append(keyvals.FromMap(fields), "msg", msg)...)
 }
 
-func (a *adapter) Warn(msg string, fields map[string]interface{}) {
-	_ = level.Warn(a.logger).Log(append(keyvals.FromMap(fields), "msg", msg)...)
+func (l *Logger) Warn(msg string, fields map[string]interface{}) {
+	_ = level.Warn(l.logger).Log(append(keyvals.FromMap(fields), "msg", msg)...)
 }
 
-func (a *adapter) Error(msg string, fields map[string]interface{}) {
-	_ = level.Error(a.logger).Log(append(keyvals.FromMap(fields), "msg", msg)...)
+func (l *Logger) Error(msg string, fields map[string]interface{}) {
+	_ = level.Error(l.logger).Log(append(keyvals.FromMap(fields), "msg", msg)...)
 }

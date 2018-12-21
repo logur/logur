@@ -1,7 +1,8 @@
 /*
 Package mysqllog provides a MySQL database driver logger.
 
-The MySQL driver logs critical errors through a logger that implements the github.com/go-sql-driver/mysql.Logger interface.
+The MySQL driver logs critical errors through a logger that implements the
+github.com/go-sql-driver/mysql.Logger interface.
 
 With logur you can easily wire the logging library of your choice into the MySQL driver:
 
