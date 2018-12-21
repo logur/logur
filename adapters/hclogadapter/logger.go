@@ -1,4 +1,4 @@
-// Package hclogadapter provides a logur compatible adapter for hclog.
+// Package hclogadapter provides a logur adapter for hclog.
 package hclogadapter
 
 import (
@@ -7,7 +7,7 @@ import (
 	"github.com/hashicorp/go-hclog"
 )
 
-// Logger is a logur compatible logger for hclog.
+// Logger is a logur adapter for hclog.
 type Logger struct {
 	logger hclog.Logger
 }
@@ -24,6 +24,7 @@ func New(logger hclog.Logger) *Logger {
 	}
 }
 
+// Trace implements the logur.Logger interface.
 func (l *Logger) Trace(msg string, fields map[string]interface{}) {
 	if !l.logger.IsTrace() {
 		return
@@ -32,6 +33,7 @@ func (l *Logger) Trace(msg string, fields map[string]interface{}) {
 	l.logger.Trace(msg, keyvals.FromMap(fields)...)
 }
 
+// Debug implements the logur.Logger interface.
 func (l *Logger) Debug(msg string, fields map[string]interface{}) {
 	if !l.logger.IsDebug() {
 		return
@@ -40,6 +42,7 @@ func (l *Logger) Debug(msg string, fields map[string]interface{}) {
 	l.logger.Debug(msg, keyvals.FromMap(fields)...)
 }
 
+// Info implements the logur.Logger interface.
 func (l *Logger) Info(msg string, fields map[string]interface{}) {
 	if !l.logger.IsInfo() {
 		return
@@ -48,6 +51,7 @@ func (l *Logger) Info(msg string, fields map[string]interface{}) {
 	l.logger.Info(msg, keyvals.FromMap(fields)...)
 }
 
+// Warn implements the logur.Logger interface.
 func (l *Logger) Warn(msg string, fields map[string]interface{}) {
 	if !l.logger.IsWarn() {
 		return
@@ -56,6 +60,7 @@ func (l *Logger) Warn(msg string, fields map[string]interface{}) {
 	l.logger.Warn(msg, keyvals.FromMap(fields)...)
 }
 
+// Error implements the logur.Logger interface.
 func (l *Logger) Error(msg string, fields map[string]interface{}) {
 	if !l.logger.IsError() {
 		return
@@ -64,6 +69,7 @@ func (l *Logger) Error(msg string, fields map[string]interface{}) {
 	l.logger.Error(msg, keyvals.FromMap(fields)...)
 }
 
+// LevelEnabled implements logur.LevelEnabler interface.
 func (l *Logger) LevelEnabled(level logur.Level) bool {
 	switch level {
 	case logur.Trace:

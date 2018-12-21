@@ -1,4 +1,4 @@
-// Package logrusadapter provides a logur compatible adapter for logrus.
+// Package logrusadapter provides a logur adapter for logrus.
 package logrusadapter
 
 import (
@@ -6,7 +6,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// Logger is a logur compatible logger for logrus.
+// Logger is a logur adapter for logrus.
 type Logger struct {
 	entry *logrus.Entry
 }
@@ -23,6 +23,7 @@ func New(logger *logrus.Logger) *Logger {
 	}
 }
 
+// Trace implements the logur.Logger interface.
 func (l *Logger) Trace(msg string, fields map[string]interface{}) {
 	if !l.entry.Logger.IsLevelEnabled(logrus.TraceLevel) {
 		return
@@ -31,6 +32,7 @@ func (l *Logger) Trace(msg string, fields map[string]interface{}) {
 	l.entry.WithFields(logrus.Fields(fields)).Trace(msg)
 }
 
+// Debug implements the logur.Logger interface.
 func (l *Logger) Debug(msg string, fields map[string]interface{}) {
 	if !l.entry.Logger.IsLevelEnabled(logrus.DebugLevel) {
 		return
@@ -39,6 +41,7 @@ func (l *Logger) Debug(msg string, fields map[string]interface{}) {
 	l.entry.WithFields(logrus.Fields(fields)).Debug(msg)
 }
 
+// Info implements the logur.Logger interface.
 func (l *Logger) Info(msg string, fields map[string]interface{}) {
 	if !l.entry.Logger.IsLevelEnabled(logrus.InfoLevel) {
 		return
@@ -47,6 +50,7 @@ func (l *Logger) Info(msg string, fields map[string]interface{}) {
 	l.entry.WithFields(logrus.Fields(fields)).Info(msg)
 }
 
+// Warn implements the logur.Logger interface.
 func (l *Logger) Warn(msg string, fields map[string]interface{}) {
 	if !l.entry.Logger.IsLevelEnabled(logrus.WarnLevel) {
 		return
@@ -55,6 +59,7 @@ func (l *Logger) Warn(msg string, fields map[string]interface{}) {
 	l.entry.WithFields(logrus.Fields(fields)).Warn(msg)
 }
 
+// Error implements the logur.Logger interface.
 func (l *Logger) Error(msg string, fields map[string]interface{}) {
 	if !l.entry.Logger.IsLevelEnabled(logrus.ErrorLevel) {
 		return
@@ -63,6 +68,7 @@ func (l *Logger) Error(msg string, fields map[string]interface{}) {
 	l.entry.WithFields(logrus.Fields(fields)).Error(msg)
 }
 
+// LevelEnabled implements logur.LevelEnabler interface.
 func (l *Logger) LevelEnabled(level logur.Level) bool {
 	switch level {
 	case logur.Trace:

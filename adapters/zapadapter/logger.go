@@ -1,4 +1,4 @@
-// Package zapadapter provides a logur compatible adapter for Uber's Zap.
+// Package zapadapter provides a logur adapter for Uber's Zap.
 package zapadapter
 
 import (
@@ -8,13 +8,13 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-// Logger is a logur compatible logger for Uber's zap.
+// Logger is a logur adapter for Uber's zap.
 type Logger struct {
 	logger *zap.SugaredLogger
 	core   zapcore.Core
 }
 
-// New returns a new logur compatible logger with zap as the logging library.
+// New returns a new logur compatible logger with Uber's zap as the logging library.
 // If nil is passed as logger, the global sugared logger instance is used as fallback.
 func New(logger *zap.Logger) *Logger {
 	if logger == nil {
@@ -27,11 +27,13 @@ func New(logger *zap.Logger) *Logger {
 	}
 }
 
+// Trace implements the logur.Logger interface.
 func (l *Logger) Trace(msg string, fields map[string]interface{}) {
 	// Fall back to Debug
 	l.Debug(msg, fields)
 }
 
+// Debug implements the logur.Logger interface.
 func (l *Logger) Debug(msg string, fields map[string]interface{}) {
 	if !l.core.Enabled(zap.DebugLevel) {
 		return
@@ -40,6 +42,7 @@ func (l *Logger) Debug(msg string, fields map[string]interface{}) {
 	l.logger.Debugw(msg, keyvals.FromMap(fields)...)
 }
 
+// Info implements the logur.Logger interface.
 func (l *Logger) Info(msg string, fields map[string]interface{}) {
 	if !l.core.Enabled(zap.InfoLevel) {
 		return
@@ -48,6 +51,7 @@ func (l *Logger) Info(msg string, fields map[string]interface{}) {
 	l.logger.Infow(msg, keyvals.FromMap(fields)...)
 }
 
+// Warn implements the logur.Logger interface.
 func (l *Logger) Warn(msg string, fields map[string]interface{}) {
 	if !l.core.Enabled(zap.WarnLevel) {
 		return
@@ -56,6 +60,7 @@ func (l *Logger) Warn(msg string, fields map[string]interface{}) {
 	l.logger.Warnw(msg, keyvals.FromMap(fields)...)
 }
 
+// Error implements the logur.Logger interface.
 func (l *Logger) Error(msg string, fields map[string]interface{}) {
 	if !l.core.Enabled(zap.ErrorLevel) {
 		return
@@ -64,6 +69,7 @@ func (l *Logger) Error(msg string, fields map[string]interface{}) {
 	l.logger.Errorw(msg, keyvals.FromMap(fields)...)
 }
 
+// LevelEnabled implements logur.LevelEnabler interface.
 func (l *Logger) LevelEnabled(level logur.Level) bool {
 	switch level {
 	case logur.Trace:
