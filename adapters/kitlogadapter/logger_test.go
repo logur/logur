@@ -8,11 +8,11 @@ import (
 
 	"github.com/go-kit/kit/log"
 	"github.com/goph/logur"
-	"github.com/goph/logur/internal/loggertesting"
+	"github.com/goph/logur/testing"
 )
 
-func newTestSuite() *loggertesting.LoggerTestSuite {
-	return &loggertesting.LoggerTestSuite{
+func newTestSuite() *logtesting.LoggerTestSuite {
+	return &logtesting.LoggerTestSuite{
 		TraceFallbackToDebug: true,
 		LoggerFactory: func(level logur.Level) (logur.Logger, func() []logur.LogEvent) {
 			var buf bytes.Buffer

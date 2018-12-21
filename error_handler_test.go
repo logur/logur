@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	. "github.com/goph/logur"
-	"github.com/goph/logur/internal/loggertesting"
+	"github.com/goph/logur/testing"
 )
 
 type errorStub struct {
@@ -157,7 +157,7 @@ func TestErrorHandler_Handle(t *testing.T) {
 			events := logger.Events()
 
 			for key, expectedEvent := range expectedEvents {
-				loggertesting.AssertLogEvents(t, expectedEvent, events[key])
+				logtesting.AssertLogEvents(t, expectedEvent, events[key])
 			}
 		})
 	}

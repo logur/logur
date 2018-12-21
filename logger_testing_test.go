@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	. "github.com/goph/logur"
-	"github.com/goph/logur/internal/loggertesting"
+	"github.com/goph/logur/testing"
 )
 
 func TestAssertLogEventsEqual(t *testing.T) {
@@ -87,8 +87,8 @@ func TestAssertLogEventsEqual_Errors(t *testing.T) {
 	}
 }
 
-func newTestLoggerSuite() *loggertesting.LoggerTestSuite {
-	return &loggertesting.LoggerTestSuite{
+func newTestLoggerSuite() *logtesting.LoggerTestSuite {
+	return &logtesting.LoggerTestSuite{
 		LoggerFactory: func(level Level) (Logger, func() []LogEvent) {
 			logger := NewTestLogger()
 			return logger, func() []LogEvent { // nolint: gocritic
@@ -128,7 +128,7 @@ func TestTestLogger_Events(t *testing.T) {
 		Line:  "message",
 	}
 
-	loggertesting.AssertLogEvents(t, event, events[0])
+	logtesting.AssertLogEvents(t, event, events[0])
 }
 
 func TestTestLogger_LastEvent(t *testing.T) {
@@ -148,5 +148,5 @@ func TestTestLogger_LastEvent(t *testing.T) {
 		Line:  "another message",
 	}
 
-	loggertesting.AssertLogEvents(t, event, *lastEvent)
+	logtesting.AssertLogEvents(t, event, *lastEvent)
 }

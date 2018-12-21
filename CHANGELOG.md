@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Public test log event comparison function
 
+### Changed
+
+- Exported the log testing library so it can be used for testing in other libraries
+
 
 ## [0.6.0] - 2018-12-21
 

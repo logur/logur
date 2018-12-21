@@ -1,4 +1,4 @@
-package loggertesting
+package logtesting
 
 import (
 	"strings"

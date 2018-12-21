@@ -7,15 +7,15 @@ import (
 	"testing"
 
 	"github.com/goph/logur"
-	"github.com/goph/logur/internal/loggertesting"
+	"github.com/goph/logur/testing"
 	"github.com/hashicorp/go-hclog"
 )
 
 // nolint: gochecknoglobals
 var logLineRegex = regexp.MustCompile(`.* \[(.*)\] {1,2}(.*): (.*)`)
 
-func newTestSuite() *loggertesting.LoggerTestSuite {
-	return &loggertesting.LoggerTestSuite{
+func newTestSuite() *logtesting.LoggerTestSuite {
+	return &logtesting.LoggerTestSuite{
 		LoggerFactory: func(level logur.Level) (logur.Logger, func() []logur.LogEvent) {
 			var buf bytes.Buffer
 			logger := hclog.New(&hclog.LoggerOptions{

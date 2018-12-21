@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/goph/logur"
-	"github.com/goph/logur/internal/loggertesting"
+	"github.com/goph/logur/testing"
 	"github.com/sirupsen/logrus"
 	logrustest "github.com/sirupsen/logrus/hooks/test"
 )
@@ -18,8 +18,8 @@ var levelMap = map[logur.Level]logrus.Level{
 	logur.Error: logrus.ErrorLevel,
 }
 
-func newTestSuite() *loggertesting.LoggerTestSuite {
-	return &loggertesting.LoggerTestSuite{
+func newTestSuite() *logtesting.LoggerTestSuite {
+	return &logtesting.LoggerTestSuite{
 		LoggerFactory: func(level logur.Level) (logur.Logger, func() []logur.LogEvent) {
 			logrusLogger, hook := logrustest.NewNullLogger()
 			logrusLogger.SetLevel(levelMap[level])
