@@ -28,7 +28,7 @@ var testLevelMap = map[logur.Level]struct {
 	},
 }
 
-// LoggerTestSuite implements a minimal set of tests that must be satisfied by every logur compatible logger implementation.
+// LoggerTestSuite implements a minimal set of tests that every logur compatible logger implementation must satisfy.
 type LoggerTestSuite struct {
 	LoggerFactory        func(level logur.Level) (logur.Logger, func() []logur.LogEvent)
 	TraceFallbackToDebug bool
