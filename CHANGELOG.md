@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- Simplified message logger without contextual logging
+
 
 ## [0.7.0] - 2018-12-21
 
