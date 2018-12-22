@@ -17,12 +17,16 @@ TEST_FORMAT = short-verbose
 endif
 
 # Dependency versions
-GOLANGCI_VERSION = 1.12.2
 GOTESTSUM_VERSION = 0.3.2
+GOLANGCI_VERSION = 1.12.2
 
 # Add the ability to override some variables
 # Use with care
 -include override.mk
+
+.PHONY: clear
+clear: ## Clear the working area and the project
+	rm -rf bin/ vendor/
 
 .PHONY: check
 check: test lint ## Run tests and linters
