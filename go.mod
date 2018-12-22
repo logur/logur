@@ -5,10 +5,12 @@ require (
 	github.com/ThreeDotsLabs/watermill v0.1.2
 	github.com/go-kit/kit v0.8.0
 	github.com/go-logfmt/logfmt v0.4.0 // indirect
+	github.com/go-sql-driver/mysql v1.4.1
 	github.com/hashicorp/go-hclog v0.0.0-20181001195459-61d530d6c27f
 	github.com/rs/zerolog v1.11.0
 	github.com/sirupsen/logrus v1.2.0
 	go.uber.org/atomic v1.3.2 // indirect
 	go.uber.org/multierr v1.1.0 // indirect
 	go.uber.org/zap v1.9.1
+	google.golang.org/grpc v1.17.0
 )

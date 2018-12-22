@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - Simplified message logger without contextual logging
+- Some tests for integrations to ensure interface compatibility
 
 
 ## [0.7.0] - 2018-12-21
