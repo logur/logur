@@ -175,30 +175,32 @@ Each tries to convince you it's the most performant or the easiest to use.
 But the fact is your application doesn't care which you use.
 In fact, it's happier if it doesn't know anything about it at all.
 Logger libraries (just like every third-party library) are external dependencies.
-If you wire them into your application, it will be tied to the chosen libraries for ever.
+If you wire them into your application, it will be tied to the chosen libraries forever.
 That's why using a custom interface is a highly recommended practice.
 
 Let's consider the following logger interface:
 
 ```go
 type Logger interface {
-	Debug(args ...interface{})
-	Info(args ...interface{})
-	Warn(args ...interface{})
-	Error(args ...interface{})
+	Trace(msg string, fields map[string]interface{})
+	Debug(msg string, fields map[string]interface{})
+	Info(msg string, fields map[string]interface{})
+	Warn(msg string, fields map[string]interface{})
+	Error(msg string, fields map[string]interface{})
 }
 ```
 
-You can easily create an interface like this and implement an adapter for the logging library of your choice.
-In many cases you might not even have to do that as most logging libraries already implement these four methods,
-so you can just use it without wiring it into your application which makes the actual library a less important detail.
+You can easily create an interface like this and implement an adapter for the logging library of your choice
+without wiring it into your application which makes the actual library a less important detail.
+
 
 ### Why not go-kit logger?
 
 Go-kit deserves it's own FAQ entry because for quite some time I was really fond of the its logger interface
 and it was the closest thing to become an [official Go logging solution](https://docs.google.com/document/d/1shW9DZJXOeGbG9Mr9Us9MiaPqmlcVatD_D8lrOXRNMU).
 I still think it is great, because the interface is very simple, yet it's incredibly powerful.
-But this simplicity is why I ultimately stopped using it as my primary logger.
+But this simplicity is why I ultimately stopped using it as my primary logger
+(or I should say: stopped knowing that I actually use it).
 
 Just a short recap of the interface itself:
 
@@ -233,7 +235,7 @@ In short: Using go-kit directly - no matter how awesome its interface is - suffe
 using any other logging library.
 
 One could implement all those functions for a custom interface based on go-kit,
-but it probably isn't worth the hassle. Defining a more verbose, custom interface is a lot more easier to work with.
+but it probably isn't worth the hassle. Defining a more verbose, custom interface is a lot easier to work with.
 That being said, go-kit logger can very well serve as a perfect base for an implementation of that interface.
 
 The [proposal](https://docs.google.com/document/d/1shW9DZJXOeGbG9Mr9Us9MiaPqmlcVatD_D8lrOXRNMU) linked above contains many examples
@@ -275,19 +277,34 @@ Obviously the second one is more verbose, takes a bit more efforts to write, but
 Let's take a look at a multiline example as well:
 
 ```go
-logger = log.With(
-	logger,
+logger = log.With(logger,
 	"key", "value",
 	"key2", "value",
 )
 
-logger = logger.WithFields(map[string]interface{}{
+logger = logur.WithFields(logger, map[string]interface{}{
 	"key": "value",
 	"key2": "value",
 })
 ```
 
 The difference is less visible in this case and harder to argue that one is better than the other.
+
+Also, defining a custom type is relatively easy which makes the difference even smaller:
+
+```go
+logger = log.With(logger,
+	"key", "value",
+	"key2", "value",
+)
+
+type LogFields map[string]interface{}
+
+logger = logur.WithFields(logger, LogFields{
+	"key": "value",
+	"key2": "value",
+})
+```
 
 
 **2. Ordering fields**
@@ -316,7 +333,7 @@ argues that this is extremely hard mistake to make, the risk is still there that
 In order to display the context as key-value pairs the logging implementations has to convert the key parameters
 to string in most of the cases (while the value parameter can be handled by the marshaling protocol).
 This adds an extra step to outputting the logs (an extra loop going through all the parameters).
-While I don't have scientific evidence proving one to be slower than the other (yet), it seems to be an unnecessary
+While there is no scientific evidence proving one to be slower than the other (yet), it seems to be an unnecessary
 complication at first.
 
 
@@ -361,7 +378,6 @@ See [this](https://play.golang.org/p/32GnCpXttbH) example illustrating the diffe
 
 Common logging libraries include these functions, but experience showed they are not used frequently,
 so they got removed.
-
 
 
 ## Inspiration
