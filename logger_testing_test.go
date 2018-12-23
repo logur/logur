@@ -53,12 +53,12 @@ func TestAssertLogEventsEqual_Errors(t *testing.T) {
 		},
 		"fields length": {
 			expected: LogEvent{
-				Fields: map[string]interface{}{"key1": "value1"},
+				Fields: map[string]interface{}{},
 			},
 			actual: LogEvent{
-				Fields: map[string]interface{}{"key1": "value1", "key2": "value2"},
+				Fields: map[string]interface{}{"key1": "value1"},
 			},
-			expectedError: "expected log fields to be equal\ngot:  map[key1:value1 key2:value2]\nwant: map[key1:value1]",
+			expectedError: "expected log fields to be equal\ngot:  map[key1:value1]\nwant: map[]",
 		},
 		"fields value": {
 			expected: LogEvent{
