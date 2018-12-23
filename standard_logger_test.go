@@ -1,8 +1,11 @@
-package logur
+package logur_test
 
 import (
 	"testing"
 	"time"
+
+	. "github.com/goph/logur"
+	"github.com/goph/logur/testing"
 )
 
 func TestNewStandardLogger(t *testing.T) {
@@ -22,17 +25,35 @@ func TestNewStandardLogger(t *testing.T) {
 		time.Sleep(time.Duration((i+1)*10) * time.Millisecond)
 	}
 
-	if logger.Count() < 1 {
-		t.Fatal("logger did not record any events")
+	event := LogEvent{
+		Level: Error,
+		Line:  msg,
 	}
 
-	event := logger.LastEvent()
+	logtesting.AssertLogEvents(t, event, *(logger.LastEvent()))
+}
 
-	if event.Level != Error {
-		t.Errorf("expected level %q instead of %q", Error.String(), event.Level.String())
+func TestNewStandardErrorLogger(t *testing.T) {
+	logger := NewTestLogger()
+	stdLogger := NewStandardErrorLogger(logger, "", 0)
+
+	const msg = "message"
+
+	stdLogger.Println(msg)
+
+	// Wait for the written data to reach the logger
+	for i := 0; i < 3; i++ {
+		if logger.Count() > 0 {
+			break
+		}
+
+		time.Sleep(time.Duration((i+1)*10) * time.Millisecond)
 	}
 
-	if got, want := event.Line, msg; got != want {
-		t.Errorf("expected message %q instead of %q", want, got)
+	event := LogEvent{
+		Level: Error,
+		Line:  msg,
 	}
+
+	logtesting.AssertLogEvents(t, event, *(logger.LastEvent()))
 }
