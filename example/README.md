@@ -1,5 +1,7 @@
 # Logur Examples
 
+[![GoDoc](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](https://godoc.org/github.com/goph/logur/example)
+
 This package contains various usage and implementation examples for Logur:
 
 - [MySQL driver](https://github.com/go-sql-driver/mysql) integration [example](mysql_test.go)
