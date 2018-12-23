@@ -1,12 +1,15 @@
-package grpcloglog
+package grpcloglog_test
 
 import (
-	"testing"
-
 	"github.com/goph/logur"
+	"github.com/goph/logur/integrations/grpcloglog"
 	"google.golang.org/grpc/grpclog"
 )
 
-func TestLogger(t *testing.T) {
-	var _ grpclog.LoggerV2 = New(logur.NewNoopLogger())
+func Example_grpclog() {
+	logger := logur.NewNoopLogger() // choose an actual implementation
+
+	grpclog.SetLoggerV2(grpcloglog.New(logger))
+
+	// Output:
 }
