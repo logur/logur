@@ -5,7 +5,7 @@ import (
 	"github.com/goph/logur"
 )
 
-func ExampleBugsnag() {
+func Example_bugsnag() {
 	logger := logur.NewNoopLogger() // choose an actual implementation
 
 	bugsnag.New(bugsnag.Configuration{

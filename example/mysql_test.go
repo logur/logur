@@ -5,7 +5,7 @@ import (
 	"github.com/goph/logur"
 )
 
-func ExampleMysqlDriver() {
+func Example_mysqlDriver() {
 	logger := logur.NewNoopLogger() // choose an actual implementation
 
 	_ = mysql.SetLogger(logur.NewPrintErrorLogger(logger))
