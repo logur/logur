@@ -6,6 +6,7 @@
 [![GoDoc](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](https://godoc.org/github.com/goph/logur)
 
 [![Build Status](https://img.shields.io/travis/com/goph/logur.svg?style=flat-square)](https://travis-ci.com/goph/logur)
+[![CircleCI](https://circleci.com/gh/goph/logur.svg?style=svg)](https://circleci.com/gh/goph/logur)
 
 **Logur is an opinionated collection of logging best practices.**
 
