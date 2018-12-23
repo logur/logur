@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- [Bugsnag](https://bugsnag.com) compatible logger
+
 
 ## [0.7.1] - 2018-12-22
 
