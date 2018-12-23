@@ -10,7 +10,7 @@ import (
 
 func TestLoggerIsBugsnagCompatible(t *testing.T) {
 	_ = bugsnag.Configuration{
-		Logger: New(nil),
+		Logger: New(logur.NewNoopLogger()),
 	}
 }
 

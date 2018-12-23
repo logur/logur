@@ -21,24 +21,10 @@ With logur you can easily wire the logging library of your choice into Bugsnag's
 package bugsnaglog
 
 import (
-	"fmt"
-
 	"github.com/goph/logur"
 )
 
-// Logger is a logger for Bugsnag's error notifier.
-type Logger struct {
-	logger logur.Logger
-}
-
 // New returns a new logger for Bugsnag's error notifier.
-func New(logger logur.Logger) *Logger {
-	return &Logger{
-		logger: logger,
-	}
-}
-
-// Printf logs bugsnag's errors.
-func (l *Logger) Printf(format string, v ...interface{}) {
-	l.logger.Error(fmt.Sprintf(format, v...), nil)
+func New(logger logur.Logger) *logur.PrintLogger {
+	return logur.NewPrintErrorLogger(logger)
 }

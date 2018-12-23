@@ -22,24 +22,10 @@ With logur you can easily wire the logging library of your choice into the MySQL
 package mysqllog
 
 import (
-	"fmt"
-
 	"github.com/goph/logur"
 )
 
-// Logger is a MySQL database driver logger.
-type Logger struct {
-	logger logur.Logger
-}
-
 // New returns a new MySQL database driver logger.
-func New(logger logur.Logger) *Logger {
-	return &Logger{
-		logger: logger,
-	}
-}
-
-// Print is used to log critical error messages.
-func (l *Logger) Print(v ...interface{}) {
-	l.logger.Error(fmt.Sprint(v...), nil)
+func New(logger logur.Logger) *logur.PrintLogger {
+	return logur.NewPrintErrorLogger(logger)
 }
