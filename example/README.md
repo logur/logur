@@ -2,8 +2,8 @@
 
 This package contains various usage and implementation examples for Logur:
 
-- [Bugsnag](https://bugsnag.com) integration
-- [MySQL driver](https://github.com/go-sql-driver/mysql) integration
+- [Bugsnag](https://bugsnag.com) integration [example](bugsnag_test.go)
+- [MySQL driver](https://github.com/go-sql-driver/mysql) integration [example](mysql_test.go)
 
 It also contains a custom example logger you might want to use in your application.
 Feel free to copy and customize it to your needs. 
