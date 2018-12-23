@@ -11,9 +11,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-- [Bugsnag](https://bugsnag.com) compatible logger
 - Constructor for standard logger for errors (`NewStandardErrorLogger`)
 - `PrintLogger` that logs messages using `fmt.Print*` semantics
+
+### Removed
+
+- [MySQL driver](https://github.com/go-sql-driver/mysql) integration (use `PrintLogger` instead)
 
 
 ## [0.7.1] - 2018-12-22
