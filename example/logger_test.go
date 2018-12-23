@@ -8,24 +8,24 @@ import (
 	"github.com/goph/logur/testing"
 )
 
-func TestAdapter_Levels(t *testing.T) {
+func TestLoggerAdapter_Levels(t *testing.T) {
 	tests := map[string]struct {
-		logFunc func(logger *Adapter, msg string, fields map[string]interface{})
+		logFunc func(logger *LoggerAdapter, msg string, fields map[string]interface{})
 	}{
 		"trace": {
-			logFunc: (*Adapter).Trace,
+			logFunc: (*LoggerAdapter).Trace,
 		},
 		"debug": {
-			logFunc: (*Adapter).Debug,
+			logFunc: (*LoggerAdapter).Debug,
 		},
 		"info": {
-			logFunc: (*Adapter).Info,
+			logFunc: (*LoggerAdapter).Info,
 		},
 		"warn": {
-			logFunc: (*Adapter).Warn,
+			logFunc: (*LoggerAdapter).Warn,
 		},
 		"error": {
-			logFunc: (*Adapter).Error,
+			logFunc: (*LoggerAdapter).Error,
 		},
 	}
 
@@ -34,7 +34,7 @@ func TestAdapter_Levels(t *testing.T) {
 
 		t.Run(name, func(t *testing.T) {
 			testLogger := logur.NewTestLogger()
-			logger := NewAdapter(testLogger)
+			logger := NewLoggerAdapter(testLogger)
 
 			test.logFunc(logger, fmt.Sprintf("message: %s", name), nil)
 
@@ -50,10 +50,10 @@ func TestAdapter_Levels(t *testing.T) {
 	}
 }
 
-func TestAdapter_WithFields(t *testing.T) {
+func TestLoggerAdapter_WithFields(t *testing.T) {
 	testLogger := logur.NewTestLogger()
 
-	var logger Logger = NewAdapter(testLogger)
+	var logger Logger = NewLoggerAdapter(testLogger)
 
 	fields := map[string]interface{}{
 		"key1": "value1",
