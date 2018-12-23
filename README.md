@@ -36,6 +36,7 @@
     - [MySQL driver](https://github.com/go-sql-driver/mysql)
     - [Watermill](https://watermill.io/)
     - [InvisionApp logger](https://github.com/InVisionApp/go-logger) interface
+    - [Bugsnag](https://bugsnag.com) (logger, for error handling see [github.com/goph/emperror](https://github.com/goph/emperror))
 - Adapters for well-known logging libraries:
     - [hclog](https://github.com/hashicorp/go-hclog)
     - [go-kit log](https://github.com/go-kit/kit)
