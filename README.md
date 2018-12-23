@@ -90,7 +90,7 @@ In a lucky scenario all logur loggers are compatible with the above interface, s
 
 ```go
 func main() {
-    logger := logur.NewNoop()
+    logger := logur.NewNoopLogger()
     
     myFunc(logger)
 }
@@ -132,7 +132,7 @@ Now you can easily use logur provided loggers inside your code:
 
 ```go
 func main() {
-    logger := &myLogger{logur.NewNoop()}
+    logger := &myLogger{logur.NewNoopLogger()}
     
     myFunc(logger)
 }
@@ -154,7 +154,7 @@ The following example creates a simple standard library logger for using as an H
 
 ```go
 func newStandardErrorLogger() *log.Logger {
-	return logur.NewStandardLogger(logur.NewNoop(), logur.ErrorLevel, "", 0)
+	return logur.NewStandardLogger(logur.NewNoopLogger(), logur.ErrorLevel, "", 0)
 }
 
 func main() {
