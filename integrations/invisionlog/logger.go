@@ -11,7 +11,7 @@ With logur you can easily wire the logging library of your choice into any InVis
 	)
 
 	func main() {
-		logger := logur.NewNoop() // choose an actual implementation
+		logger := logur.NewNoopLogger() // choose an actual implementation
 		ilogger := invisionlog.New(logger)
 
 		// inject the logger somewhere

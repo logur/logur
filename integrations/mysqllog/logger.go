@@ -15,7 +15,7 @@ With logur you can easily wire the logging library of your choice into the MySQL
 	)
 
 	func main() {
-		logger := logur.NewNoop() // choose an actual implementation
+		logger := logur.NewNoopLogger() // choose an actual implementation
 		mysql.SetLogger(mysqllog.New(logger))
 	}
 */

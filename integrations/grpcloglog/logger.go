@@ -14,7 +14,7 @@ With logur you can easily wire the logging library of your choice into gRPC:
 	)
 
 	func main() {
-		logger := logur.NewNoop() // choose an actual implementation
+		logger := logur.NewNoopLogger() // choose an actual implementation
 		grpclog.SetLoggerV2(grpcloglog.New(logger))
 	}
 */
