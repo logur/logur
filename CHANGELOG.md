@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - [Bugsnag](https://bugsnag.com) compatible logger
 - Constructor for standard logger for errors (`NewStandardErrorLogger`)
+- `PrintLogger` that logs messages using `fmt.Print*` semantics
 
 
 ## [0.7.1] - 2018-12-22
