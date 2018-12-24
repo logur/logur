@@ -53,10 +53,6 @@ func (l *TestLogger) Count() int {
 	l.mu.RLock()
 	defer l.mu.RUnlock()
 
-	if l.events == nil {
-		return 0
-	}
-
 	return len(l.events)
 }
 
