@@ -45,7 +45,7 @@ func TestLoggerAdapter_Levels(t *testing.T) {
 				Line:  "message: " + name,
 			}
 
-			logtesting.AssertLogEvents(t, event, *(testLogger.LastEvent()))
+			logtesting.AssertLogEventsEqual(t, event, *(testLogger.LastEvent()))
 		})
 	}
 }
@@ -70,5 +70,5 @@ func TestLoggerAdapter_WithFields(t *testing.T) {
 		Fields: fields,
 	}
 
-	logtesting.AssertLogEvents(t, event, *(testLogger.LastEvent()))
+	logtesting.AssertLogEventsEqual(t, event, *(testLogger.LastEvent()))
 }

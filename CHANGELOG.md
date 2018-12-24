@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Constructor for standard logger for errors (`NewStandardErrorLogger`)
 - `PrintLogger` that logs messages using `fmt.Print*` semantics
 
+### Changed
+
+- Renamed `logtesting.AssertLogEvents` to `AssertLogEventsEqual`
+
 ### Removed
 
 - [MySQL driver](https://github.com/go-sql-driver/mysql) integration (use `PrintLogger` instead)

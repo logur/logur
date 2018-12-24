@@ -39,5 +39,5 @@ func TestWithFields(t *testing.T) {
 		Fields: map[string]interface{}{"key": "value3", "key2": "value"},
 	}
 
-	logtesting.AssertLogEvents(t, logEvent, logEvent)
+	logtesting.AssertLogEventsEqual(t, logEvent, logEvent)
 }

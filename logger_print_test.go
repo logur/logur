@@ -39,7 +39,7 @@ func TestPrintLogger_Print(t *testing.T) {
 				Line:  "message1message2",
 			}
 
-			logtesting.AssertLogEvents(t, event, *(logger.LastEvent()))
+			logtesting.AssertLogEventsEqual(t, event, *(logger.LastEvent()))
 		})
 	}
 }
@@ -59,7 +59,7 @@ func TestPrintLogger_Println(t *testing.T) {
 				Line:  "message 1 message 2",
 			}
 
-			logtesting.AssertLogEvents(t, event, *(logger.LastEvent()))
+			logtesting.AssertLogEventsEqual(t, event, *(logger.LastEvent()))
 		})
 	}
 }
@@ -79,7 +79,7 @@ func TestPrintLogger_Printf(t *testing.T) {
 				Line:  "this is my message",
 			}
 
-			logtesting.AssertLogEvents(t, event, *(logger.LastEvent()))
+			logtesting.AssertLogEventsEqual(t, event, *(logger.LastEvent()))
 		})
 	}
 }

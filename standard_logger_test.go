@@ -30,7 +30,7 @@ func TestNewStandardLogger(t *testing.T) {
 		Line:  msg,
 	}
 
-	logtesting.AssertLogEvents(t, event, *(logger.LastEvent()))
+	logtesting.AssertLogEventsEqual(t, event, *(logger.LastEvent()))
 }
 
 func TestNewStandardErrorLogger(t *testing.T) {
@@ -55,5 +55,5 @@ func TestNewStandardErrorLogger(t *testing.T) {
 		Line:  msg,
 	}
 
-	logtesting.AssertLogEvents(t, event, *(logger.LastEvent()))
+	logtesting.AssertLogEventsEqual(t, event, *(logger.LastEvent()))
 }

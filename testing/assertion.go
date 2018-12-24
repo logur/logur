@@ -6,8 +6,8 @@ import (
 	"github.com/goph/logur"
 )
 
-// AssertLogEvents asserts that two LogEvents are identical.
-func AssertLogEvents(t *testing.T, expected logur.LogEvent, actual logur.LogEvent) {
+// AssertLogEventsEqual asserts that two LogEvents are identical.
+func AssertLogEventsEqual(t *testing.T, expected logur.LogEvent, actual logur.LogEvent) {
 	t.Helper()
 
 	err := logur.AssertLogEventsEqual(expected, actual)

@@ -44,7 +44,7 @@ func TestMessageLogger_Levels(t *testing.T) {
 				Level: level,
 			}
 
-			logtesting.AssertLogEvents(t, event, *(testLogger.LastEvent()))
+			logtesting.AssertLogEventsEqual(t, event, *(testLogger.LastEvent()))
 		})
 	}
 }

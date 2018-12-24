@@ -75,7 +75,7 @@ func (s *LoggerTestSuite) TestLevels(t *testing.T) {
 				Fields: fields,
 			}
 
-			AssertLogEvents(t, logEvent, logEvents[0])
+			AssertLogEventsEqual(t, logEvent, logEvents[0])
 		})
 	}
 }

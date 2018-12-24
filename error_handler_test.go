@@ -157,7 +157,7 @@ func TestErrorHandler_Handle(t *testing.T) {
 			events := logger.Events()
 
 			for key, expectedEvent := range expectedEvents {
-				logtesting.AssertLogEvents(t, expectedEvent, events[key])
+				logtesting.AssertLogEventsEqual(t, expectedEvent, events[key])
 			}
 		})
 	}
