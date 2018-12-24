@@ -2,8 +2,8 @@ package logur
 
 type noopLogger struct{}
 
-// NewNoopLogger creates a no-op logger that can be used to silence
-// all logging from this library. Also useful in tests.
+// NewNoopLogger creates a no-op logger discards all received log events.
+// Useful in examples and as a fallback logger.
 func NewNoopLogger() Logger {
 	return &noopLogger{}
 }
