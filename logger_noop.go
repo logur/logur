@@ -2,7 +2,7 @@ package logur
 
 type noopLogger struct{}
 
-// NewNoopLogger creates a no-op logger discards all received log events.
+// NewNoopLogger creates a no-op logger that discards all received log events.
 // Useful in examples and as a fallback logger.
 func NewNoopLogger() Logger {
 	return &noopLogger{}
