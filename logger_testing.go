@@ -41,8 +41,6 @@ func AssertLogEventsEqual(expected LogEvent, actual LogEvent) error {
 type TestLogger struct {
 	events []LogEvent
 	mu     sync.RWMutex
-
-	parent *TestLogger
 }
 
 // NewTestLogger returns a new TestLogger.
@@ -52,10 +50,6 @@ func NewTestLogger() *TestLogger {
 
 // Count returns the number of events recorded in the logger.
 func (l *TestLogger) Count() int {
-	if l.parent != nil {
-		return l.parent.Count()
-	}
-
 	l.mu.RLock()
 	defer l.mu.RUnlock()
 
@@ -68,10 +62,6 @@ func (l *TestLogger) Count() int {
 
 // LastEvent returns the last recorded event in the logger (if any).
 func (l *TestLogger) LastEvent() *LogEvent {
-	if l.parent != nil {
-		return l.parent.LastEvent()
-	}
-
 	l.mu.RLock()
 	defer l.mu.RUnlock()
 
@@ -86,10 +76,6 @@ func (l *TestLogger) LastEvent() *LogEvent {
 
 // Events returns all recorded events in the logger.
 func (l *TestLogger) Events() []LogEvent {
-	if l.parent != nil {
-		return l.parent.Events()
-	}
-
 	l.mu.RLock()
 	defer l.mu.RUnlock()
 
@@ -101,12 +87,6 @@ func (l *TestLogger) Events() []LogEvent {
 }
 
 func (l *TestLogger) recordEvent(event LogEvent) {
-	if l.parent != nil {
-		l.parent.recordEvent(event)
-
-		return
-	}
-
 	l.mu.Lock()
 	defer l.mu.Unlock()
 
