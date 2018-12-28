@@ -17,8 +17,8 @@ func NewPrintLogger(logger LogFunc) *PrintLogger {
 	}
 }
 
-// NewPrintErrorLogger returns a new PrintLogger that logs everything on error level.
-func NewPrintErrorLogger(logger Logger) *PrintLogger {
+// NewErrorPrintLogger returns a new PrintLogger that logs everything on error level.
+func NewErrorPrintLogger(logger Logger) *PrintLogger {
 	return NewPrintLogger(LevelFunc(logger, Error))
 }
 

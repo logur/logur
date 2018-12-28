@@ -19,7 +19,7 @@ var printLoggerTestMap = map[string]*struct {
 		level: Info,
 	},
 	"error": {
-		logger: NewPrintErrorLogger,
+		logger: NewErrorPrintLogger,
 		level:  Error,
 	},
 }

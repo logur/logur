@@ -35,7 +35,7 @@ func TestNewStandardLogger(t *testing.T) {
 
 func TestNewStandardErrorLogger(t *testing.T) {
 	logger := NewTestLogger()
-	stdLogger := NewStandardErrorLogger(logger, "", 0)
+	stdLogger := NewErrorStandardLogger(logger, "", 0)
 
 	const msg = "message"
 
