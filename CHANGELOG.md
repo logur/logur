@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-- Constructor for standard logger for errors (`NewStandardErrorLogger`)
+- Constructor for standard logger for errors
 - `PrintLogger` that logs messages using `fmt.Print*` semantics
 
 ### Changed
