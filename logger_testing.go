@@ -12,8 +12,8 @@ type LogEvent struct {
 	Fields map[string]interface{}
 }
 
-// AssertLogEventsEqual asserts that two LogEvents are identical and returns an error with detailed information if not.
-func AssertLogEventsEqual(expected LogEvent, actual LogEvent) error {
+// LogEventsEqual asserts that two LogEvents are identical and returns an error with detailed information if not.
+func LogEventsEqual(expected LogEvent, actual LogEvent) error {
 	if expected.Level != actual.Level {
 		return fmt.Errorf("expected log levels to be equal\ngot:  %s\nwant: %s", actual.Level, expected.Level)
 	}

@@ -21,7 +21,7 @@ func TestAssertLogEventsEqual(t *testing.T) {
 		Fields: map[string]interface{}{"key2": "value2", "key1": "value1"},
 	}
 
-	err := AssertLogEventsEqual(event1, event2)
+	err := LogEventsEqual(event1, event2)
 	if err != nil {
 		t.Errorf("failed to assert that two identical event are equal: %s", strings.Replace(err.Error(), "\n", `\n`, -1))
 	}
@@ -75,7 +75,7 @@ func TestAssertLogEventsEqual_Errors(t *testing.T) {
 		name, test := name, test
 
 		t.Run(name, func(t *testing.T) {
-			err := AssertLogEventsEqual(test.expected, test.actual)
+			err := LogEventsEqual(test.expected, test.actual)
 
 			if err.Error() != test.expectedError {
 				actualError := strings.Replace(err.Error(), "\n", `\n`, -1)

@@ -10,7 +10,7 @@ import (
 func AssertLogEventsEqual(t *testing.T, expected logur.LogEvent, actual logur.LogEvent) {
 	t.Helper()
 
-	err := logur.AssertLogEventsEqual(expected, actual)
+	err := logur.LogEventsEqual(expected, actual)
 	if err != nil {
 		t.Error(err)
 	}
