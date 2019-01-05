@@ -89,7 +89,12 @@ func (l *TestLogger) recordEvent(event LogEvent) {
 	l.events = append(l.events, event)
 }
 
-func (l *TestLogger) record(level Level, msg string, fields map[string]interface{}) {
+func (l *TestLogger) record(level Level, msg string, varfields []map[string]interface{}) {
+	var fields map[string]interface{}
+	if len(varfields) > 0 {
+		fields = varfields[0]
+	}
+
 	l.recordEvent(LogEvent{
 		Line:   msg,
 		Level:  level,
@@ -98,26 +103,26 @@ func (l *TestLogger) record(level Level, msg string, fields map[string]interface
 }
 
 // Trace records a Trace level event.
-func (l *TestLogger) Trace(msg string, fields map[string]interface{}) {
+func (l *TestLogger) Trace(msg string, fields ...map[string]interface{}) {
 	l.record(Trace, msg, fields)
 }
 
 // Debug records a Debug level event.
-func (l *TestLogger) Debug(msg string, fields map[string]interface{}) {
+func (l *TestLogger) Debug(msg string, fields ...map[string]interface{}) {
 	l.record(Debug, msg, fields)
 }
 
 // Info records a Info level event.
-func (l *TestLogger) Info(msg string, fields map[string]interface{}) {
+func (l *TestLogger) Info(msg string, fields ...map[string]interface{}) {
 	l.record(Info, msg, fields)
 }
 
 // Warn records a Warn level event.
-func (l *TestLogger) Warn(msg string, fields map[string]interface{}) {
+func (l *TestLogger) Warn(msg string, fields ...map[string]interface{}) {
 	l.record(Warn, msg, fields)
 }
 
 // Error records a Error level event.
-func (l *TestLogger) Error(msg string, fields map[string]interface{}) {
+func (l *TestLogger) Error(msg string, fields ...map[string]interface{}) {
 	l.record(Error, msg, fields)
 }

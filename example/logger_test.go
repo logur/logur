@@ -10,7 +10,7 @@ import (
 
 func TestLoggerAdapter_Levels(t *testing.T) {
 	tests := map[string]struct {
-		logFunc func(logger *LoggerAdapter, msg string, fields map[string]interface{})
+		logFunc func(logger *LoggerAdapter, msg string, fields ...map[string]interface{})
 	}{
 		"trace": {
 			logFunc: (*LoggerAdapter).Trace,

@@ -28,45 +28,54 @@ func New(logger *zap.Logger) *Logger {
 }
 
 // Trace implements the logur.Logger interface.
-func (l *Logger) Trace(msg string, fields map[string]interface{}) {
+func (l *Logger) Trace(msg string, fields ...map[string]interface{}) {
 	// Fall back to Debug
-	l.Debug(msg, fields)
+	l.Debug(msg, fields...)
 }
 
 // Debug implements the logur.Logger interface.
-func (l *Logger) Debug(msg string, fields map[string]interface{}) {
+func (l *Logger) Debug(msg string, fields ...map[string]interface{}) {
 	if !l.core.Enabled(zap.DebugLevel) {
 		return
 	}
 
-	l.logger.Debugw(msg, keyvals.FromMap(fields)...)
+	l.logger.Debugw(msg, l.keyvals(fields)...)
 }
 
 // Info implements the logur.Logger interface.
-func (l *Logger) Info(msg string, fields map[string]interface{}) {
+func (l *Logger) Info(msg string, fields ...map[string]interface{}) {
 	if !l.core.Enabled(zap.InfoLevel) {
 		return
 	}
 
-	l.logger.Infow(msg, keyvals.FromMap(fields)...)
+	l.logger.Infow(msg, l.keyvals(fields)...)
 }
 
 // Warn implements the logur.Logger interface.
-func (l *Logger) Warn(msg string, fields map[string]interface{}) {
+func (l *Logger) Warn(msg string, fields ...map[string]interface{}) {
 	if !l.core.Enabled(zap.WarnLevel) {
 		return
 	}
 
-	l.logger.Warnw(msg, keyvals.FromMap(fields)...)
+	l.logger.Warnw(msg, l.keyvals(fields)...)
 }
 
 // Error implements the logur.Logger interface.
-func (l *Logger) Error(msg string, fields map[string]interface{}) {
+func (l *Logger) Error(msg string, fields ...map[string]interface{}) {
 	if !l.core.Enabled(zap.ErrorLevel) {
 		return
 	}
 
-	l.logger.Errorw(msg, keyvals.FromMap(fields)...)
+	l.logger.Errorw(msg, l.keyvals(fields)...)
+}
+
+func (l *Logger) keyvals(fields []map[string]interface{}) []interface{} {
+	var kvs []interface{}
+	if len(fields) > 0 {
+		kvs = keyvals.FromMap(fields[0])
+	}
+
+	return kvs
 }
 
 // LevelEnabled implements logur.LevelEnabler interface.

@@ -9,7 +9,7 @@ import (
 
 // nolint: gochecknoglobals
 var testLevelMap = map[logur.Level]struct {
-	logFunc func(logger logur.Logger, msg string, fields map[string]interface{})
+	logFunc func(logger logur.Logger, msg string, fields ...map[string]interface{})
 }{
 	logur.Trace: {
 		logFunc: logur.Logger.Trace,

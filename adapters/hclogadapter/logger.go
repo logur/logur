@@ -25,48 +25,57 @@ func New(logger hclog.Logger) *Logger {
 }
 
 // Trace implements the logur.Logger interface.
-func (l *Logger) Trace(msg string, fields map[string]interface{}) {
+func (l *Logger) Trace(msg string, fields ...map[string]interface{}) {
 	if !l.logger.IsTrace() {
 		return
 	}
 
-	l.logger.Trace(msg, keyvals.FromMap(fields)...)
+	l.logger.Trace(msg, l.keyvals(fields)...)
 }
 
 // Debug implements the logur.Logger interface.
-func (l *Logger) Debug(msg string, fields map[string]interface{}) {
+func (l *Logger) Debug(msg string, fields ...map[string]interface{}) {
 	if !l.logger.IsDebug() {
 		return
 	}
 
-	l.logger.Debug(msg, keyvals.FromMap(fields)...)
+	l.logger.Debug(msg, l.keyvals(fields)...)
 }
 
 // Info implements the logur.Logger interface.
-func (l *Logger) Info(msg string, fields map[string]interface{}) {
+func (l *Logger) Info(msg string, fields ...map[string]interface{}) {
 	if !l.logger.IsInfo() {
 		return
 	}
 
-	l.logger.Info(msg, keyvals.FromMap(fields)...)
+	l.logger.Info(msg, l.keyvals(fields)...)
 }
 
 // Warn implements the logur.Logger interface.
-func (l *Logger) Warn(msg string, fields map[string]interface{}) {
+func (l *Logger) Warn(msg string, fields ...map[string]interface{}) {
 	if !l.logger.IsWarn() {
 		return
 	}
 
-	l.logger.Warn(msg, keyvals.FromMap(fields)...)
+	l.logger.Warn(msg, l.keyvals(fields)...)
 }
 
 // Error implements the logur.Logger interface.
-func (l *Logger) Error(msg string, fields map[string]interface{}) {
+func (l *Logger) Error(msg string, fields ...map[string]interface{}) {
 	if !l.logger.IsError() {
 		return
 	}
 
-	l.logger.Error(msg, keyvals.FromMap(fields)...)
+	l.logger.Error(msg, l.keyvals(fields)...)
+}
+
+func (l *Logger) keyvals(fields []map[string]interface{}) []interface{} {
+	var kvs []interface{}
+	if len(fields) > 0 {
+		kvs = keyvals.FromMap(fields[0])
+	}
+
+	return kvs
 }
 
 // LevelEnabled implements logur.LevelEnabler interface.
