@@ -105,7 +105,7 @@ func TestTestLogger_Levels(t *testing.T) {
 func TestTestLogger_Count(t *testing.T) {
 	logger := NewTestLogger()
 
-	logger.Debug("message", nil)
+	logger.Debug("message")
 
 	if got, want := logger.Count(), 1; got != want {
 		t.Errorf("expected log event count to be %d, got %d", want, got)
@@ -115,7 +115,7 @@ func TestTestLogger_Count(t *testing.T) {
 func TestTestLogger_Events(t *testing.T) {
 	logger := NewTestLogger()
 
-	logger.Debug("message", nil)
+	logger.Debug("message")
 
 	events := logger.Events()
 
@@ -134,8 +134,8 @@ func TestTestLogger_Events(t *testing.T) {
 func TestTestLogger_LastEvent(t *testing.T) {
 	logger := NewTestLogger()
 
-	logger.Debug("message", nil)
-	logger.Info("another message", nil)
+	logger.Debug("message")
+	logger.Info("another message")
 
 	lastEvent := logger.LastEvent()
 

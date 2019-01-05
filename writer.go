@@ -29,10 +29,10 @@ func writerScanner(logger Logger, level Level, reader io.ReadCloser) {
 	logFunc := LevelFunc(logger, level)
 
 	for scanner.Scan() {
-		logFunc(scanner.Text(), nil)
+		logFunc(scanner.Text())
 	}
 	if err := scanner.Err(); err != nil {
-		logger.Error(fmt.Sprintf("error while reading from log pipe: %s", err), nil)
+		logger.Error(fmt.Sprintf("error while reading from log pipe: %s", err))
 	}
 
 	_ = reader.Close()

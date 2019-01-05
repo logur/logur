@@ -78,11 +78,11 @@ A custom interface should be defined instead:
 
 ```go
 type MyLogger interface {
-	Trace(msg string, fields map[string]interface{})
-	Debug(msg string, fields map[string]interface{})
-	Info(msg string, fields map[string]interface{})
-	Warn(msg string, fields map[string]interface{})
-	Error(msg string, fields map[string]interface{})
+	Trace(msg string, fields ...map[string]interface{})
+	Debug(msg string, fields ...map[string]interface{})
+	Info(msg string, fields ...map[string]interface{})
+	Warn(msg string, fields ...map[string]interface{})
+	Error(msg string, fields ...map[string]interface{})
 }
 ```
 
@@ -96,7 +96,7 @@ func main() {
 }
 
 func myFunc(logger MyLogger) {
-	logger.Debug("myFunc ran", nil)
+	logger.Debug("myFunc ran")
 	// OR
 	logger.Debug("myFunc ran", map[string]interface{}{"key": "value"})
 }
@@ -106,8 +106,8 @@ In case you need to populate the logger with some common context, the interface 
 
 ```go
 type MyLogger interface {
-	Trace(msg string, fields map[string]interface{})
-	Debug(msg string, fields map[string]interface{})
+	Trace(msg string, fields ...map[string]interface{})
+	Debug(msg string, fields ...map[string]interface{})
 	// ...
 	WithFields(fields map[string]interface{}) MyLogger
 }
@@ -121,7 +121,7 @@ type myLogger struct {
 	logger logur.Logger
 }
 
-func (l *myLogger) Debug(msg string, fields map[string]interface{}) { l.logger.Debug(msg, fields) }
+func (l *myLogger) Debug(msg string, fields ...map[string]interface{}) { l.logger.Debug(msg, fields...) }
 // ...
 func (l *myLogger) WithFields(fields map[string]interface{}) MyLogger { 
 	return myLogger{logur.WithFields(l.logger, fields)}
@@ -182,11 +182,11 @@ Let's consider the following logger interface:
 
 ```go
 type Logger interface {
-	Trace(msg string, fields map[string]interface{})
-	Debug(msg string, fields map[string]interface{})
-	Info(msg string, fields map[string]interface{})
-	Warn(msg string, fields map[string]interface{})
-	Error(msg string, fields map[string]interface{})
+	Trace(msg string, fields ...map[string]interface{})
+	Debug(msg string, fields ...map[string]interface{})
+	Info(msg string, fields ...map[string]interface{})
+	Warn(msg string, fields ...map[string]interface{})
+	Error(msg string, fields ...map[string]interface{})
 }
 ```
 
