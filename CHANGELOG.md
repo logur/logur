@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+
+## [0.9.0] - 2019-01-10
+
 ### Added
 
 - [logr](https://github.com/go-logr/logr) integration
@@ -128,7 +131,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Initial release
 
 
-[Unreleased]: https://github.com/goph/logur/compare/v0.8.0...HEAD
+[Unreleased]: https://github.com/goph/logur/compare/v0.9.0...HEAD
+[0.9.0]: https://github.com/goph/logur/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/goph/logur/compare/v0.7.1...v0.8.0
 [0.7.1]: https://github.com/goph/logur/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/goph/logur/compare/v0.6.0...v0.7.0
