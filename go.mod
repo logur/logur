@@ -7,6 +7,7 @@ require (
 	github.com/bugsnag/panicwrap v1.2.0 // indirect
 	github.com/go-kit/kit v0.8.0
 	github.com/go-logfmt/logfmt v0.4.0 // indirect
+	github.com/go-logr/logr v0.1.0
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/gofrs/uuid v3.1.0+incompatible // indirect
 	github.com/hashicorp/go-hclog v0.0.0-20181001195459-61d530d6c27f
