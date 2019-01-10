@@ -12,6 +12,7 @@
 
 ## Table of Contents
 
+- [Preface](#preface)
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -22,6 +23,27 @@
     - [Why no `*f` (format) functions?](#why-no-f-format-functions)
     - [Why no `*ln` functions?](#why-no-ln-functions)
 - [Inspiration](#inspiration)
+
+
+## Preface
+
+Logur is an opinionated logging library targeted at producing (application) logs.
+It does not try to solve every problem around logging,
+only a few considered important by the developers, thus it's highly opinionated.
+
+The main focus of the library:
+
+- provide a unified interface that does not require developers to import external dependencies
+- encourage leveled and structured logging
+- provide tools for easy integration of other log libraries and components
+
+Logur does not care about log output, you can use whatever library/formatting/forwarder you want.
+
+Despite the opinionated nature, Logur encourages you to create custom logging interfaces for your needs
+and only use Logur as an integration layer/tool. Use the features you need/want and just omit the rest.
+
+As mentioned above, Logur aims to cover only [95% of the use cases](https://dev.to/nickjj/optimize-your-programming-decisions-for-the-95-not-the-5-2n42),
+so Logur might not be for you.
 
 
 ## Features
