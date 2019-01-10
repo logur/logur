@@ -10,7 +10,7 @@ import (
 
 func TestLoggerAdapter_Levels(t *testing.T) {
 	tests := map[string]struct {
-		logFunc func(logger *LoggerAdapter, msg string, fields map[string]interface{})
+		logFunc func(logger *LoggerAdapter, msg string, fields ...map[string]interface{})
 	}{
 		"trace": {
 			logFunc: (*LoggerAdapter).Trace,
@@ -36,7 +36,7 @@ func TestLoggerAdapter_Levels(t *testing.T) {
 			testLogger := logur.NewTestLogger()
 			logger := NewLoggerAdapter(testLogger)
 
-			test.logFunc(logger, fmt.Sprintf("message: %s", name), nil)
+			test.logFunc(logger, fmt.Sprintf("message: %s", name))
 
 			level, _ := logur.ParseLevel(name)
 
@@ -62,7 +62,7 @@ func TestLoggerAdapter_WithFields(t *testing.T) {
 
 	logger = logger.WithFields(fields)
 
-	logger.Debug("message", nil)
+	logger.Debug("message")
 
 	event := logur.LogEvent{
 		Level:  logur.Debug,

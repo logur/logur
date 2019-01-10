@@ -91,7 +91,7 @@ func TestLevelFunc(t *testing.T) {
 			logFunc := LevelFunc(logger, level)
 			const msg = "message"
 
-			logFunc(msg, nil)
+			logFunc(msg)
 
 			if logger.Count() < 1 {
 				t.Fatal("logger did not record any events")

@@ -40,48 +40,73 @@ type ContextualLogger struct {
 }
 
 // Trace implements the logur.Logger interface.
-func (l *ContextualLogger) Trace(msg string, fields map[string]interface{}) {
+func (l *ContextualLogger) Trace(msg string, fields ...map[string]interface{}) {
 	if !l.levelEnabled(Trace) {
 		return
 	}
 
-	l.logger.Trace(msg, l.mergeFields(fields))
+	var f = l.fields
+	if len(fields) > 0 {
+		f = l.mergeFields(fields[0])
+	}
+
+	l.logger.Trace(msg, f)
 }
 
 // Debug implements the logur.Logger interface.
-func (l *ContextualLogger) Debug(msg string, fields map[string]interface{}) {
+func (l *ContextualLogger) Debug(msg string, fields ...map[string]interface{}) {
 	if !l.levelEnabled(Debug) {
 		return
 	}
 
-	l.logger.Debug(msg, l.mergeFields(fields))
+	var f = l.fields
+	if len(fields) > 0 {
+		f = l.mergeFields(fields[0])
+	}
+
+	l.logger.Debug(msg, f)
 }
 
 // Info implements the logur.Logger interface.
-func (l *ContextualLogger) Info(msg string, fields map[string]interface{}) {
+func (l *ContextualLogger) Info(msg string, fields ...map[string]interface{}) {
 	if !l.levelEnabled(Info) {
 		return
 	}
 
-	l.logger.Info(msg, l.mergeFields(fields))
+	var f = l.fields
+	if len(fields) > 0 {
+		f = l.mergeFields(fields[0])
+	}
+
+	l.logger.Info(msg, f)
 }
 
 // Warn implements the logur.Logger interface.
-func (l *ContextualLogger) Warn(msg string, fields map[string]interface{}) {
+func (l *ContextualLogger) Warn(msg string, fields ...map[string]interface{}) {
 	if !l.levelEnabled(Warn) {
 		return
 	}
 
-	l.logger.Warn(msg, l.mergeFields(fields))
+	var f = l.fields
+	if len(fields) > 0 {
+		f = l.mergeFields(fields[0])
+	}
+
+	l.logger.Warn(msg, f)
 }
 
 // Error implements the logur.Logger interface.
-func (l *ContextualLogger) Error(msg string, fields map[string]interface{}) {
+func (l *ContextualLogger) Error(msg string, fields ...map[string]interface{}) {
 	if !l.levelEnabled(Error) {
 		return
 	}
 
-	l.logger.Error(msg, l.mergeFields(fields))
+	var f = l.fields
+	if len(fields) > 0 {
+		f = l.mergeFields(fields[0])
+	}
+
+	l.logger.Error(msg, f)
 }
 
 func (l *ContextualLogger) mergeFields(fields map[string]interface{}) map[string]interface{} {

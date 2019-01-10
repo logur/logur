@@ -106,7 +106,7 @@ func BenchmarkDisabledWithoutFields(b *testing.B) {
 			b.ResetTimer()
 			b.RunParallel(func(pb *testing.PB) {
 				for pb.Next() {
-					logger.Info(getMessage(b.N), nil)
+					logger.Info(getMessage(b.N))
 				}
 			})
 		})
@@ -124,7 +124,7 @@ func BenchmarkDisabledAccumulatedContext(b *testing.B) {
 			b.ResetTimer()
 			b.RunParallel(func(pb *testing.PB) {
 				for pb.Next() {
-					logger.Info(getMessage(b.N), nil)
+					logger.Info(getMessage(b.N))
 				}
 			})
 		})
@@ -160,7 +160,7 @@ func BenchmarkWithoutFields(b *testing.B) {
 			b.ResetTimer()
 			b.RunParallel(func(pb *testing.PB) {
 				for pb.Next() {
-					logger.Info(getMessage(b.N), nil)
+					logger.Info(getMessage(b.N))
 				}
 			})
 		})
@@ -178,7 +178,7 @@ func BenchmarkAccumulatedContext(b *testing.B) {
 			b.ResetTimer()
 			b.RunParallel(func(pb *testing.PB) {
 				for pb.Next() {
-					logger.Info(getMessage(b.N), nil)
+					logger.Info(getMessage(b.N))
 				}
 			})
 		})

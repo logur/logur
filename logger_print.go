@@ -24,15 +24,15 @@ func NewErrorPrintLogger(logger Logger) *PrintLogger {
 
 // Print logs a line with fmt.Print semantics.
 func (l *PrintLogger) Print(v ...interface{}) {
-	l.logger(fmt.Sprint(v...), nil)
+	l.logger(fmt.Sprint(v...))
 }
 
 // Println logs a line with fmt.Println semantics.
 func (l *PrintLogger) Println(v ...interface{}) {
-	l.logger(strings.TrimSuffix(fmt.Sprintln(v...), "\n"), nil)
+	l.logger(strings.TrimSuffix(fmt.Sprintln(v...), "\n"))
 }
 
 // Printf logs a line with fmt.Printf semantics.
 func (l *PrintLogger) Printf(format string, args ...interface{}) {
-	l.logger(fmt.Sprintf(format, args...), nil)
+	l.logger(fmt.Sprintf(format, args...))
 }
