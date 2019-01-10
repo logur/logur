@@ -39,6 +39,7 @@
     - [InvisionApp logger](https://github.com/InVisionApp/go-logger) interface
     - [Bugsnag](https://bugsnag.com) [SDK](https://godoc.org/github.com/bugsnag/bugsnag-go) (logger, for error handling see [github.com/goph/emperror](https://github.com/goph/emperror))
     - [Rollbar](https://rollbar.com) [SDK](https://godoc.org/github.com/rollbar/rollbar-go) (logger, for error handling see [github.com/goph/emperror](https://github.com/goph/emperror))
+    - [logr](https://github.com/go-logr/logr) logger interface
 - Adapters for well-known logging libraries:
     - [hclog](https://github.com/hashicorp/go-hclog)
     - [go-kit log](https://github.com/go-kit/kit)
