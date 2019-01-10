@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- [logr](https://github.com/go-logr/logr) integration
+
 
 ## [0.8.0] - 2018-12-29
 
