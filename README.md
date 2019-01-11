@@ -4,6 +4,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/goph/logur?style=flat-square)](https://goreportcard.com/report/github.com/goph/logur)
 [![GolangCI](https://golangci.com/badges/github.com/goph/logur.svg)](https://golangci.com/r/github.com/goph/logur)
 [![GoDoc](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](https://godoc.org/github.com/goph/logur)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fgoph%2Flogur.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fgoph%2Flogur?ref=badge_shield)
 
 [![Build Status](https://img.shields.io/travis/com/goph/logur.svg?style=flat-square)](https://travis-ci.com/goph/logur)
 [![CircleCI](https://circleci.com/gh/goph/logur.svg?style=svg)](https://circleci.com/gh/goph/logur)
@@ -415,3 +416,6 @@ This package is heavily inspired by a set of logging libraries:
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE) for more information.
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fgoph%2Flogur.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fgoph%2Flogur?ref=badge_large)
