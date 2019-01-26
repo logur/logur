@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/goph/logur"
-	"github.com/goph/logur/testing"
+	logtesting "github.com/goph/logur/testing"
 )
 
 func TestLogger_Log(t *testing.T) {
