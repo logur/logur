@@ -50,3 +50,19 @@ func TestLogger_Log_Level(t *testing.T) {
 		})
 	}
 }
+
+func TestLogger_Log_MissingValue(t *testing.T) {
+	testLogger := logur.NewTestLogger()
+	logger := New(testLogger)
+
+	_ = logger.Log("key")
+
+	expected := logur.LogEvent{
+		Level: logur.Info,
+		Fields: map[string]interface{}{
+			"key": "(MISSING)",
+		},
+	}
+
+	logtesting.AssertLogEventsEqual(t, expected, *(testLogger.LastEvent()))
+}

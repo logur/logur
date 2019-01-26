@@ -51,6 +51,10 @@ func New(logger logur.Logger) *Logger {
 }
 
 func (l *Logger) Log(kvs ...interface{}) error {
+	if len(kvs)%2 == 1 {
+		kvs = append(kvs, "(MISSING)")
+	}
+
 	fields := keyvals.ToMap(kvs)
 
 	logFunc := l.defaultLogFunc
