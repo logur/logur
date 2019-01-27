@@ -1,7 +1,7 @@
 package example
 
 import (
-	"github.com/bugsnag/bugsnag-go"
+	bugsnag "github.com/bugsnag/bugsnag-go"
 	"github.com/goph/logur"
 )
 

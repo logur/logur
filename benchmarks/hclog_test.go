@@ -5,7 +5,7 @@ import (
 
 	"github.com/goph/logur"
 	"github.com/goph/logur/adapters/hclogadapter"
-	"github.com/hashicorp/go-hclog"
+	hclog "github.com/hashicorp/go-hclog"
 )
 
 func newHclog() logur.Logger {

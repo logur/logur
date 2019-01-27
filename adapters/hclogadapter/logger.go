@@ -4,7 +4,7 @@ package hclogadapter
 import (
 	"github.com/goph/logur"
 	"github.com/goph/logur/internal/keyvals"
-	"github.com/hashicorp/go-hclog"
+	hclog "github.com/hashicorp/go-hclog"
 )
 
 // Logger is a logur adapter for hclog.

@@ -2,7 +2,7 @@ package example
 
 import (
 	"github.com/goph/logur"
-	"github.com/rollbar/rollbar-go"
+	rollbar "github.com/rollbar/rollbar-go"
 )
 
 func Example_rollbar() {

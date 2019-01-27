@@ -23,7 +23,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/InVisionApp/go-logger"
+	log "github.com/InVisionApp/go-logger"
 	"github.com/goph/logur"
 )
 

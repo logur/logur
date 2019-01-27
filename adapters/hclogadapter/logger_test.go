@@ -7,8 +7,8 @@ import (
 	"testing"
 
 	"github.com/goph/logur"
-	"github.com/goph/logur/testing"
-	"github.com/hashicorp/go-hclog"
+	logtesting "github.com/goph/logur/testing"
+	hclog "github.com/hashicorp/go-hclog"
 )
 
 // nolint: gochecknoglobals
