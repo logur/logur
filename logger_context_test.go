@@ -4,12 +4,12 @@ import (
 	"testing"
 
 	. "github.com/goph/logur"
-	"github.com/goph/logur/testing"
+	logtesting "github.com/goph/logur/testing"
 )
 
 func newContextualLoggerTestSuite() *logtesting.LoggerTestSuite {
 	return &logtesting.LoggerTestSuite{
-		LoggerFactory: func(level Level) (Logger, func() []LogEvent) {
+		LoggerFactory: func(_ Level) (Logger, func() []LogEvent) {
 			logger := NewTestLogger()
 
 			return WithFields(logger, map[string]interface{}{"key": "value"}), logger.Events

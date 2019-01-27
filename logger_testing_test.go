@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	. "github.com/goph/logur"
-	"github.com/goph/logur/testing"
+	logtesting "github.com/goph/logur/testing"
 )
 
 func TestAssertLogEventsEqual(t *testing.T) {
@@ -89,7 +89,7 @@ func TestAssertLogEventsEqual_Errors(t *testing.T) {
 
 func newTestLoggerSuite() *logtesting.LoggerTestSuite {
 	return &logtesting.LoggerTestSuite{
-		LoggerFactory: func(level Level) (Logger, func() []LogEvent) {
+		LoggerFactory: func(_ Level) (Logger, func() []LogEvent) {
 			logger := NewTestLogger()
 			return logger, func() []LogEvent { // nolint: gocritic
 				return logger.Events()

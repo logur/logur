@@ -8,7 +8,7 @@ import (
 
 	"github.com/go-kit/kit/log"
 	"github.com/goph/logur"
-	"github.com/goph/logur/testing"
+	logtesting "github.com/goph/logur/testing"
 )
 
 func newTestSuite() *logtesting.LoggerTestSuite {

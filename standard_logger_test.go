@@ -5,7 +5,7 @@ import (
 	"time"
 
 	. "github.com/goph/logur"
-	"github.com/goph/logur/testing"
+	logtesting "github.com/goph/logur/testing"
 )
 
 func TestNewStandardLogger(t *testing.T) {
