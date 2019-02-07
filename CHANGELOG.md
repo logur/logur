@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - [logr](https://github.com/go-logr/logr) integration
+- Separate interface for error logging
 
 ### Changed
 

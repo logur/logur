@@ -7,11 +7,21 @@ import (
 
 // ErrorHandler is a github.com/goph/emperror compatible error handler for logging errors.
 type ErrorHandler struct {
-	logger Logger
+	logger ErrorLogger
+}
+
+// ErrorLogger is a subset of the Logger interface used for error logging.
+type ErrorLogger interface {
+	// Error logs an Error event.
+	//
+	// Critical events that require immediate attention.
+	// Loggers commonly provide Fatal and Panic levels above Error level,
+	// but exiting and panicing is out of scope for a logging library.
+	Error(msg string, fields ...map[string]interface{})
 }
 
 // NewErrorHandler returns a new ErrorHandler.
-func NewErrorHandler(logger Logger) *ErrorHandler {
+func NewErrorHandler(logger ErrorLogger) *ErrorHandler {
 	if logger == nil {
 		logger = NewNoopLogger()
 	}
