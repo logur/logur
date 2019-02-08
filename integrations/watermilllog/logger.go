@@ -41,9 +41,7 @@ type Logger struct {
 
 // New returns a github.com/ThreeDotsLabs/watermill.LoggerAdapter compatible logger.
 func New(logger logur.Logger) *Logger {
-	return &Logger{
-		logger: logger,
-	}
+	return &Logger{logger: logger}
 }
 
 // NewWithErrorHandler returns a github.com/ThreeDotsLabs/watermill.LoggerAdapter compatible logger.
