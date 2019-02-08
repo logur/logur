@@ -26,6 +26,7 @@ import (
 	"github.com/goph/logur"
 )
 
+// Logger is a github.com/ThreeDotsLabs/watermill.LoggerAdapter compatible logger.
 type Logger struct {
 	logger logur.Logger
 }
