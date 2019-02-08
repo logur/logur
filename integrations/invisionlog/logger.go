@@ -27,64 +27,65 @@ import (
 	"github.com/goph/logur"
 )
 
-type logger struct {
+// Logger is a github.com/InVisionApp/go-logger.Logger logger.
+type Logger struct {
 	logger logur.Logger
 }
 
 // New returns a new github.com/InVisionApp/go-logger.Logger logger.
-func New(l logur.Logger) log.Logger {
-	return &logger{l}
+func New(logger logur.Logger) *Logger {
+	return &Logger{logger: logger}
 }
 
-func (l *logger) Debug(msg ...interface{}) {
+func (l *Logger) Debug(msg ...interface{}) {
 	l.logger.Debug(fmt.Sprint(msg...))
 }
 
-func (l *logger) Info(msg ...interface{}) {
+func (l *Logger) Info(msg ...interface{}) {
 	l.logger.Info(fmt.Sprint(msg...))
 }
 
-func (l *logger) Warn(msg ...interface{}) {
+func (l *Logger) Warn(msg ...interface{}) {
 	l.logger.Warn(fmt.Sprint(msg...))
 }
 
-func (l *logger) Error(msg ...interface{}) {
+func (l *Logger) Error(msg ...interface{}) {
 	l.logger.Error(fmt.Sprint(msg...))
 }
 
-func (l *logger) Debugln(msg ...interface{}) {
+func (l *Logger) Debugln(msg ...interface{}) {
 	l.Debug(strings.TrimSuffix(fmt.Sprintln(msg...), "\n"))
 }
 
-func (l *logger) Infoln(msg ...interface{}) {
+func (l *Logger) Infoln(msg ...interface{}) {
 	l.Info(strings.TrimSuffix(fmt.Sprintln(msg...), "\n"))
 }
 
-func (l *logger) Warnln(msg ...interface{}) {
+func (l *Logger) Warnln(msg ...interface{}) {
 	l.Warn(strings.TrimSuffix(fmt.Sprintln(msg...), "\n"))
 }
 
-func (l *logger) Errorln(msg ...interface{}) {
+func (l *Logger) Errorln(msg ...interface{}) {
 	l.Error(strings.TrimSuffix(fmt.Sprintln(msg...), "\n"))
 }
 
-func (l *logger) Debugf(format string, args ...interface{}) {
+func (l *Logger) Debugf(format string, args ...interface{}) {
 	l.Debug(fmt.Sprintf(format, args...))
 }
 
-func (l *logger) Infof(format string, args ...interface{}) {
+func (l *Logger) Infof(format string, args ...interface{}) {
 	l.Info(fmt.Sprintf(format, args...))
 }
 
-func (l *logger) Warnf(format string, args ...interface{}) {
+func (l *Logger) Warnf(format string, args ...interface{}) {
 	l.Warn(fmt.Sprintf(format, args...))
 }
 
-func (l *logger) Errorf(format string, args ...interface{}) {
+func (l *Logger) Errorf(format string, args ...interface{}) {
 	l.Error(fmt.Sprintf(format, args...))
 }
 
 // WithFields returns a new logger with the additional supplied fields.
-func (l *logger) WithFields(fields log.Fields) log.Logger {
-	return &logger{logur.WithFields(l.logger, fields)}
+func (l *Logger) WithFields(fields log.Fields) log.Logger {
+	return &Logger{logur.WithFields(l.logger, fields)}
 }
