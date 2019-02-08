@@ -9,21 +9,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- Separate interface for error logging
+- Error handler interface to Watermill
+
+### Changed
+
+- Update Watermill logger to prepare for the next version
+- Export the Watermill logger type
+- Export the Invison logger type
+
 
 ## [0.9.0] - 2019-01-10
 
 ### Added
 
 - [logr](https://github.com/go-logr/logr) integration
-- Separate interface for error logging
-- Error handler interface to Watermill
 
 ### Changed
 
 - Make the log context map optional
-- Update Watermill logger to prepare for the next version
-- Export the Watermill logger type
-- Export the Invison logger type
 
 
 ## [0.8.0] - 2018-12-29
