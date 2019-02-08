@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - [logr](https://github.com/go-logr/logr) integration
 - Separate interface for error logging
+- Error handler interface to Watermill
 
 ### Changed
 
