@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - Make the log context map optional
+- Update Watermill logger to prepare for the next version
 
 
 ## [0.8.0] - 2018-12-29

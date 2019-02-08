@@ -52,3 +52,11 @@ func (l *logger) Debug(msg string, fields watermill.LogFields) {
 func (l *logger) Trace(msg string, fields watermill.LogFields) {
 	l.logger.Trace(msg, fields)
 }
+
+func (l *logger) With(fields watermill.LogFields) watermill.LoggerAdapter {
+	if len(fields) == 0 {
+		return l
+	}
+
+	return New(logur.WithFields(l.logger, fields))
+}
