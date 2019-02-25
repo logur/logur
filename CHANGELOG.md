@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Update Watermill logger to prepare for the next version
 - Export the Watermill logger type
-- Export the Invison logger type
+- Export the Invision logger type
 
 
 ## [0.9.0] - 2019-01-10
