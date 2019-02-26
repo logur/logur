@@ -5,6 +5,8 @@ jobs:
         docker:
             -
                 image: circleci/golang:1.11
+                environment:
+                    GOFLAGS: -mod=readonly
 
         steps:
             - checkout
@@ -14,6 +16,27 @@ jobs:
                     name: Restore build dependencies
                     keys:
                         - build-deps-v1-{{ .Branch }}-{{ checksum "Makefile" }}
+
+            -
+                restore_cache:
+                    name: Restore dependencies
+                    keys:
+                        - gomod-v1-{{ .Branch }}-{{ checksum "go.sum" }}
+                        - gomod-v1-{{ .Branch }}
+                        - gomod-v1-master
+                        - gomod-v1
+
+            -
+                run:
+                    name: Download Go module cache
+                    command: go mod download
+
+            -
+                save_cache:
+                    name: Save dependencies
+                    key: gomod-v1-{{ .Branch }}-{{ checksum "go.sum" }}
+                    paths:
+                        - /go/pkg/mod
 
             -
                 run:
