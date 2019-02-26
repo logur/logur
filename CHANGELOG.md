@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - [zap](https://github.com/uber-go/zap) logger integration
 
+### Changed
+
+- Renamed `testing` package directory to `logtesting`
+
 
 ## [0.10.0] - 2019-02-08
 

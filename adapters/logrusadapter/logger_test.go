@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/goph/logur"
-	logtesting "github.com/goph/logur/testing"
+	"github.com/goph/logur/logtesting"
 	"github.com/sirupsen/logrus"
 	logrustest "github.com/sirupsen/logrus/hooks/test"
 )

@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/goph/logur"
-	logtesting "github.com/goph/logur/testing"
+	"github.com/goph/logur/logtesting"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
