@@ -14,6 +14,7 @@ branches:
 env:
     global:
         - GO111MODULE=on
+        - GOFLAGS=-mod=readonly
 
 matrix:
     fast_finish: true
@@ -23,7 +24,8 @@ matrix:
 cache:
     directories:
         - bin
+        - $HOME/gopath/pkg/mod
 
-install: go get -t -v ./...
+install: go mod download
 
 script: make test
