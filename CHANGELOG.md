@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- [zap](https://github.com/uber-go/zap) logger integration
+
 
 ## [0.10.0] - 2019-02-08
 
