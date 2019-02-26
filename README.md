@@ -63,6 +63,7 @@ so Logur might not be for you.
     - [Rollbar](https://rollbar.com) [SDK](https://godoc.org/github.com/rollbar/rollbar-go) (logger, for error handling see [github.com/goph/emperror](https://github.com/goph/emperror))
     - [logr](https://github.com/go-logr/logr) logger interface
     - [go-kit](https://github.com/go-kit/kit) logger
+    - [zap](https://github.com/uber-go/zap) logger
 - Adapters for well-known logging libraries:
     - [hclog](https://github.com/hashicorp/go-hclog)
     - [go-kit log](https://github.com/go-kit/kit)
