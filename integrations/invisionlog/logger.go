@@ -24,6 +24,7 @@ import (
 	"strings"
 
 	log "github.com/InVisionApp/go-logger"
+
 	"github.com/goph/logur"
 )
 

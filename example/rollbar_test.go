@@ -1,8 +1,9 @@
 package example
 
 import (
+	"github.com/rollbar/rollbar-go"
+
 	"github.com/goph/logur"
-	rollbar "github.com/rollbar/rollbar-go"
 )
 
 func Example_rollbar() {

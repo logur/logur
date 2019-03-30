@@ -23,8 +23,9 @@ package watermilllog
 
 import (
 	"github.com/ThreeDotsLabs/watermill"
-	"github.com/goph/logur"
 	"github.com/pkg/errors"
+
+	"github.com/goph/logur"
 )
 
 // ErrorHandler handles an error passed to the logger.

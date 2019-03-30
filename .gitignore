@@ -6,6 +6,7 @@
 /.vscode/*
 !/.vscode/tasks.json
 /.idea/*
+!/.idea/codeStyles/
 !/.idea/copyright/
 !/.idea/*.iml
 !/.idea/externalDependencies.xml

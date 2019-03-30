@@ -1,7 +1,7 @@
 package logur
 
 // Logger is a unified interface for various logging use cases and practices, including:
-//		- leveled logging
+// 		- leveled logging
 // 		- leveled formatters
 // 		- structured logging
 type Logger interface {

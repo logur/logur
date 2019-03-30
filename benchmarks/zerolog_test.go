@@ -3,9 +3,10 @@ package benchmarks
 import (
 	"io/ioutil"
 
+	"github.com/rs/zerolog"
+
 	"github.com/goph/logur"
 	"github.com/goph/logur/adapters/zerologadapter"
-	"github.com/rs/zerolog"
 )
 
 func newZerolog() logur.Logger {

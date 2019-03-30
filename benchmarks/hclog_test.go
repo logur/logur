@@ -3,9 +3,10 @@ package benchmarks
 import (
 	"io/ioutil"
 
+	"github.com/hashicorp/go-hclog"
+
 	"github.com/goph/logur"
 	"github.com/goph/logur/adapters/hclogadapter"
-	hclog "github.com/hashicorp/go-hclog"
 )
 
 func newHclog() logur.Logger {

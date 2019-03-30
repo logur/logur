@@ -3,9 +3,10 @@ package benchmarks
 import (
 	"io/ioutil"
 
+	"github.com/sirupsen/logrus"
+
 	"github.com/goph/logur"
 	"github.com/goph/logur/adapters/logrusadapter"
-	"github.com/sirupsen/logrus"
 )
 
 func newLogrus() logur.Logger {

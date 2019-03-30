@@ -2,10 +2,11 @@
 package zapadapter
 
 import (
-	"github.com/goph/logur"
-	"github.com/goph/logur/internal/keyvals"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+
+	"github.com/goph/logur"
+	"github.com/goph/logur/internal/keyvals"
 )
 
 // Logger is a logur adapter for Uber's zap.

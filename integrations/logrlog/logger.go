@@ -23,6 +23,7 @@ import (
 	"fmt"
 
 	"github.com/go-logr/logr"
+
 	"github.com/goph/logur"
 	"github.com/goph/logur/internal/keyvals"
 )

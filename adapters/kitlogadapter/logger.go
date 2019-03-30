@@ -4,6 +4,7 @@ package kitlogadapter
 import (
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
+
 	"github.com/goph/logur/internal/keyvals"
 )
 

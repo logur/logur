@@ -3,10 +3,11 @@ package logrusadapter
 import (
 	"testing"
 
-	"github.com/goph/logur"
-	"github.com/goph/logur/logtesting"
 	"github.com/sirupsen/logrus"
 	logrustest "github.com/sirupsen/logrus/hooks/test"
+
+	"github.com/goph/logur"
+	"github.com/goph/logur/logtesting"
 )
 
 // nolint: gochecknoglobals

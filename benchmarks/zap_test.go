@@ -3,10 +3,11 @@ package benchmarks
 import (
 	"io/ioutil"
 
-	"github.com/goph/logur"
-	"github.com/goph/logur/adapters/zapadapter"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+
+	"github.com/goph/logur"
+	"github.com/goph/logur/adapters/zapadapter"
 )
 
 func newZap() logur.Logger {

@@ -3,9 +3,10 @@ package zaplog
 import (
 	"fmt"
 
-	"github.com/goph/logur"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+
+	"github.com/goph/logur"
 )
 
 // New returns a new zap logger.

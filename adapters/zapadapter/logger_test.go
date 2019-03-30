@@ -6,10 +6,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/goph/logur"
-	"github.com/goph/logur/logtesting"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+
+	"github.com/goph/logur"
+	"github.com/goph/logur/logtesting"
 )
 
 // nolint: gochecknoglobals

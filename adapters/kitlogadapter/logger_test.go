@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/go-kit/kit/log"
+
 	"github.com/goph/logur"
 	"github.com/goph/logur/logtesting"
 )

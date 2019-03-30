@@ -1,9 +1,10 @@
 package grpcloglog_test
 
 import (
+	"google.golang.org/grpc/grpclog"
+
 	"github.com/goph/logur"
 	"github.com/goph/logur/integrations/grpcloglog"
-	"google.golang.org/grpc/grpclog"
 )
 
 func Example_grpclog() {

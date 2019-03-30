@@ -2,6 +2,7 @@ package example
 
 import (
 	"github.com/go-sql-driver/mysql"
+
 	"github.com/goph/logur"
 )
 
