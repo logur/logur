@@ -16,11 +16,22 @@ type Logger struct {
 // If nil is passed as logger, the global logrus instance is used as fallback.
 func New(logger *logrus.Logger) *Logger {
 	if logger == nil {
-		logger = logrus.StandardLogger()
+		return NewFromEntry(nil)
+	}
+
+	return NewFromEntry(logrus.NewEntry(logger))
+}
+
+// NewFromEntry returns a new logur compatible logger with logrus as the
+// logging library while preserving pre-set fields.
+// If nil is passed as entry, the global logrus instance is used as fallback.
+func NewFromEntry(entry *logrus.Entry) *Logger {
+	if entry == nil {
+		entry = logrus.NewEntry(logrus.StandardLogger())
 	}
 
 	return &Logger{
-		entry: logrus.NewEntry(logger),
+		entry: entry,
 	}
 }
 
