@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+- Minimum Logrus version ([#49](https://github.com/goph/logur/pull/49))
+
 
 ## [0.11.1] - 2019-07-10
 
