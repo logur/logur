@@ -14,5 +14,5 @@ Feel free to copy and customize it to your needs.
 
 For a real application example, check out [sagikazarmark/modern-go-application](https://github.com/sagikazarmark/modern-go-application):
 
-- [Interface](https://github.com/sagikazarmark/modern-go-application/blob/master/internal/greeting/logger.go)
-- [Implementation](https://github.com/sagikazarmark/modern-go-application/blob/master/internal/greeting/greetingadapter/logger.go)
+- [Interface](https://github.com/sagikazarmark/modern-go-application/blob/65edb2b/internal/common/logger.go#L7-L29)
+- [Implementation](https://github.com/sagikazarmark/modern-go-application/blob/65edb2b/internal/common/commonadapter/logger.go)
