@@ -59,12 +59,15 @@ workflows:
     build:
         jobs:
             - build:
+                  name: go1-11
                   go_version: "1.11"
 
             - build:
+                  name: go1-12
                   go_version: "1.12"
 
             # Disabled for now
             # See https://github.com/ThreeDotsLabs/watermill/pull/109
             # - build:
+            #       name: go1-13
             #       go_version: "1.13beta1"
