@@ -64,5 +64,7 @@ workflows:
             - build:
                   go_version: "1.12"
 
-            - build:
-                  go_version: "1.13beta1"
+            # Disabled for now
+            # See https://github.com/ThreeDotsLabs/watermill/pull/109
+            # - build:
+            #       go_version: "1.13beta1"
