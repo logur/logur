@@ -1,11 +1,28 @@
-version: 2
+version: 2.1
+
+executors:
+    go:
+        parameters:
+            go_version:
+                type: string
+                description: Go build image version
+        docker:
+            -   image: circleci/golang:<< parameters.go_version >>
+                environment:
+                    GOFLAGS: -mod=readonly
+                    # Disabled for now
+                    # See https://github.com/ThreeDotsLabs/watermill/pull/109
+                    # GOPROXY: https://proxy.golang.org
 
 jobs:
     build:
-        docker:
-            -   image: circleci/golang:1.11
-                environment:
-                    GOFLAGS: -mod=readonly
+        parameters:
+            go_version:
+                type: string
+                description: Go build image version
+        executor:
+            name: go
+            go_version: << parameters.go_version >>
 
         steps:
             - checkout
@@ -15,27 +32,19 @@ jobs:
                     keys:
                         - build-deps-v1-{{ .Branch }}-{{ checksum "Makefile" }}
 
-            -   restore_cache:
-                    name: Restore dependencies
-                    keys:
-                        - gomod-v1-{{ .Branch }}-{{ checksum "go.sum" }}
-                        - gomod-v1-{{ .Branch }}
-                        - gomod-v1-master
-                        - gomod-v1
-
             -   run:
                     name: Download Go module cache
                     command: go mod download
 
-            -   save_cache:
-                    name: Save dependencies
-                    key: gomod-v1-{{ .Branch }}-{{ checksum "go.sum" }}
-                    paths:
-                        - /go/pkg/mod
-
             -   run:
                     name: Run tests
-                    command: TEST_PKGS=$(echo `go list ./... | circleci tests split`) TEST_REPORT_NAME=results_${CIRCLE_NODE_INDEX}.xml make test
+                    command: |
+                        if [ $CIRCLE_NODE_TOTAL -gt 1 ]; then
+                            export TEST_PKGS=$(echo `go list ./... | circleci tests split`)
+                            export TEST_REPORT_NAME=results_${CIRCLE_NODE_INDEX}.xml
+                        fi
+
+                        make test
 
             -   save_cache:
                     name: Save build dependencies
@@ -45,3 +54,20 @@ jobs:
 
             -   store_test_results:
                     path: build/test_results/
+
+workflows:
+    build:
+        jobs:
+            - build:
+                  name: go1-11
+                  go_version: "1.11"
+
+            - build:
+                  name: go1-12
+                  go_version: "1.12"
+
+            # Disabled for now
+            # See https://github.com/ThreeDotsLabs/watermill/pull/109
+            # - build:
+            #       name: go1-13
+            #       go_version: "1.13beta1"
