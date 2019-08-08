@@ -3,11 +3,15 @@ version: 2.1
 executors:
     go:
         parameters:
+            build_image:
+                type: string
+                default: "circleci/golang"
+                description: Go build image
             go_version:
                 type: string
                 description: Go build image version
         docker:
-            -   image: circleci/golang:<< parameters.go_version >>
+            -   image: << parameters.build_image >>:<< parameters.go_version >>
                 environment:
                     GOFLAGS: -mod=readonly
                     # Disabled for now
@@ -17,12 +21,10 @@ executors:
 jobs:
     build:
         parameters:
-            go_version:
-                type: string
-                description: Go build image version
-        executor:
-            name: go
-            go_version: << parameters.go_version >>
+            executor:
+                type: executor
+                default: "go"
+        executor: << parameters.executor >>
 
         steps:
             - checkout
@@ -59,15 +61,21 @@ workflows:
     build:
         jobs:
             - build:
-                  name: go1-11
-                  go_version: "1.11"
+                  name: build-go1.11
+                  executor:
+                      name: go
+                      go_version: "1.11"
 
             - build:
-                  name: go1-12
-                  go_version: "1.12"
+                  name: build-go1.12
+                  executor:
+                      name: go
+                      go_version: "1.12"
 
             # Disabled for now
             # See https://github.com/ThreeDotsLabs/watermill/pull/109
-            # - build:
-            #       name: go1-13
-            #       go_version: "1.13beta1"
+#            - build:
+#                  name: build-go1.13
+#                  executor:
+#                      name: go
+#                      go_version: "1.13beta1"
