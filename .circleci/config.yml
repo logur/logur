@@ -10,7 +10,9 @@ executors:
             -   image: circleci/golang:<< parameters.go_version >>
                 environment:
                     GOFLAGS: -mod=readonly
-                    GOPROXY: https://proxy.golang.org
+                    # Disabled for now
+                    # See https://github.com/ThreeDotsLabs/watermill/pull/109
+                    # GOPROXY: https://proxy.golang.org
 
 jobs:
     build:
