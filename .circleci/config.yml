@@ -60,22 +60,22 @@ jobs:
 workflows:
     build:
         jobs:
-            - build:
-                  name: build-go1.11
-                  executor:
-                      name: go
-                      go_version: "1.11"
+            -   build:
+                    name: build-go1.11
+                    executor:
+                        name: go
+                        go_version: "1.11"
 
-            - build:
-                  name: build-go1.12
-                  executor:
-                      name: go
-                      go_version: "1.12"
+            -   build:
+                    name: build-go1.12
+                    executor:
+                        name: go
+                        go_version: "1.12"
 
             # Disabled for now
             # See https://github.com/ThreeDotsLabs/watermill/pull/109
-#            - build:
-#                  name: build-go1.13
-#                  executor:
-#                      name: go
-#                      go_version: "1.13beta1"
+#            -   build:
+#                    name: build-go1.13
+#                    executor:
+#                        name: go
+#                        go_version: "1.13beta1"
