@@ -14,9 +14,7 @@ executors:
             -   image: << parameters.build_image >>:<< parameters.go_version >>
                 environment:
                     GOFLAGS: -mod=readonly
-                    # Disabled for now
-                    # See https://github.com/ThreeDotsLabs/watermill/pull/109
-                    # GOPROXY: https://proxy.golang.org
+                    GOPROXY: https://proxy.golang.org
 
 jobs:
     build:
@@ -72,10 +70,8 @@ workflows:
                         name: go
                         go_version: "1.12"
 
-            # Disabled for now
-            # See https://github.com/ThreeDotsLabs/watermill/pull/109
-#            -   build:
-#                    name: build-go1.13
-#                    executor:
-#                        name: go
-#                        go_version: "1.13beta1"
+            -   build:
+                    name: build-go1.13
+                    executor:
+                        name: go
+                        go_version: "1.13beta1"
