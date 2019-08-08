@@ -1,11 +1,14 @@
+linters-settings:
+    golint:
+        min-confidence: 0.1
+    goimports:
+        local-prefixes: github.com/goph/logur
+
 linters:
     enable-all: true
     disable:
         - maligned
         - dupl
 
-linters-settings:
-    golint:
-        min-confidence: 0.1
-    goimports:
-        local-prefixes: github.com/goph/logur
+service:
+    golangci-lint-version: 1.17.x
