@@ -1,4 +1,4 @@
-package grpcloglog_test
+package example
 
 import (
 	"google.golang.org/grpc/grpclog"

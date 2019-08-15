@@ -5,7 +5,7 @@
 This package contains various usage and implementation examples for Logur:
 
 - [MySQL driver](https://github.com/go-sql-driver/mysql) integration [example](mysql_test.go)
-- [gRPC log](https://godoc.org/google.golang.org/grpc/grpclog) integration [example](../integrations/grpcloglog/logger_test.go)
+- [gRPC log](https://godoc.org/google.golang.org/grpc/grpclog) integration [example](grpc_test.go)
 - [Bugsnag](https://bugsnag.com) integration [example](bugsnag_test.go)
 - [Rollbar](https://rollbar.com) integration [example](rollbar_test.go)
 
