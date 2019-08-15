@@ -1,11 +1,47 @@
 package logur_test
 
 import (
+	"strings"
 	"testing"
 
 	. "github.com/goph/logur"
 	"github.com/goph/logur/logtesting"
 )
+
+func newFieldLoggerTestSuite() *logtesting.LoggerTestSuite {
+	return &logtesting.LoggerTestSuite{
+		LoggerFactory: func(_ Level) (Logger, func() []LogEvent) {
+			logger := NewTestLogger()
+
+			return WithFields(logger, map[string]interface{}{"key": "value"}), logger.Events
+		},
+	}
+}
+
+func TestFieldLogger_Levels(t *testing.T) {
+	newFieldLoggerTestSuite().TestLevels(t)
+}
+
+func TestWithFields(t *testing.T) {
+	logger := NewTestLogger()
+	l := WithFields(
+		WithFields(
+			WithFields(logger, map[string]interface{}{"key": "value"}),
+			map[string]interface{}{"key": "value2"},
+		),
+		map[string]interface{}{"key": "value3"},
+	)
+
+	l.Info("message", map[string]interface{}{"key2": "value"})
+
+	logEvent := LogEvent{
+		Line:   "message",
+		Level:  Info,
+		Fields: map[string]interface{}{"key": "value3", "key2": "value"},
+	}
+
+	logtesting.AssertLogEventsEqual(t, logEvent, logEvent)
+}
 
 // nolint: gochecknoglobals
 var printLoggerTestMap = map[string]*struct {
@@ -80,6 +116,47 @@ func TestPrintLogger_Printf(t *testing.T) {
 			}
 
 			logtesting.AssertLogEventsEqual(t, event, *(logger.LastEvent()))
+		})
+	}
+}
+
+// TestLevels tests leveled logging capabilities.
+func TestMessageLogger_Levels(t *testing.T) {
+	tests := map[Level]struct {
+		logFunc func(logger *MessageLogger, msg string)
+	}{
+		Trace: {
+			logFunc: (*MessageLogger).Trace,
+		},
+		Debug: {
+			logFunc: (*MessageLogger).Debug,
+		},
+		Info: {
+			logFunc: (*MessageLogger).Info,
+		},
+		Warn: {
+			logFunc: (*MessageLogger).Warn,
+		},
+		Error: {
+			logFunc: (*MessageLogger).Error,
+		},
+	}
+
+	for level, test := range tests {
+		level, test := level, test
+
+		t.Run(strings.ToTitle(level.String()), func(t *testing.T) {
+			testLogger := NewTestLogger()
+			logger := NewMessageLogger(testLogger)
+
+			test.logFunc(logger, "message")
+
+			event := LogEvent{
+				Line:  "message",
+				Level: level,
+			}
+
+			logtesting.AssertLogEventsEqual(t, event, *(testLogger.LastEvent()))
 		})
 	}
 }

@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- Renamed `ContextualLogger` to `fieldLogger`
+
 ### Removed
 
 - Error handler (use [emperror.dev/handler/logur](https://emperror.dev/handler/logur) instead)
