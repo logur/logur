@@ -8,10 +8,10 @@ func WithFields(logger Logger, fields map[string]interface{}) Logger {
 
 	// Do not add a new layer
 	// Create a new logger instead with the parent fields
-	if ctxlogger, ok := logger.(*fieldLogger); ok && len(ctxlogger.fields) > 0 {
-		_fields := make(map[string]interface{}, len(ctxlogger.fields)+len(fields))
+	if l, ok := logger.(*fieldLogger); ok && len(l.fields) > 0 {
+		_fields := make(map[string]interface{}, len(l.fields)+len(fields))
 
-		for key, value := range ctxlogger.fields {
+		for key, value := range l.fields {
 			_fields[key] = value
 		}
 
@@ -20,16 +20,16 @@ func WithFields(logger Logger, fields map[string]interface{}) Logger {
 		}
 
 		fields = _fields
-		logger = ctxlogger.logger
+		logger = l.logger
 	}
 
-	ctxlogger := &fieldLogger{logger: logger, fields: fields}
+	l := &fieldLogger{logger: logger, fields: fields}
 
 	if levelEnabler, ok := logger.(LevelEnabler); ok {
-		ctxlogger.levelEnabler = levelEnabler
+		l.levelEnabler = levelEnabler
 	}
 
-	return ctxlogger
+	return l
 }
 
 // fieldLogger holds a context and passes it to the underlying logger when a log event is recorded.
