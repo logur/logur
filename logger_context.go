@@ -41,63 +41,32 @@ type fieldLogger struct {
 
 // Trace implements the logur.Logger interface.
 func (l *fieldLogger) Trace(msg string, fields ...map[string]interface{}) {
-	if !l.levelEnabled(Trace) {
-		return
-	}
-
-	var f = l.fields
-	if len(fields) > 0 {
-		f = l.mergeFields(fields[0])
-	}
-
-	l.logger.Trace(msg, f)
+	l.log(Trace, l.logger.Trace, msg, fields)
 }
 
 // Debug implements the logur.Logger interface.
 func (l *fieldLogger) Debug(msg string, fields ...map[string]interface{}) {
-	if !l.levelEnabled(Debug) {
-		return
-	}
-
-	var f = l.fields
-	if len(fields) > 0 {
-		f = l.mergeFields(fields[0])
-	}
-
-	l.logger.Debug(msg, f)
+	l.log(Debug, l.logger.Debug, msg, fields)
 }
 
 // Info implements the logur.Logger interface.
 func (l *fieldLogger) Info(msg string, fields ...map[string]interface{}) {
-	if !l.levelEnabled(Info) {
-		return
-	}
-
-	var f = l.fields
-	if len(fields) > 0 {
-		f = l.mergeFields(fields[0])
-	}
-
-	l.logger.Info(msg, f)
+	l.log(Info, l.logger.Info, msg, fields)
 }
 
 // Warn implements the logur.Logger interface.
 func (l *fieldLogger) Warn(msg string, fields ...map[string]interface{}) {
-	if !l.levelEnabled(Warn) {
-		return
-	}
-
-	var f = l.fields
-	if len(fields) > 0 {
-		f = l.mergeFields(fields[0])
-	}
-
-	l.logger.Warn(msg, f)
+	l.log(Warn, l.logger.Warn, msg, fields)
 }
 
 // Error implements the logur.Logger interface.
 func (l *fieldLogger) Error(msg string, fields ...map[string]interface{}) {
-	if !l.levelEnabled(Error) {
+	l.log(Error, l.logger.Error, msg, fields)
+}
+
+// log deduplicates some field logger code.
+func (l *fieldLogger) log(level Level, logFunc LogFunc, msg string, fields []map[string]interface{}) {
+	if !l.levelEnabled(level) {
 		return
 	}
 
@@ -106,7 +75,7 @@ func (l *fieldLogger) Error(msg string, fields ...map[string]interface{}) {
 		f = l.mergeFields(fields[0])
 	}
 
-	l.logger.Error(msg, f)
+	logFunc(msg, f)
 }
 
 func (l *fieldLogger) mergeFields(fields map[string]interface{}) map[string]interface{} {
