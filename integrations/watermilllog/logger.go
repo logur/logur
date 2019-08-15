@@ -23,7 +23,6 @@ package watermilllog
 
 import (
 	"github.com/ThreeDotsLabs/watermill"
-	"github.com/pkg/errors"
 
 	"github.com/goph/logur"
 )
@@ -63,7 +62,7 @@ func (l *Logger) Error(msg string, err error, fields watermill.LogFields) {
 		return
 	}
 
-	err = errors.WithMessage(err, msg)
+	err = errorWithMessage(err, msg)
 
 	l.errorHandler.Handle(err, fields)
 }
