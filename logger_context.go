@@ -1,6 +1,6 @@
 package logur
 
-// WithFields returns a new contextual logger instance with context added to it.
+// WithFields returns a new logger instance that attaches the given fields to every subsequent log call.
 func WithFields(logger Logger, fields map[string]interface{}) Logger {
 	if len(fields) == 0 {
 		return logger
