@@ -7,7 +7,7 @@ import (
 	"github.com/goph/logur/logtesting"
 )
 
-func newContextualLoggerTestSuite() *logtesting.LoggerTestSuite {
+func newFieldLoggerTestSuite() *logtesting.LoggerTestSuite {
 	return &logtesting.LoggerTestSuite{
 		LoggerFactory: func(_ Level) (Logger, func() []LogEvent) {
 			logger := NewTestLogger()
@@ -17,13 +17,13 @@ func newContextualLoggerTestSuite() *logtesting.LoggerTestSuite {
 	}
 }
 
-func TestContextualLogger_Levels(t *testing.T) {
-	newContextualLoggerTestSuite().TestLevels(t)
+func TestFieldLogger_Levels(t *testing.T) {
+	newFieldLoggerTestSuite().TestLevels(t)
 }
 
 func TestWithFields(t *testing.T) {
 	logger := NewTestLogger()
-	ctxlogger := WithFields(
+	l := WithFields(
 		WithFields(
 			WithFields(logger, map[string]interface{}{"key": "value"}),
 			map[string]interface{}{"key": "value2"},
@@ -31,7 +31,7 @@ func TestWithFields(t *testing.T) {
 		map[string]interface{}{"key": "value3"},
 	)
 
-	ctxlogger.Info("message", map[string]interface{}{"key2": "value"})
+	l.Info("message", map[string]interface{}{"key2": "value"})
 
 	logEvent := LogEvent{
 		Line:   "message",
