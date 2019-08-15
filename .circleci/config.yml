@@ -46,6 +46,10 @@ jobs:
 
                         make test
 
+            -   run:
+                    name: Run tests for examples
+                    command: cd examples; go test -v
+
             -   save_cache:
                     name: Save build dependencies
                     key: build-deps-v1-{{ .Branch }}-{{ checksum "Makefile" }}
