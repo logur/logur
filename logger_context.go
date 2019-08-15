@@ -8,7 +8,7 @@ func WithFields(logger Logger, fields map[string]interface{}) Logger {
 
 	// Do not add a new layer
 	// Create a new logger instead with the parent fields
-	if ctxlogger, ok := logger.(*ContextualLogger); ok && len(ctxlogger.fields) > 0 {
+	if ctxlogger, ok := logger.(*fieldLogger); ok && len(ctxlogger.fields) > 0 {
 		_fields := make(map[string]interface{}, len(ctxlogger.fields)+len(fields))
 
 		for key, value := range ctxlogger.fields {
@@ -23,7 +23,7 @@ func WithFields(logger Logger, fields map[string]interface{}) Logger {
 		logger = ctxlogger.logger
 	}
 
-	ctxlogger := &ContextualLogger{logger: logger, fields: fields}
+	ctxlogger := &fieldLogger{logger: logger, fields: fields}
 
 	if levelEnabler, ok := logger.(LevelEnabler); ok {
 		ctxlogger.levelEnabler = levelEnabler
@@ -32,15 +32,15 @@ func WithFields(logger Logger, fields map[string]interface{}) Logger {
 	return ctxlogger
 }
 
-// ContextualLogger holds a context and passes it to the underlying logger when a log event is recorded.
-type ContextualLogger struct {
+// fieldLogger holds a context and passes it to the underlying logger when a log event is recorded.
+type fieldLogger struct {
 	logger       Logger
 	fields       map[string]interface{}
 	levelEnabler LevelEnabler
 }
 
 // Trace implements the logur.Logger interface.
-func (l *ContextualLogger) Trace(msg string, fields ...map[string]interface{}) {
+func (l *fieldLogger) Trace(msg string, fields ...map[string]interface{}) {
 	if !l.levelEnabled(Trace) {
 		return
 	}
@@ -54,7 +54,7 @@ func (l *ContextualLogger) Trace(msg string, fields ...map[string]interface{}) {
 }
 
 // Debug implements the logur.Logger interface.
-func (l *ContextualLogger) Debug(msg string, fields ...map[string]interface{}) {
+func (l *fieldLogger) Debug(msg string, fields ...map[string]interface{}) {
 	if !l.levelEnabled(Debug) {
 		return
 	}
@@ -68,7 +68,7 @@ func (l *ContextualLogger) Debug(msg string, fields ...map[string]interface{}) {
 }
 
 // Info implements the logur.Logger interface.
-func (l *ContextualLogger) Info(msg string, fields ...map[string]interface{}) {
+func (l *fieldLogger) Info(msg string, fields ...map[string]interface{}) {
 	if !l.levelEnabled(Info) {
 		return
 	}
@@ -82,7 +82,7 @@ func (l *ContextualLogger) Info(msg string, fields ...map[string]interface{}) {
 }
 
 // Warn implements the logur.Logger interface.
-func (l *ContextualLogger) Warn(msg string, fields ...map[string]interface{}) {
+func (l *fieldLogger) Warn(msg string, fields ...map[string]interface{}) {
 	if !l.levelEnabled(Warn) {
 		return
 	}
@@ -96,7 +96,7 @@ func (l *ContextualLogger) Warn(msg string, fields ...map[string]interface{}) {
 }
 
 // Error implements the logur.Logger interface.
-func (l *ContextualLogger) Error(msg string, fields ...map[string]interface{}) {
+func (l *fieldLogger) Error(msg string, fields ...map[string]interface{}) {
 	if !l.levelEnabled(Error) {
 		return
 	}
@@ -109,7 +109,7 @@ func (l *ContextualLogger) Error(msg string, fields ...map[string]interface{}) {
 	l.logger.Error(msg, f)
 }
 
-func (l *ContextualLogger) mergeFields(fields map[string]interface{}) map[string]interface{} {
+func (l *fieldLogger) mergeFields(fields map[string]interface{}) map[string]interface{} {
 	if len(fields) == 0 { // Not having any fields passed to the log function has a higher chance
 		return l.fields
 	}
@@ -131,7 +131,7 @@ func (l *ContextualLogger) mergeFields(fields map[string]interface{}) map[string
 	return f
 }
 
-func (l *ContextualLogger) levelEnabled(level Level) bool {
+func (l *fieldLogger) levelEnabled(level Level) bool {
 	if l.levelEnabler != nil {
 		return l.levelEnabler.LevelEnabled(level)
 	}
