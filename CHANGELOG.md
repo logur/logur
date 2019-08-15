@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Removed
+
+- Error handler (use [emperror.dev/handler/logur](https://emperror.dev/handler/logur) instead)
+
 
 ## [0.11.2] - 2019-07-18
 
