@@ -9,7 +9,6 @@ require (
 	github.com/hashicorp/go-hclog v0.0.0-20181001195459-61d530d6c27f
 	github.com/onsi/ginkgo v1.8.0 // indirect
 	github.com/onsi/gomega v1.5.0 // indirect
-	github.com/pkg/errors v0.8.1
 	github.com/rs/zerolog v1.11.0
 	github.com/sirupsen/logrus v1.4.2
 	go.uber.org/atomic v1.3.2 // indirect
