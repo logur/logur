@@ -7,8 +7,7 @@ import (
 	"github.com/goph/logur/internal/keyvals"
 )
 
-/* GRPCV2Logger is a V2 gRPC logger.
-
+/*
 gRPC uses a globally configured logger that implements the google.golang.org/grpc/grpclog.LoggerV2 interface.
 
 GRPCV2Logger is an adapter around logur-compatible loggers,
@@ -124,9 +123,8 @@ func (l *GRPCV2Logger) V(level int) bool {
 	return l.levelEnabler.LevelEnabled(Level(level + 2))
 }
 
-/* KitLogger is a go-kit logger.
-
-Use any logging library as a go-kit logger:
+/*
+KitLogger turns a logur logger into a Go-Kit logger.
 
 	package main
 
