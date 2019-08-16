@@ -6,7 +6,7 @@ import (
 	"github.com/goph/logur"
 )
 
-func Example_grpclog() {
+func Example_grpcLog() {
 	logger := logur.NewNoopLogger() // choose an actual implementation
 
 	grpclog.SetLoggerV2(logur.NewGRPCV2Logger(logger))
