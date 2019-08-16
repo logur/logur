@@ -1,12 +1,10 @@
 # Logur
 
 [![Go Version](https://img.shields.io/badge/go%20version-%3E=1.11-orange.svg?style=flat-square)](https://github.com/goph/logur)
+[![CircleCI](https://circleci.com/gh/goph/logur.svg?style=svg)](https://circleci.com/gh/goph/logur)
 [![Go Report Card](https://goreportcard.com/badge/github.com/goph/logur?style=flat-square)](https://goreportcard.com/report/github.com/goph/logur)
 [![GolangCI](https://golangci.com/badges/github.com/goph/logur.svg)](https://golangci.com/r/github.com/goph/logur)
 [![GoDoc](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](https://godoc.org/github.com/goph/logur)
-
-[![Build Status](https://img.shields.io/travis/com/goph/logur.svg?style=flat-square)](https://travis-ci.com/goph/logur)
-[![CircleCI](https://circleci.com/gh/goph/logur.svg?style=svg)](https://circleci.com/gh/goph/logur)
 
 **Logur is an opinionated collection of logging best practices.**
 
