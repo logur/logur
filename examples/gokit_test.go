@@ -1,15 +1,15 @@
 package example
 
 import (
-	"google.golang.org/grpc/grpclog"
+	"github.com/go-kit/kit/log"
 
 	"github.com/goph/logur"
 )
 
-func Example_grpcLog() {
+func Example_goKitLog() {
 	logger := logur.NewNoopLogger() // choose an actual implementation
 
-	grpclog.SetLoggerV2(logur.NewGRPCV2Logger(logger))
+	log.With(logur.NewKitLogger(logger), "key", "value")
 
 	// Output:
 }
