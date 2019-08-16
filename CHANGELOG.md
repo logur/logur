@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - Renamed `ContextualLogger` to `fieldLogger`
+- Examples are moved to a separate module
 
 ### Removed
 
