@@ -14,11 +14,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Renamed `ContextualLogger` to `fieldLogger`
 - Examples are moved to a separate module
 
-### Deprecated
-
-- `grpcloglog.New`: use `logur.NewGRPCV2Logger` instead.
-- `kitlog.New`: use `logur.NewKitLogger` instead.
-
 ### Removed
 
 - Error handler (use [emperror.dev/handler/logur](https://emperror.dev/handler/logur) instead)
