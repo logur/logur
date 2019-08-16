@@ -3,6 +3,8 @@ package logur
 import (
 	"fmt"
 	"strings"
+
+	"github.com/goph/logur/internal/keyvals"
 )
 
 /* GRPCV2Logger is a V2 gRPC logger.
@@ -120,4 +122,69 @@ func (l *GRPCV2Logger) V(level int) bool {
 
 	// grpc log doesn't have trace and debug levels
 	return l.levelEnabler.LevelEnabled(Level(level + 2))
+}
+
+/* KitLogger is a go-kit logger.
+
+Use any logging library as a go-kit logger:
+
+	package main
+
+	import (
+		"github.com/goph/logur"
+	)
+
+	func main() {
+		logger := logur.NewNoopLogger() // choose an actual implementation
+		kitlogger := logur.NewKitLogger(logger)
+
+		// inject the logger somewhere
+	}
+*/
+type KitLogger struct {
+	logFuncs       map[string]LogFunc
+	defaultLogFunc LogFunc
+}
+
+// NewKitLogger returns a new go-kit logger.
+func NewKitLogger(logger Logger) *KitLogger {
+	l := &KitLogger{
+		logFuncs: map[string]LogFunc{
+			"trace":   logger.Trace,
+			"debug":   logger.Debug,
+			"info":    logger.Info,
+			"warn":    logger.Warn,
+			"warning": logger.Warn,
+			"error":   logger.Error,
+		},
+		defaultLogFunc: logger.Info,
+	}
+
+	return l
+}
+
+func (l *KitLogger) Log(kvs ...interface{}) error {
+	if len(kvs)%2 == 1 {
+		kvs = append(kvs, "(MISSING)")
+	}
+
+	fields := keyvals.ToMap(kvs)
+
+	logFunc := l.defaultLogFunc
+
+	if lf, ok := l.logFuncs[strings.ToLower(fmt.Sprintf("%s", fields["level"]))]; ok {
+		delete(fields, "level")
+
+		logFunc = lf
+	}
+
+	var msg string
+	if m, ok := fields["msg"]; ok {
+		delete(fields, "msg")
+		msg = fmt.Sprintf("%s", m)
+	}
+
+	logFunc(msg, fields)
+
+	return nil
 }
