@@ -8,7 +8,7 @@ require (
 	github.com/hashicorp/go-hclog v0.9.2
 	github.com/onsi/ginkgo v1.9.0 // indirect
 	github.com/onsi/gomega v1.6.0 // indirect
-	github.com/rs/zerolog v1.11.0
+	github.com/rs/zerolog v1.15.0
 	github.com/sirupsen/logrus v1.4.2
 	go.uber.org/atomic v1.4.0 // indirect
 	go.uber.org/multierr v1.1.0
@@ -17,4 +17,5 @@ require (
 	logur.dev/adapter/kit v0.1.0
 	logur.dev/adapter/logrus v0.1.0
 	logur.dev/adapter/zap v0.1.0
+	logur.dev/adapter/zerolog v0.1.0
 )
