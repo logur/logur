@@ -5,21 +5,21 @@ import (
 
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
+	kitadapter "logur.dev/adapter/kit"
 
 	"github.com/goph/logur"
-	"github.com/goph/logur/adapters/kitlogadapter"
 )
 
 func newKitlog() logur.Logger {
 	logger := log.NewJSONLogger(ioutil.Discard)
 	logger = level.NewFilter(logger, level.AllowAll())
 
-	return kitlogadapter.New(logger)
+	return kitadapter.New(logger)
 }
 
 func newDisabledKitlog() logur.Logger {
 	logger := log.NewJSONLogger(ioutil.Discard)
 	logger = level.NewFilter(logger, level.AllowError())
 
-	return kitlogadapter.New(logger)
+	return kitadapter.New(logger)
 }
