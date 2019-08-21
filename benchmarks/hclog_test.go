@@ -4,9 +4,9 @@ import (
 	"io/ioutil"
 
 	"github.com/hashicorp/go-hclog"
+	hclogadapter "logur.dev/adapter/hclog"
 
 	"github.com/goph/logur"
-	"github.com/goph/logur/adapters/hclogadapter"
 )
 
 func newHclog() logur.Logger {

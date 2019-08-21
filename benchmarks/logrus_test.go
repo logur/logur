@@ -4,9 +4,9 @@ import (
 	"io/ioutil"
 
 	"github.com/sirupsen/logrus"
+	logrusadapter "logur.dev/adapter/logrus"
 
 	"github.com/goph/logur"
-	"github.com/goph/logur/adapters/logrusadapter"
 )
 
 func newLogrus() logur.Logger {

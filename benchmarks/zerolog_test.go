@@ -4,9 +4,9 @@ import (
 	"io/ioutil"
 
 	"github.com/rs/zerolog"
+	zerologadapter "logur.dev/adapter/zerolog"
 
 	"github.com/goph/logur"
-	"github.com/goph/logur/adapters/zerologadapter"
 )
 
 func newZerolog() logur.Logger {
