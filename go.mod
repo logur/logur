@@ -20,4 +20,5 @@ require (
 	logur.dev/adapter/zerolog v0.1.0
 	logur.dev/integration/invision v0.1.0
 	logur.dev/integration/logr v0.1.0
+	logur.dev/integration/watermill v0.1.0
 )

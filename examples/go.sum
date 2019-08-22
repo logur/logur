@@ -133,3 +133,4 @@ logur.dev/adapter/zap v0.1.0/go.mod h1:wd0RQoTU7q9kYVWzWW+mlN2uQibw3lWzdInSKflbg
 logur.dev/adapter/zerolog v0.1.0/go.mod h1:5ZzVg5m8yGRDDx9AR4dZGm5TSmznM/SApwZpt7WX178=
 logur.dev/integration/invision v0.1.0/go.mod h1:ZDYjkI7pDgsuKvo1Y50W9AFi+YKw3m3vxytviZRFnQM=
 logur.dev/integration/logr v0.1.0/go.mod h1:V8O1I2yY7YpgVRztI5Vi0QEThag+loZuJAcJQa9N1Ik=
+logur.dev/integration/watermill v0.1.0/go.mod h1:hrA2aeVmDEYtCyZLJr7D9S2iSlYhlHJaYfI44ahDjFo=
