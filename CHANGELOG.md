@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+
+## [0.14.0] - 2019-08-22
+
 ### Removed
 
 - Adapter implementations. Use the ones from the new [organization](https://github.com/logur?utf8=%E2%9C%93&q=adapter-&type=&language=)
@@ -195,7 +198,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Initial release
 
 
-[Unreleased]: https://github.com/goph/logur/compare/v0.13.0...HEAD
+[Unreleased]: https://github.com/goph/logur/compare/v0.14.0...HEAD
+[0.14.0]: https://github.com/goph/logur/compare/v0.13.0...v0.14.0
 [0.13.0]: https://github.com/goph/logur/compare/v0.12.0...v0.13.0
 [0.12.0]: https://github.com/goph/logur/compare/v0.11.2...v0.12.0
 [0.11.2]: https://github.com/goph/logur/compare/v0.11.1...v0.11.2
