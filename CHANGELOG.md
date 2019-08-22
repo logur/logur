@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Deprecated
+
+- Adapter implementations. Use the ones from the new [organization](https://github.com/logur?utf8=%E2%9C%93&q=adapter-&type=&language=)
+- Integration implementations (with external dependencies). Use the ones from the new [organization](https://github.com/logur?utf8=%E2%9C%93&q=integration-&type=&language=)
+
 
 ## [0.12.0] - 2019-08-16
 
