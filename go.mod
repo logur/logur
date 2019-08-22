@@ -18,4 +18,5 @@ require (
 	logur.dev/adapter/logrus v0.1.0
 	logur.dev/adapter/zap v0.1.0
 	logur.dev/adapter/zerolog v0.1.0
+	logur.dev/integration/invision v0.1.0
 )
