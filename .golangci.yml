@@ -6,6 +6,8 @@ linters-settings:
 
 linters:
     enable-all: true
+    disable:
+        - dupl
 
 service:
     golangci-lint-version: 1.17.x

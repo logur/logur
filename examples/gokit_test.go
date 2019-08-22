@@ -4,13 +4,13 @@ import (
 	"github.com/go-kit/kit/log"
 
 	"github.com/goph/logur"
-	"github.com/goph/logur/integrations/kitlog"
+	kitintegration "github.com/goph/logur/integration/kit"
 )
 
 func Example_goKitLog() {
 	logger := logur.NewNoopLogger() // choose an actual implementation
 
-	log.With(kitlog.New(logger), "key", "value")
+	log.With(kitintegration.New(logger), "key", "value")
 
 	// Output:
 }
