@@ -1,6 +1,6 @@
 # Logur Examples
 
-[![GoDoc](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](https://godoc.org/github.com/goph/logur/example)
+[![GoDoc](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](https://godoc.org/logur.dev/logur/example)
 
 This package contains various usage and implementation examples for Logur:
 
@@ -10,7 +10,7 @@ This package contains various usage and implementation examples for Logur:
 - [Rollbar](https://rollbar.com) integration [example](rollbar_test.go)
 
 It also contains a custom example logger you might want to use in your application.
-Feel free to copy and customize it to your needs. 
+Feel free to copy and customize it to your needs.
 
 For a real application example, check out [sagikazarmark/modern-go-application](https://github.com/sagikazarmark/modern-go-application):
 

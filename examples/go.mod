@@ -16,7 +16,7 @@ require (
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/rollbar/rollbar-go v1.1.0
 	google.golang.org/grpc v1.23.0
-	logur.dev/logur v0.12.0
+	logur.dev/logur v0.15.0
 )
 
 replace logur.dev/logur => ../
