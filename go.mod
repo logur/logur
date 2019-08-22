@@ -1,3 +1,3 @@
-module github.com/goph/logur
+module logur.dev/logur
 
 go 1.12

@@ -3,7 +3,7 @@ package example
 import (
 	"github.com/bugsnag/bugsnag-go"
 
-	"github.com/goph/logur"
+	"logur.dev/logur"
 )
 
 func Example_bugsnag() {

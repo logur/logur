@@ -8,8 +8,8 @@ With logur you can easily wire the logging library of your choice into gRPC:
 	package main
 
 	import (
-		"github.com/goph/logur"
-		grpcintegration "github.com/goph/logur/integration/grpc"
+		"logur.dev/logur"
+		grpcintegration "logur.dev/logur/integration/grpc"
 		"google.golang.org/grpc/grpclog"
 	)
 
@@ -24,7 +24,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/goph/logur"
+	"logur.dev/logur"
 )
 
 // Logger is a V2 gRPC logger.

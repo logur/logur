@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/goph/logur"
-	"github.com/goph/logur/internal/keyvals"
+	"logur.dev/logur"
+	"logur.dev/logur/internal/keyvals"
 )
 
 // Logger is a go-kit logger.

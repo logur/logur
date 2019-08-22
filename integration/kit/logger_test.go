@@ -3,8 +3,8 @@ package kit
 import (
 	"testing"
 
-	"github.com/goph/logur"
-	"github.com/goph/logur/logtesting"
+	"logur.dev/logur"
+	"logur.dev/logur/logtesting"
 )
 
 func TestLogger_Log(t *testing.T) {

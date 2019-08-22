@@ -3,8 +3,8 @@ package example
 import (
 	"google.golang.org/grpc/grpclog"
 
-	"github.com/goph/logur"
-	grpcintegration "github.com/goph/logur/integration/grpc"
+	"logur.dev/logur"
+	grpcintegration "logur.dev/logur/integration/grpc"
 )
 
 func Example_grpcLog() {

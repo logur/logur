@@ -1,4 +1,4 @@
-module github.com/goph/logur/examples
+module logur.dev/logur/examples
 
 go 1.12
 
@@ -12,11 +12,11 @@ require (
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/gofrs/uuid v3.2.0+incompatible // indirect
-	github.com/goph/logur v0.12.0
 	github.com/kardianos/osext v0.0.0-20190222173326-2bc1f35cddc0 // indirect
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/rollbar/rollbar-go v1.1.0
 	google.golang.org/grpc v1.23.0
+	logur.dev/logur v0.12.0
 )
 
-replace github.com/goph/logur => ../
+replace logur.dev/logur => ../

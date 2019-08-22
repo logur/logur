@@ -6,7 +6,7 @@ import (
 	"github.com/sirupsen/logrus"
 	logrusadapter "logur.dev/adapter/logrus"
 
-	"github.com/goph/logur"
+	"logur.dev/logur"
 )
 
 func newLogrus() logur.Logger {

@@ -7,7 +7,7 @@ import (
 	"go.uber.org/zap/zapcore"
 	zapadapter "logur.dev/adapter/zap"
 
-	"github.com/goph/logur"
+	"logur.dev/logur"
 )
 
 func newZap() logur.Logger {

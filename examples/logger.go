@@ -1,6 +1,6 @@
 package example
 
-import "github.com/goph/logur"
+import "logur.dev/logur"
 
 // Logger is the fundamental interface for all log operations.
 type Logger interface {

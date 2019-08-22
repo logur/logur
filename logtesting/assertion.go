@@ -3,7 +3,7 @@ package logtesting
 import (
 	"testing"
 
-	"github.com/goph/logur"
+	"logur.dev/logur"
 )
 
 // AssertLogEventsEqual asserts that two LogEvents are identical.

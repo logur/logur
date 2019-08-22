@@ -1,10 +1,10 @@
 # Logur
 
-[![Go Version](https://img.shields.io/badge/go%20version-%3E=1.11-orange.svg?style=flat-square)](https://github.com/goph/logur)
-[![CircleCI](https://circleci.com/gh/goph/logur.svg?style=svg)](https://circleci.com/gh/goph/logur)
-[![Go Report Card](https://goreportcard.com/badge/github.com/goph/logur?style=flat-square)](https://goreportcard.com/report/github.com/goph/logur)
-[![GolangCI](https://golangci.com/badges/github.com/goph/logur.svg)](https://golangci.com/r/github.com/goph/logur)
-[![GoDoc](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](https://godoc.org/github.com/goph/logur)
+[![CircleCI](https://circleci.com/gh/logur/logur.svg?style=svg)](https://circleci.com/gh/logur/logur)
+[![Go Report Card](https://goreportcard.com/badge/logur.dev/logur?style=flat-square)](https://goreportcard.com/report/logur.dev/logur)
+[![GolangCI](https://golangci.com/badges/github.com/logur/logur.svg)](https://golangci.com/r/github.com/logur/logur)
+[![Go Version](https://img.shields.io/badge/go%20version-%3E=1.11-61CFDD.svg?style=flat-square)](https://github.com/logur/adapter-logrus)
+[![GoDoc](http://img.shields.io/badge/godoc-reference-5272B4.svg?style=flat-square)](https://godoc.org/logur.dev/logur)
 
 **Logur is an opinionated collection of logging best practices.**
 
@@ -77,13 +77,13 @@ Logur uses [Go Modules](https://github.com/golang/go/wiki/Modules) introduced in
 using `go get`:
 
 ```bash
-$ go get github.com/goph/logur
+$ go get logur.dev/logur
 ```
 
 Alternatively, you can install it via [Dep](https://golang.github.io/dep/):
 
 ```bash
-$ dep ensure -add github.com/goph/logur
+$ dep ensure -add logur.dev/logur
 ```
 
 

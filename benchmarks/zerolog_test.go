@@ -6,7 +6,7 @@ import (
 	"github.com/rs/zerolog"
 	zerologadapter "logur.dev/adapter/zerolog"
 
-	"github.com/goph/logur"
+	"logur.dev/logur"
 )
 
 func newZerolog() logur.Logger {

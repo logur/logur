@@ -7,7 +7,7 @@ import (
 	"github.com/go-kit/kit/log/level"
 	kitadapter "logur.dev/adapter/kit"
 
-	"github.com/goph/logur"
+	"logur.dev/logur"
 )
 
 func newKitlog() logur.Logger {

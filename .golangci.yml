@@ -2,12 +2,10 @@ linters-settings:
     golint:
         min-confidence: 0.1
     goimports:
-        local-prefixes: github.com/goph/logur
+        local-prefixes: logur.dev/logur
 
 linters:
     enable-all: true
-    disable:
-        - dupl
 
 service:
     golangci-lint-version: 1.17.x

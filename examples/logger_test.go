@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/goph/logur"
-	"github.com/goph/logur/logtesting"
+	"logur.dev/logur"
+	"logur.dev/logur/logtesting"
 )
 
 func TestLoggerAdapter_Levels(t *testing.T) {

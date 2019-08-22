@@ -3,8 +3,8 @@ package example
 import (
 	"github.com/go-kit/kit/log"
 
-	"github.com/goph/logur"
-	kitintegration "github.com/goph/logur/integration/kit"
+	"logur.dev/logur"
+	kitintegration "logur.dev/logur/integration/kit"
 )
 
 func Example_goKitLog() {

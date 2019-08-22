@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/goph/logur"
+	"logur.dev/logur"
 )
 
 // nolint: gochecknoglobals
