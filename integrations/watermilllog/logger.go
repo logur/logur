@@ -22,67 +22,28 @@ With logur you can easily wire the logging library of your choice into Watermill
 package watermilllog
 
 import (
-	"github.com/ThreeDotsLabs/watermill"
+	watermillintegration "logur.dev/integration/watermill"
 
 	"github.com/goph/logur"
 )
 
 // ErrorHandler handles an error passed to the logger.
-type ErrorHandler interface {
-	// Handle handles an error passed to the logger.
-	Handle(err error, fields map[string]interface{})
-}
+// Deprecated: use logur.dev/integration/watermill.ErrorHandler instead.
+type ErrorHandler = watermillintegration.ErrorHandler
 
 // Logger is a github.com/ThreeDotsLabs/watermill.LoggerAdapter compatible logger.
-type Logger struct {
-	logger       logur.Logger
-	errorHandler ErrorHandler
-}
+// Deprecated: use logur.dev/integration/watermill.Logger instead.
+type Logger = watermillintegration.Logger
 
 // New returns a github.com/ThreeDotsLabs/watermill.LoggerAdapter compatible logger.
+// Deprecated: use logur.dev/integration/watermill.New instead.
 func New(logger logur.Logger) *Logger {
-	return &Logger{logger: logger}
+	return watermillintegration.New(logger)
 }
 
 // NewWithErrorHandler returns a github.com/ThreeDotsLabs/watermill.LoggerAdapter compatible logger.
 // Compared to the logger returned by New, this logger sends errors to the error handler.
+// Deprecated: use logur.dev/integration/watermill.NewWithErrorHandler instead.
 func NewWithErrorHandler(logger logur.Logger, errorHandler ErrorHandler) *Logger {
-	return &Logger{
-		logger:       logger,
-		errorHandler: errorHandler,
-	}
-}
-
-func (l *Logger) Error(msg string, err error, fields watermill.LogFields) {
-	if l.errorHandler == nil {
-		fields["err"] = err
-
-		l.logger.Error(msg, fields)
-
-		return
-	}
-
-	err = errorWithMessage(err, msg)
-
-	l.errorHandler.Handle(err, fields)
-}
-
-func (l *Logger) Info(msg string, fields watermill.LogFields) {
-	l.logger.Info(msg, fields)
-}
-
-func (l *Logger) Debug(msg string, fields watermill.LogFields) {
-	l.logger.Debug(msg, fields)
-}
-
-func (l *Logger) Trace(msg string, fields watermill.LogFields) {
-	l.logger.Trace(msg, fields)
-}
-
-func (l *Logger) With(fields watermill.LogFields) watermill.LoggerAdapter {
-	if len(fields) == 0 {
-		return l
-	}
-
-	return NewWithErrorHandler(logur.WithFields(l.logger, fields), l.errorHandler)
+	return watermillintegration.NewWithErrorHandler(logger, errorHandler)
 }

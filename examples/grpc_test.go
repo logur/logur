@@ -4,13 +4,13 @@ import (
 	"google.golang.org/grpc/grpclog"
 
 	"github.com/goph/logur"
-	"github.com/goph/logur/integrations/grpcloglog"
+	grpcintegration "github.com/goph/logur/integration/grpc"
 )
 
 func Example_grpcLog() {
 	logger := logur.NewNoopLogger() // choose an actual implementation
 
-	grpclog.SetLoggerV2(grpcloglog.New(logger))
+	grpclog.SetLoggerV2(grpcintegration.New(logger))
 
 	// Output:
 }
