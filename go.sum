@@ -149,3 +149,5 @@ logur.dev/adapter/zerolog v0.1.0 h1:Yd96IDErhcsP3sYPaRUd5ac53alI3Rrzeb6miBcLr6s=
 logur.dev/adapter/zerolog v0.1.0/go.mod h1:5ZzVg5m8yGRDDx9AR4dZGm5TSmznM/SApwZpt7WX178=
 logur.dev/integration/invision v0.1.0 h1:mZI+Zn5TWVPGxWToNSjT9/KUurbqPGSFjXwVEHwNerM=
 logur.dev/integration/invision v0.1.0/go.mod h1:ZDYjkI7pDgsuKvo1Y50W9AFi+YKw3m3vxytviZRFnQM=
+logur.dev/integration/logr v0.1.0 h1:Etx2N2bB/sQIiI5SpmSLGSajxEToCbnYyiHwGbtSc8I=
+logur.dev/integration/logr v0.1.0/go.mod h1:V8O1I2yY7YpgVRztI5Vi0QEThag+loZuJAcJQa9N1Ik=
