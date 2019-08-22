@@ -153,3 +153,5 @@ logur.dev/integration/logr v0.1.0 h1:Etx2N2bB/sQIiI5SpmSLGSajxEToCbnYyiHwGbtSc8I
 logur.dev/integration/logr v0.1.0/go.mod h1:V8O1I2yY7YpgVRztI5Vi0QEThag+loZuJAcJQa9N1Ik=
 logur.dev/integration/watermill v0.1.0 h1:rtDW3PoX/fc6yfqPhkta5AbVHe5U+n0qYJoAi0fNcXo=
 logur.dev/integration/watermill v0.1.0/go.mod h1:hrA2aeVmDEYtCyZLJr7D9S2iSlYhlHJaYfI44ahDjFo=
+logur.dev/integration/zap v0.1.0 h1:S63gZA+DzOo7HfzaPhM+BXv1EFu3QSzLrxAyrwkFeOw=
+logur.dev/integration/zap v0.1.0/go.mod h1:KMslVtWoXugi5O9tnKmNkBJENF/mCN7jvrNJ1i86nKM=
