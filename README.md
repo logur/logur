@@ -1,4 +1,4 @@
-# Logur
+![Logur](/.github/logo.png?raw=true)
 
 [![CircleCI](https://circleci.com/gh/logur/logur.svg?style=svg)](https://circleci.com/gh/logur/logur)
 [![Go Report Card](https://goreportcard.com/badge/logur.dev/logur?style=flat-square)](https://goreportcard.com/report/logur.dev/logur)
@@ -114,7 +114,7 @@ In a lucky scenario all logur loggers are compatible with the above interface, s
 ```go
 func main() {
     logger := logur.NewNoopLogger()
-    
+
     myFunc(logger)
 }
 
@@ -146,7 +146,7 @@ type myLogger struct {
 
 func (l *myLogger) Debug(msg string, fields ...map[string]interface{}) { l.logger.Debug(msg, fields...) }
 // ...
-func (l *myLogger) WithFields(fields map[string]interface{}) MyLogger { 
+func (l *myLogger) WithFields(fields map[string]interface{}) MyLogger {
 	return myLogger{logur.WithFields(l.logger, fields)}
 }
 ```
@@ -156,7 +156,7 @@ Now you can easily use logur provided loggers inside your code:
 ```go
 func main() {
     logger := &myLogger{logur.NewNoopLogger()}
-    
+
     myFunc(logger)
 }
 
