@@ -43,6 +43,27 @@ func TestWithFields(t *testing.T) {
 	logtesting.AssertLogEventsEqual(t, logEvent, logEvent)
 }
 
+func TestWithField(t *testing.T) {
+	logger := NewTestLogger()
+	l := WithField(
+		WithField(
+			WithField(logger, "key", "value"),
+			"key", "value2",
+		),
+		"key", "value3",
+	)
+
+	l.Info("message", map[string]interface{}{"key2": "value"})
+
+	logEvent := LogEvent{
+		Line:   "message",
+		Level:  Info,
+		Fields: map[string]interface{}{"key": "value3", "key2": "value"},
+	}
+
+	logtesting.AssertLogEventsEqual(t, logEvent, logEvent)
+}
+
 // nolint: gochecknoglobals
 var printLoggerTestMap = map[string]*struct {
 	logger func(logger Logger) *PrintLogger

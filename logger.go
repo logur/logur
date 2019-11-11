@@ -93,6 +93,11 @@ func WithFields(logger Logger, fields map[string]interface{}) Logger {
 	return l
 }
 
+// WithField is a shortcut for WithFields(logger, map[string]interface{}{key: value}).
+func WithField(logger Logger, key string, value interface{}) Logger {
+	return WithFields(logger, map[string]interface{}{key: value})
+}
+
 // fieldLogger holds a context and passes it to the underlying logger when a log event is recorded.
 type fieldLogger struct {
 	logger       Logger
