@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - `WithField` as a shortcut for `WithFields`
+- Github Actions workflow
 
 
 ## [0.15.0] - 2019-08-22
