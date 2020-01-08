@@ -1,6 +1,7 @@
-![Logur](/.github/logo.png?raw=true)
+![Logur](.github/logo.png?raw=true)
 
-[![CircleCI](https://circleci.com/gh/logur/logur.svg?style=svg)](https://circleci.com/gh/logur/logur)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/logur/logur/CI?style=flat-square)
+[![Codecov](https://img.shields.io/codecov/c/github/logur/logur?style=flat-square)](https://codecov.io/gh/logur/logur)
 [![Go Report Card](https://goreportcard.com/badge/logur.dev/logur?style=flat-square)](https://goreportcard.com/report/logur.dev/logur)
 [![GolangCI](https://golangci.com/badges/github.com/logur/logur.svg)](https://golangci.com/r/github.com/logur/logur)
 [![Go Version](https://img.shields.io/badge/go%20version-%3E=1.11-61CFDD.svg?style=flat-square)](https://github.com/logur/logur)

@@ -11,7 +11,6 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 10
       matrix:
         go: ['1.11', '1.12', '1.13']
     env:
@@ -26,10 +25,43 @@ jobs:
           go-version: ${{ matrix.go }}
 
       - name: Checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Run tests
         run: make test
 
       - name: Run tests for examples
         run: cd examples; go test -v
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v1
+        if: always()
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: build/coverage.txt
+
+  examples:
+    name: Examples
+    runs-on: ubuntu-latest
+    env:
+      VERBOSE: 1
+      GOFLAGS: -mod=readonly
+
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: '1.13'
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run tests
+        run: cd examples; go test -v -race -coverprofile=coverage.txt -covermode=atomic
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v1
+        if: always()
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: examples/coverage.txt
