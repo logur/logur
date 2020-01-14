@@ -7,7 +7,7 @@ import (
 )
 
 func Example_bugsnag() {
-	logger := logur.NewNoopLogger() // choose an actual implementation
+	logger := logur.NoopLogger{} // choose an actual implementation
 
 	bugsnag.New(bugsnag.Configuration{
 		Logger: logur.NewErrorPrintLogger(logger),

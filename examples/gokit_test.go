@@ -8,7 +8,7 @@ import (
 )
 
 func Example_goKitLog() {
-	logger := logur.NewNoopLogger() // choose an actual implementation
+	logger := logur.NoopLogger{} // choose an actual implementation
 
 	log.With(kitintegration.New(logger), "key", "value")
 

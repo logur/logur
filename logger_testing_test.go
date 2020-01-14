@@ -1,6 +1,7 @@
 package logur_test
 
 import (
+	"context"
 	"strings"
 	"testing"
 
@@ -90,7 +91,7 @@ func TestAssertLogEventsEqual_Errors(t *testing.T) {
 func newTestLoggerSuite() *logtesting.LoggerTestSuite {
 	return &logtesting.LoggerTestSuite{
 		LoggerFactory: func(_ Level) (Logger, func() []LogEvent) {
-			logger := NewTestLogger()
+			logger := &TestLogger{}
 			return logger, func() []LogEvent { // nolint: gocritic
 				return logger.Events()
 			}
@@ -102,51 +103,85 @@ func TestTestLogger_Levels(t *testing.T) {
 	newTestLoggerSuite().TestLevels(t)
 }
 
-func TestTestLogger_Count(t *testing.T) {
-	logger := NewTestLogger()
+func TestTestLogger(t *testing.T) {
+	logger := &TestLogger{}
 
-	logger.Debug("message")
+	logger.Debug("debug message")
+	logger.Info("info message", map[string]interface{}{"key": "value"})
 
-	if got, want := logger.Count(), 1; got != want {
-		t.Errorf("expected log event count to be %d, got %d", want, got)
+	if want, have := 2, logger.Count(); want != have {
+		t.Errorf("unexpexted log event count\nexpected: %v\nactual:   %v", want, have)
 	}
-}
-
-func TestTestLogger_Events(t *testing.T) {
-	logger := NewTestLogger()
-
-	logger.Debug("message")
 
 	events := logger.Events()
 
-	if got, want := len(events), 1; got != want {
-		t.Fatalf("expected log event count to be %d, got %d", want, got)
+	if want, have := 2, len(events); want != have {
+		t.Errorf("unexpexted returned log event count\nexpected: %v\nactual:   %v", want, have)
 	}
 
-	event := LogEvent{
-		Level: Debug,
-		Line:  "message",
+	lastEvent := LogEvent{
+		Level:  Info,
+		Line:   "info message",
+		Fields: map[string]interface{}{"key": "value"},
 	}
 
-	logtesting.AssertLogEventsEqual(t, event, events[0])
+	logtesting.AssertLogEventsEqual(t, LogEvent{Level: Debug, Line: "debug message"}, events[0])
+	logtesting.AssertLogEventsEqual(t, lastEvent, events[1])
+	logtesting.AssertLogEventsEqual(t, lastEvent, *logger.LastEvent())
 }
 
-func TestTestLogger_LastEvent(t *testing.T) {
-	logger := NewTestLogger()
+func TestTestLoggerContext(t *testing.T) {
+	logger := &TestLoggerContext{}
 
-	logger.Debug("message")
-	logger.Info("another message")
+	logger.DebugContext(context.Background(), "debug message")
+	logger.InfoContext(context.Background(), "info message", map[string]interface{}{"key": "value"})
 
-	lastEvent := logger.LastEvent()
-
-	if lastEvent == nil {
-		t.Fatal("failed to get last event")
+	if want, have := 2, logger.Count(); want != have {
+		t.Errorf("unexpexted log event count\nexpected: %v\nactual:   %v", want, have)
 	}
 
-	event := LogEvent{
-		Level: Info,
-		Line:  "another message",
+	events := logger.Events()
+
+	if want, have := 2, len(events); want != have {
+		t.Errorf("unexpexted returned log event count\nexpected: %v\nactual:   %v", want, have)
 	}
 
-	logtesting.AssertLogEventsEqual(t, event, *lastEvent)
+	lastEvent := LogEvent{
+		Level:  Info,
+		Line:   "info message",
+		Fields: map[string]interface{}{"key": "value"},
+	}
+
+	logtesting.AssertLogEventsEqual(t, LogEvent{Level: Debug, Line: "debug message"}, events[0])
+	logtesting.AssertLogEventsEqual(t, lastEvent, events[1])
+	logtesting.AssertLogEventsEqual(t, lastEvent, *logger.LastEvent())
+}
+
+func TestTestLoggerFacade(t *testing.T) {
+	logger := &TestLoggerFacade{}
+
+	logger.Debug("debug message")
+	logger.DebugContext(context.Background(), "another debug message")
+	logger.InfoContext(context.Background(), "another info message", map[string]interface{}{"key": "value"})
+
+	if want, have := 3, logger.Count(); want != have {
+		t.Errorf("unexpexted log event count\nexpected: %v\nactual:   %v", want, have)
+	}
+
+	events := logger.Events()
+
+	if want, have := 3, len(events); want != have {
+		t.Errorf("unexpexted returned log event count\nexpected: %v\nactual:   %v", want, have)
+	}
+
+	lastEvent := LogEvent{
+		Level:  Info,
+		Line:   "another info message",
+		Fields: map[string]interface{}{"key": "value"},
+	}
+
+	logtesting.AssertLogEventsEqual(t, LogEvent{Level: Debug, Line: "debug message"}, events[0])
+	logtesting.AssertLogEventsEqual(t, LogEvent{Level: Debug, Line: "another debug message"}, events[1])
+	logtesting.AssertLogEventsEqual(t, lastEvent, events[2])
+	logtesting.AssertLogEventsEqual(t, lastEvent, *logger.LastEvent())
 }

@@ -33,7 +33,7 @@ func TestLoggerAdapter_Levels(t *testing.T) {
 		name, test := name, test
 
 		t.Run(name, func(t *testing.T) {
-			testLogger := logur.NewTestLogger()
+			testLogger := &logur.TestLoggerFacade{}
 			logger := NewLoggerAdapter(testLogger)
 
 			test.logFunc(logger, fmt.Sprintf("message: %s", name))
@@ -51,7 +51,7 @@ func TestLoggerAdapter_Levels(t *testing.T) {
 }
 
 func TestLoggerAdapter_WithFields(t *testing.T) {
-	testLogger := logur.NewTestLogger()
+	testLogger := &logur.TestLoggerFacade{}
 
 	var logger Logger = NewLoggerAdapter(testLogger)
 

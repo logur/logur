@@ -11,7 +11,7 @@ import (
 func newFieldLoggerTestSuite() *logtesting.LoggerTestSuite {
 	return &logtesting.LoggerTestSuite{
 		LoggerFactory: func(_ Level) (Logger, func() []LogEvent) {
-			logger := NewTestLogger()
+			logger := &TestLogger{}
 
 			return WithFields(logger, map[string]interface{}{"key": "value"}), logger.Events
 		},
@@ -23,7 +23,7 @@ func TestFieldLogger_Levels(t *testing.T) {
 }
 
 func TestWithFields(t *testing.T) {
-	logger := NewTestLogger()
+	logger := &TestLogger{}
 	l := WithFields(
 		WithFields(
 			WithFields(logger, map[string]interface{}{"key": "value"}),
@@ -44,7 +44,7 @@ func TestWithFields(t *testing.T) {
 }
 
 func TestWithField(t *testing.T) {
-	logger := NewTestLogger()
+	logger := &TestLogger{}
 	l := WithField(
 		WithField(
 			WithField(logger, "key", "value"),
@@ -86,7 +86,7 @@ func TestPrintLogger_Print(t *testing.T) {
 		name, test := name, test
 
 		t.Run(name, func(t *testing.T) {
-			logger := NewTestLogger()
+			logger := &TestLogger{}
 			printLogger := test.logger(logger)
 
 			printLogger.Print("message", 1, "message", 2)
@@ -106,7 +106,7 @@ func TestPrintLogger_Println(t *testing.T) {
 		name, test := name, test
 
 		t.Run(name, func(t *testing.T) {
-			logger := NewTestLogger()
+			logger := &TestLogger{}
 			printLogger := test.logger(logger)
 
 			printLogger.Println("message", 1, "message", 2)
@@ -126,7 +126,7 @@ func TestPrintLogger_Printf(t *testing.T) {
 		name, test := name, test
 
 		t.Run(name, func(t *testing.T) {
-			logger := NewTestLogger()
+			logger := &TestLogger{}
 			printLogger := test.logger(logger)
 
 			printLogger.Printf("this is my %s", "message")
@@ -167,7 +167,7 @@ func TestMessageLogger_Levels(t *testing.T) {
 		level, test := level, test
 
 		t.Run(strings.ToTitle(level.String()), func(t *testing.T) {
-			testLogger := NewTestLogger()
+			testLogger := &TestLogger{}
 			logger := NewMessageLogger(testLogger)
 
 			test.logFunc(logger, "message")

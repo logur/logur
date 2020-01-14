@@ -8,7 +8,7 @@ import (
 )
 
 func TestLogger_Log(t *testing.T) {
-	testLogger := logur.NewTestLogger()
+	testLogger := &logur.TestLoggerFacade{}
 	logger := New(testLogger)
 
 	_ = logger.Log("msg", "message", "key", "value")
@@ -38,7 +38,7 @@ func TestLogger_Log_Level(t *testing.T) {
 		level, llevel := level, llevel
 
 		t.Run(level, func(t *testing.T) {
-			testLogger := logur.NewTestLogger()
+			testLogger := &logur.TestLoggerFacade{}
 			logger := New(testLogger)
 			_ = logger.Log("level", level)
 
@@ -52,7 +52,7 @@ func TestLogger_Log_Level(t *testing.T) {
 }
 
 func TestLogger_Log_MissingValue(t *testing.T) {
-	testLogger := logur.NewTestLogger()
+	testLogger := &logur.TestLoggerFacade{}
 	logger := New(testLogger)
 
 	_ = logger.Log("key")
