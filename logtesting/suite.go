@@ -1,6 +1,7 @@
 package logtesting
 
 import (
+	"context"
 	"strings"
 	"testing"
 
@@ -9,28 +10,35 @@ import (
 
 // nolint: gochecknoglobals
 var testLevelMap = map[logur.Level]struct {
-	logFunc func(logger logur.Logger, msg string, fields ...map[string]interface{})
+	logFunc    func(logger logur.Logger, msg string, fields ...map[string]interface{})
+	logCtxFunc func(logger logur.LoggerContext, ctx context.Context, msg string, fields ...map[string]interface{})
 }{
 	logur.Trace: {
-		logFunc: logur.Logger.Trace,
+		logFunc:    logur.Logger.Trace,
+		logCtxFunc: logur.LoggerContext.TraceContext,
 	},
 	logur.Debug: {
-		logFunc: logur.Logger.Debug,
+		logFunc:    logur.Logger.Debug,
+		logCtxFunc: logur.LoggerContext.DebugContext,
 	},
 	logur.Info: {
-		logFunc: logur.Logger.Info,
+		logFunc:    logur.Logger.Info,
+		logCtxFunc: logur.LoggerContext.InfoContext,
 	},
 	logur.Warn: {
-		logFunc: logur.Logger.Warn,
+		logFunc:    logur.Logger.Warn,
+		logCtxFunc: logur.LoggerContext.WarnContext,
 	},
 	logur.Error: {
-		logFunc: logur.Logger.Error,
+		logFunc:    logur.Logger.Error,
+		logCtxFunc: logur.LoggerContext.ErrorContext,
 	},
 }
 
 // LoggerTestSuite implements a minimal set of tests that every logur compatible logger implementation must satisfy.
 type LoggerTestSuite struct {
 	LoggerFactory        func(level logur.Level) (logur.Logger, func() []logur.LogEvent)
+	LoggerContextFactory func(level logur.Level) (logur.LoggerContext, func() []logur.LogEvent)
 	TraceFallbackToDebug bool
 }
 
@@ -39,6 +47,11 @@ func (s *LoggerTestSuite) Execute(t *testing.T) {
 	t.Parallel()
 
 	t.Run("Levels", s.TestLevels)
+
+	if s.LoggerContextFactory != nil {
+		t.Run("Levels", s.TestLevelsContext)
+	}
+
 	t.Run("LevelEnabler", s.TestLevelEnabler)
 	t.Run("LevelEnabler_UnknownReturnsTrue", s.TestLevelEnablerUnknownReturnsTrue)
 }
@@ -62,6 +75,43 @@ func (s *LoggerTestSuite) TestLevels(t *testing.T) {
 			logger, getLogEvents := s.LoggerFactory(logur.Trace)
 
 			test.logFunc(logger, "message1message2", fields)
+
+			logEvents := getLogEvents()
+
+			if got, want := len(logEvents), 1; got != want {
+				t.Fatalf("expected %d log events, got %d", want, got)
+			}
+
+			logEvent := logur.LogEvent{
+				Line:   "message1message2",
+				Level:  level,
+				Fields: fields,
+			}
+
+			AssertLogEventsEqual(t, logEvent, logEvents[0])
+		})
+	}
+}
+
+// TestLevelsContext tests leveled logging capabilities of a LoggerContext instance.
+func (s *LoggerTestSuite) TestLevelsContext(t *testing.T) {
+	if s.LoggerFactory == nil {
+		t.Fatal("logger factory is not configured")
+	}
+
+	for level, test := range testLevelMap {
+		level, test := level, test
+
+		t.Run(strings.ToTitle(level.String()), func(t *testing.T) {
+			if level == logur.Trace && s.TraceFallbackToDebug {
+				level = logur.Debug
+			}
+
+			fields := map[string]interface{}{"key": "value"}
+
+			logger, getLogEvents := s.LoggerContextFactory(logur.Trace)
+
+			test.logCtxFunc(logger, context.Background(), "message1message2", fields)
 
 			logEvents := getLogEvents()
 

@@ -14,7 +14,12 @@ import (
 func newFieldLoggerTestSuite() *logtesting.LoggerTestSuite {
 	return &logtesting.LoggerTestSuite{
 		LoggerFactory: func(_ Level) (Logger, func() []LogEvent) {
-			logger := &TestLogger{}
+			logger := &TestLoggerFacade{}
+
+			return WithFields(logger, map[string]interface{}{"key": "value"}), logger.Events
+		},
+		LoggerContextFactory: func(_ Level) (LoggerContext, func() []LogEvent) {
+			logger := &TestLoggerFacade{}
 
 			return WithFields(logger, map[string]interface{}{"key": "value"}), logger.Events
 		},
@@ -23,6 +28,10 @@ func newFieldLoggerTestSuite() *logtesting.LoggerTestSuite {
 
 func TestFieldLogger_Levels(t *testing.T) {
 	newFieldLoggerTestSuite().TestLevels(t)
+}
+
+func TestFieldLogger_LevelsContext(t *testing.T) {
+	newFieldLoggerTestSuite().TestLevelsContext(t)
 }
 
 func TestWithFields(t *testing.T) {
@@ -132,6 +141,33 @@ func TestNewLoggerContext(t *testing.T) {
 
 		logtesting.AssertLogEventsEqual(t, logEvent, *testLogger.LastEvent())
 	})
+}
+
+func newLoggerContextTestSuite() *logtesting.LoggerTestSuite {
+	return &logtesting.LoggerTestSuite{
+		LoggerFactory: func(_ Level) (Logger, func() []LogEvent) {
+			logger := &TestLoggerFacade{}
+
+			return NewLoggerContext(logger, func(ctx context.Context) map[string]interface{} {
+				return nil
+			}), logger.Events
+		},
+		LoggerContextFactory: func(_ Level) (LoggerContext, func() []LogEvent) {
+			logger := &TestLoggerFacade{}
+
+			return NewLoggerContext(logger, func(ctx context.Context) map[string]interface{} {
+				return nil
+			}), logger.Events
+		},
+	}
+}
+
+func TestLoggerContext_Levels(t *testing.T) {
+	newLoggerContextTestSuite().TestLevels(t)
+}
+
+func TestLoggerContext_LevelsContext(t *testing.T) {
+	newLoggerContextTestSuite().TestLevelsContext(t)
 }
 
 func TestContextExtractors(t *testing.T) {
