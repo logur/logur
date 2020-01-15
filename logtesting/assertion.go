@@ -12,6 +12,6 @@ func AssertLogEventsEqual(t *testing.T, expected logur.LogEvent, actual logur.Lo
 
 	err := actual.AssertEquals(expected)
 	if err != nil {
-		t.Error(err)
+		t.Errorf("%+v", err)
 	}
 }
