@@ -8,7 +8,6 @@ import (
 
 // Logger is a unified interface for various logging use cases and practices, including:
 // 		- leveled logging
-// 		- leveled formatters
 // 		- structured logging
 type Logger interface {
 	// Trace logs a Trace event.
