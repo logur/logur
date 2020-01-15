@@ -83,12 +83,7 @@ func (l *fieldLogger) log(level Level, fn LogFunc, msg string, fields []map[stri
 		return
 	}
 
-	var f = l.fields
-	if len(fields) > 0 {
-		f = l.mergeFields(fields[0])
-	}
-
-	fn(msg, f)
+	fn(msg, mergeFields(l.fields, fields))
 }
 
 func (l *fieldLogger) TraceContext(ctx context.Context, msg string, fields ...map[string]interface{}) {
@@ -124,34 +119,7 @@ func (l *fieldLogger) logContext(
 		return
 	}
 
-	var f = l.fields
-	if len(fields) > 0 {
-		f = l.mergeFields(fields[0])
-	}
-
-	fn(ctx, msg, f)
-}
-
-func (l *fieldLogger) mergeFields(fields map[string]interface{}) map[string]interface{} {
-	if len(fields) == 0 { // Not having any fields passed to the log function has a higher chance
-		return l.fields
-	}
-
-	if len(l.fields) == 0 { // This is possible too, but has a much lower probability
-		return fields
-	}
-
-	f := make(map[string]interface{}, len(fields)+len(l.fields))
-
-	for key, value := range l.fields {
-		f[key] = value
-	}
-
-	for key, value := range fields {
-		f[key] = value
-	}
-
-	return f
+	fn(ctx, msg, mergeFields(l.fields, fields))
 }
 
 func (l *fieldLogger) levelEnabled(level Level) bool {

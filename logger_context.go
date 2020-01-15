@@ -39,46 +39,23 @@ func (l loggerContext) Error(msg string, fields ...map[string]interface{}) {
 }
 
 func (l loggerContext) TraceContext(ctx context.Context, msg string, fields ...map[string]interface{}) {
-	l.logger.TraceContext(ctx, msg, l.mergeFields(l.extractor(ctx), fields))
+	l.logger.TraceContext(ctx, msg, mergeFields(l.extractor(ctx), fields))
 }
 
 func (l loggerContext) DebugContext(ctx context.Context, msg string, fields ...map[string]interface{}) {
-	l.logger.DebugContext(ctx, msg, l.mergeFields(l.extractor(ctx), fields))
+	l.logger.DebugContext(ctx, msg, mergeFields(l.extractor(ctx), fields))
 }
 
 func (l loggerContext) InfoContext(ctx context.Context, msg string, fields ...map[string]interface{}) {
-	l.logger.InfoContext(ctx, msg, l.mergeFields(l.extractor(ctx), fields))
+	l.logger.InfoContext(ctx, msg, mergeFields(l.extractor(ctx), fields))
 }
 
 func (l loggerContext) WarnContext(ctx context.Context, msg string, fields ...map[string]interface{}) {
-	l.logger.WarnContext(ctx, msg, l.mergeFields(l.extractor(ctx), fields))
+	l.logger.WarnContext(ctx, msg, mergeFields(l.extractor(ctx), fields))
 }
 
 func (l loggerContext) ErrorContext(ctx context.Context, msg string, fields ...map[string]interface{}) {
-	l.logger.ErrorContext(ctx, msg, l.mergeFields(l.extractor(ctx), fields))
-}
-
-func (l loggerContext) mergeFields(ctxFields Fields, fields []map[string]interface{}) Fields {
-	if len(fields) == 0 {
-		return ctxFields
-	}
-
-	if len(ctxFields) == 0 {
-		return fields[0]
-	}
-
-	// the maximum length of the map is the sum of the two map's length
-	f := make(map[string]interface{}, len(fields)+len(fields[0]))
-
-	for key, value := range ctxFields {
-		f[key] = value
-	}
-
-	for key, value := range fields[0] {
-		f[key] = value
-	}
-
-	return f
+	l.logger.ErrorContext(ctx, msg, mergeFields(l.extractor(ctx), fields))
 }
 
 // ContextExtractor extracts a map of details from a context.
