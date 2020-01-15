@@ -11,11 +11,11 @@ import (
 	"logur.dev/logur/logtesting"
 )
 
-func TestContextLogger(t *testing.T) {
+func TestContextExtractorLogger(t *testing.T) {
 	t.Run("NoFields", func(t *testing.T) {
 		testLogger := &TestLoggerFacade{}
 
-		logger := NewLoggerContext(testLogger, func(ctx context.Context) map[string]interface{} {
+		logger := WithContextExtractor(testLogger, func(ctx context.Context) map[string]interface{} {
 			return nil
 		})
 
@@ -32,7 +32,7 @@ func TestContextLogger(t *testing.T) {
 	t.Run("ContextFields", func(t *testing.T) {
 		testLogger := &TestLoggerFacade{}
 
-		logger := NewLoggerContext(testLogger, func(ctx context.Context) map[string]interface{} {
+		logger := WithContextExtractor(testLogger, func(ctx context.Context) map[string]interface{} {
 			return map[string]interface{}{
 				"key": "value",
 			}
@@ -52,7 +52,7 @@ func TestContextLogger(t *testing.T) {
 	t.Run("Fields", func(t *testing.T) {
 		testLogger := &TestLoggerFacade{}
 
-		logger := NewLoggerContext(testLogger, func(ctx context.Context) map[string]interface{} {
+		logger := WithContextExtractor(testLogger, func(ctx context.Context) map[string]interface{} {
 			return map[string]interface{}{
 				"key":  "value",
 				"key2": "value2",
@@ -83,7 +83,7 @@ func TestContextLogger(t *testing.T) {
 				LoggerFactory: func(_ Level) (Logger, conformance.TestLogger) {
 					logger := &TestLogger{}
 
-					return NewLoggerContext(logger, func(ctx context.Context) map[string]interface{} {
+					return WithContextExtractor(logger, func(ctx context.Context) map[string]interface{} {
 						return nil
 					}), logger
 				},
@@ -97,7 +97,7 @@ func TestContextLogger(t *testing.T) {
 				LoggerFactory: func(_ Level) (Logger, conformance.TestLogger) {
 					logger := &TestLoggerFacade{}
 
-					return NewLoggerContext(logger, func(ctx context.Context) map[string]interface{} {
+					return WithContextExtractor(logger, func(ctx context.Context) map[string]interface{} {
 						return nil
 					}), logger
 				},
