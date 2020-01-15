@@ -51,13 +51,29 @@ func TestFieldLogger(t *testing.T) {
 		logtesting.AssertLogEventsEqual(t, logEvent, *logger.LastEvent())
 	})
 
-	suite := conformance.TestSuite{
-		LoggerFactory: func(_ Level) (Logger, conformance.TestLogger) {
-			logger := &TestLoggerFacade{}
+	t.Run("Conformance", func(t *testing.T) {
+		t.Run("Logger", func(t *testing.T) {
+			suite := conformance.TestSuite{
+				LoggerFactory: func(_ Level) (Logger, conformance.TestLogger) {
+					logger := &TestLogger{}
 
-			return WithFields(logger, map[string]interface{}{"key": "value"}), logger
-		},
-	}
+					return WithFields(logger, map[string]interface{}{"key": "value"}), logger
+				},
+			}
 
-	t.Run("Conformance", suite.Run)
+			suite.Run(t)
+		})
+
+		t.Run("Facade", func(t *testing.T) {
+			suite := conformance.TestSuite{
+				LoggerFactory: func(_ Level) (Logger, conformance.TestLogger) {
+					logger := &TestLoggerFacade{}
+
+					return WithFields(logger, map[string]interface{}{"key": "value"}), logger
+				},
+			}
+
+			suite.Run(t)
+		})
+	})
 }

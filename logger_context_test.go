@@ -77,17 +77,35 @@ func TestContextLogger(t *testing.T) {
 		logtesting.AssertLogEventsEqual(t, logEvent, *testLogger.LastEvent())
 	})
 
-	suite := conformance.TestSuite{
-		LoggerFactory: func(_ Level) (Logger, conformance.TestLogger) {
-			logger := &TestLoggerFacade{}
+	t.Run("Conformance", func(t *testing.T) {
+		t.Run("Logger", func(t *testing.T) {
+			suite := conformance.TestSuite{
+				LoggerFactory: func(_ Level) (Logger, conformance.TestLogger) {
+					logger := &TestLogger{}
 
-			return NewLoggerContext(logger, func(ctx context.Context) map[string]interface{} {
-				return nil
-			}), logger
-		},
-	}
+					return NewLoggerContext(logger, func(ctx context.Context) map[string]interface{} {
+						return nil
+					}), logger
+				},
+			}
 
-	t.Run("Conformance", suite.Run)
+			suite.Run(t)
+		})
+
+		t.Run("Facade", func(t *testing.T) {
+			suite := conformance.TestSuite{
+				LoggerFactory: func(_ Level) (Logger, conformance.TestLogger) {
+					logger := &TestLoggerFacade{}
+
+					return NewLoggerContext(logger, func(ctx context.Context) map[string]interface{} {
+						return nil
+					}), logger
+				},
+			}
+
+			suite.Run(t)
+		})
+	})
 }
 
 func TestContextExtractors(t *testing.T) {
