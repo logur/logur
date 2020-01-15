@@ -7,7 +7,7 @@ import (
 )
 
 func TestNewLevelWriter(t *testing.T) {
-	logger := NewTestLogger()
+	logger := &TestLoggerFacade{}
 
 	writer := NewLevelWriter(logger, Error)
 	defer writer.Close()

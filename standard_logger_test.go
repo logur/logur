@@ -9,7 +9,7 @@ import (
 )
 
 func TestNewStandardLogger(t *testing.T) {
-	logger := NewTestLogger()
+	logger := &TestLoggerFacade{}
 	stdLogger := NewStandardLogger(logger, Error, "", 0)
 
 	const msg = "message"
@@ -34,7 +34,7 @@ func TestNewStandardLogger(t *testing.T) {
 }
 
 func TestNewStandardErrorLogger(t *testing.T) {
-	logger := NewTestLogger()
+	logger := &TestLoggerFacade{}
 	stdLogger := NewErrorStandardLogger(logger, "", 0)
 
 	const msg = "message"

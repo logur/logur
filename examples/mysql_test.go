@@ -7,7 +7,7 @@ import (
 )
 
 func Example_mysqlDriver() {
-	logger := logur.NewNoopLogger() // choose an actual implementation
+	logger := logur.NoopLogger{} // choose an actual implementation
 
 	_ = mysql.SetLogger(logur.NewErrorPrintLogger(logger))
 

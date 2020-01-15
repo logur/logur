@@ -7,7 +7,7 @@ import (
 )
 
 func Example_rollbar() {
-	logger := logur.NewNoopLogger() // choose an actual implementation
+	logger := logur.NoopLogger{} // choose an actual implementation
 	clientLogger := logur.NewErrorPrintLogger(logger)
 
 	rollbar.SetLogger(clientLogger)

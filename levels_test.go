@@ -86,7 +86,7 @@ func TestLevelFunc(t *testing.T) {
 		levelName, level := levelName, level
 
 		t.Run(levelName, func(t *testing.T) {
-			logger := NewTestLogger()
+			logger := &TestLoggerFacade{}
 
 			logFunc := LevelFunc(logger, level)
 			const msg = "message"

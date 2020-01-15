@@ -8,7 +8,7 @@ import (
 )
 
 func Example_grpcLog() {
-	logger := logur.NewNoopLogger() // choose an actual implementation
+	logger := logur.NoopLogger{} // choose an actual implementation
 
 	grpclog.SetLoggerV2(grpcintegration.New(logger))
 
