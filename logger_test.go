@@ -1,8 +1,11 @@
 package logur_test
 
 import (
+	"context"
+	"reflect"
 	"strings"
 	"testing"
+	"time"
 
 	. "logur.dev/logur"
 	"logur.dev/logur/logtesting"
@@ -61,7 +64,110 @@ func TestWithField(t *testing.T) {
 		Fields: map[string]interface{}{"key": "value3", "key2": "value"},
 	}
 
-	logtesting.AssertLogEventsEqual(t, logEvent, logEvent)
+	logtesting.AssertLogEventsEqual(t, logEvent, *logger.LastEvent())
+}
+
+func TestNewLoggerContext(t *testing.T) {
+	t.Run("no_fields", func(t *testing.T) {
+		testLogger := &TestLoggerFacade{}
+
+		logger := NewLoggerContext(testLogger, func(ctx context.Context) map[string]interface{} {
+			return nil
+		})
+
+		logger.InfoContext(context.Background(), "message")
+
+		logEvent := LogEvent{
+			Line:  "message",
+			Level: Info,
+		}
+
+		logtesting.AssertLogEventsEqual(t, logEvent, *testLogger.LastEvent())
+	})
+
+	t.Run("ctx_fields", func(t *testing.T) {
+		testLogger := &TestLoggerFacade{}
+
+		logger := NewLoggerContext(testLogger, func(ctx context.Context) map[string]interface{} {
+			return map[string]interface{}{
+				"key": "value",
+			}
+		})
+
+		logger.InfoContext(context.Background(), "message")
+
+		logEvent := LogEvent{
+			Line:   "message",
+			Level:  Info,
+			Fields: map[string]interface{}{"key": "value"},
+		}
+
+		logtesting.AssertLogEventsEqual(t, logEvent, *testLogger.LastEvent())
+	})
+
+	t.Run("fields", func(t *testing.T) {
+		testLogger := &TestLoggerFacade{}
+
+		logger := NewLoggerContext(testLogger, func(ctx context.Context) map[string]interface{} {
+			return map[string]interface{}{
+				"key":  "value",
+				"key2": "value2",
+			}
+		})
+
+		logger.InfoContext(context.Background(), "message", map[string]interface{}{
+			"key":  "another value",
+			"key3": "value3",
+		})
+
+		logEvent := LogEvent{
+			Line:  "message",
+			Level: Info,
+			Fields: map[string]interface{}{
+				"key":  "another value",
+				"key2": "value2",
+				"key3": "value3",
+			},
+		}
+
+		logtesting.AssertLogEventsEqual(t, logEvent, *testLogger.LastEvent())
+	})
+}
+
+func TestContextExtractors(t *testing.T) {
+	extractor := ContextExtractors(
+		func(_ context.Context) map[string]interface{} {
+			return nil
+		},
+		func(_ context.Context) map[string]interface{} {
+			return map[string]interface{}{
+				"key":  "value",
+				"key2": "value2",
+			}
+		},
+		func(_ context.Context) map[string]interface{} {
+			return map[string]interface{}{
+				"key":  "another_value",
+				"key3": "value3",
+			}
+		},
+		func(_ context.Context) map[string]interface{} {
+			return map[string]interface{}{
+				"key4": time.Minute,
+			}
+		},
+	)
+
+	expected := map[string]interface{}{
+		"key":  "another_value",
+		"key2": "value2",
+		"key3": "value3",
+		"key4": time.Minute,
+	}
+
+	if want, have := expected, extractor(context.Background()); !reflect.DeepEqual(want, have) {
+		t.Errorf("unexpexted details\nexpected: %v\nactual:   %v", want, have)
+	}
 }
 
 // nolint: gochecknoglobals
