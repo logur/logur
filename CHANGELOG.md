@@ -9,6 +9,29 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- `LoggerContext` interface
+- `LoggerFacade` interface (combination of `Logger` and `LoggerContext`)
+- `LoggerContextFunc` logger function wrapper
+- `NoopHandler` no-op error handler
+- `TestLoggerContext`, `TestLoggerSet` test error handlers
+
+### Changed
+
+- Improved conformance tests
+
+### Fixed
+
+- gRPC format log functions
+
+### Deprecated
+
+- `NewNoopLogger` no-op logger. Use `NoopLogger` instead.
+- `NewTestHandler` test handler factory. Use `TestHandler` instead.
+- `LoggerTestSuite` test suite. Use the new `conformance` package instead.
+- `LogEventsEqual` function. Use `LogEvent.Equals` and `LogEvent.AssertEquals` instead.
+
 
 ## [0.15.1] - 2019-11-12
 
