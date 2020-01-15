@@ -349,15 +349,15 @@ func (l loggerContext) Debug(msg string, fields ...map[string]interface{}) {
 }
 
 func (l loggerContext) Info(msg string, fields ...map[string]interface{}) {
-	l.logger.Trace(msg, fields...)
+	l.logger.Info(msg, fields...)
 }
 
 func (l loggerContext) Warn(msg string, fields ...map[string]interface{}) {
-	l.logger.Trace(msg, fields...)
+	l.logger.Warn(msg, fields...)
 }
 
 func (l loggerContext) Error(msg string, fields ...map[string]interface{}) {
-	l.logger.Trace(msg, fields...)
+	l.logger.Error(msg, fields...)
 }
 
 func (l loggerContext) TraceContext(ctx context.Context, msg string, fields ...map[string]interface{}) {
