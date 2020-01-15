@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	. "logur.dev/logur"
+	"logur.dev/logur/conformance"
 	"logur.dev/logur/logtesting"
 )
 
@@ -182,21 +183,6 @@ func TestAssertLogEventsEqual_Errors(t *testing.T) {
 	}
 }
 
-func newTestLoggerSuite() *logtesting.LoggerTestSuite {
-	return &logtesting.LoggerTestSuite{
-		LoggerFactory: func(_ Level) (Logger, func() []LogEvent) {
-			logger := &TestLogger{}
-			return logger, func() []LogEvent { // nolint: gocritic
-				return logger.Events()
-			}
-		},
-	}
-}
-
-func TestTestLogger_Levels(t *testing.T) {
-	newTestLoggerSuite().TestLevels(t)
-}
-
 func TestTestLogger(t *testing.T) {
 	logger := &TestLogger{}
 
@@ -222,6 +208,16 @@ func TestTestLogger(t *testing.T) {
 	logtesting.AssertLogEventsEqual(t, LogEvent{Level: Debug, Line: "debug message"}, events[0])
 	logtesting.AssertLogEventsEqual(t, lastEvent, events[1])
 	logtesting.AssertLogEventsEqual(t, lastEvent, *logger.LastEvent())
+
+	suite := conformance.TestSuite{
+		LoggerFactory: func(_ Level) (Logger, conformance.TestLogger) {
+			logger := &TestLogger{}
+
+			return logger, logger
+		},
+	}
+
+	t.Run("Conformance", suite.Run)
 }
 
 func TestTestLoggerContext(t *testing.T) {
@@ -249,6 +245,8 @@ func TestTestLoggerContext(t *testing.T) {
 	logtesting.AssertLogEventsEqual(t, LogEvent{Level: Debug, Line: "debug message"}, events[0])
 	logtesting.AssertLogEventsEqual(t, lastEvent, events[1])
 	logtesting.AssertLogEventsEqual(t, lastEvent, *logger.LastEvent())
+
+	// T O D O: Conformance tests
 }
 
 func TestTestLoggerFacade(t *testing.T) {
@@ -278,4 +276,14 @@ func TestTestLoggerFacade(t *testing.T) {
 	logtesting.AssertLogEventsEqual(t, LogEvent{Level: Debug, Line: "another debug message"}, events[1])
 	logtesting.AssertLogEventsEqual(t, lastEvent, events[2])
 	logtesting.AssertLogEventsEqual(t, lastEvent, *logger.LastEvent())
+
+	suite := conformance.TestSuite{
+		LoggerFactory: func(_ Level) (Logger, conformance.TestLogger) {
+			logger := &TestLoggerFacade{}
+
+			return logger, logger
+		},
+	}
+
+	t.Run("Conformance", suite.Run)
 }

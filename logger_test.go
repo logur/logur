@@ -8,24 +8,11 @@ import (
 	"time"
 
 	. "logur.dev/logur"
+	"logur.dev/logur/conformance"
 	"logur.dev/logur/logtesting"
 )
 
-func newFieldLoggerTestSuite() *logtesting.LoggerTestSuite {
-	return &logtesting.LoggerTestSuite{
-		LoggerFactory: func(_ Level) (Logger, func() []LogEvent) {
-			logger := &TestLoggerFacade{}
-
-			return WithFields(logger, map[string]interface{}{"key": "value"}), logger.Events
-		},
-	}
-}
-
 func TestFieldLogger(t *testing.T) {
-	t.Run("Conformance", func(t *testing.T) {
-		newFieldLoggerTestSuite().Execute(t)
-	})
-
 	t.Run("WithFields", func(t *testing.T) {
 		logger := &TestLogger{}
 		l := WithFields(
@@ -67,14 +54,20 @@ func TestFieldLogger(t *testing.T) {
 
 		logtesting.AssertLogEventsEqual(t, logEvent, *logger.LastEvent())
 	})
+
+	suite := conformance.TestSuite{
+		LoggerFactory: func(_ Level) (Logger, conformance.TestLogger) {
+			logger := &TestLoggerFacade{}
+
+			return WithFields(logger, map[string]interface{}{"key": "value"}), logger
+		},
+	}
+
+	t.Run("Conformance", suite.Run)
 }
 
 func TestContextLogger(t *testing.T) {
-	t.Run("conformance", func(t *testing.T) {
-		newLoggerContextTestSuite().Execute(t)
-	})
-
-	t.Run("no_fields", func(t *testing.T) {
+	t.Run("NoFields", func(t *testing.T) {
 		testLogger := &TestLoggerFacade{}
 
 		logger := NewLoggerContext(testLogger, func(ctx context.Context) map[string]interface{} {
@@ -91,7 +84,7 @@ func TestContextLogger(t *testing.T) {
 		logtesting.AssertLogEventsEqual(t, logEvent, *testLogger.LastEvent())
 	})
 
-	t.Run("ctx_fields", func(t *testing.T) {
+	t.Run("ContextFields", func(t *testing.T) {
 		testLogger := &TestLoggerFacade{}
 
 		logger := NewLoggerContext(testLogger, func(ctx context.Context) map[string]interface{} {
@@ -111,7 +104,7 @@ func TestContextLogger(t *testing.T) {
 		logtesting.AssertLogEventsEqual(t, logEvent, *testLogger.LastEvent())
 	})
 
-	t.Run("fields", func(t *testing.T) {
+	t.Run("Fields", func(t *testing.T) {
 		testLogger := &TestLoggerFacade{}
 
 		logger := NewLoggerContext(testLogger, func(ctx context.Context) map[string]interface{} {
@@ -138,18 +131,18 @@ func TestContextLogger(t *testing.T) {
 
 		logtesting.AssertLogEventsEqual(t, logEvent, *testLogger.LastEvent())
 	})
-}
 
-func newLoggerContextTestSuite() *logtesting.LoggerTestSuite {
-	return &logtesting.LoggerTestSuite{
-		LoggerFactory: func(_ Level) (Logger, func() []LogEvent) {
+	suite := conformance.TestSuite{
+		LoggerFactory: func(_ Level) (Logger, conformance.TestLogger) {
 			logger := &TestLoggerFacade{}
 
 			return NewLoggerContext(logger, func(ctx context.Context) map[string]interface{} {
 				return nil
-			}), logger.Events
+			}), logger
 		},
 	}
+
+	t.Run("Conformance", suite.Run)
 }
 
 func TestContextExtractors(t *testing.T) {
