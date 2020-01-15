@@ -6,14 +6,88 @@ import (
 	"sync"
 )
 
-// LogEvent represents a single log event recorded by the test logger.
+// LogEvent represents a single log event recorded by a test logger.
 type LogEvent struct {
 	Line   string
 	Level  Level
 	Fields map[string]interface{}
 }
 
+// Equals checks if two LogEvent instances are equal.
+func (e LogEvent) Equals(other LogEvent) bool {
+	if e.Level != other.Level {
+		return false
+	}
+
+	if e.Line != other.Line {
+		return false
+	}
+
+	if len(e.Fields) != len(other.Fields) {
+		return false
+	}
+
+	for key, value := range e.Fields {
+		if other.Fields[key] != value {
+			return false
+		}
+	}
+
+	return true
+}
+
+// AssertEquals checks if two LogEvent instances are equal and returns an error if not.
+func (e LogEvent) AssertEquals(other LogEvent) error {
+	if !e.Equals(other) {
+		return logEventAssertionError{
+			actual:   e,
+			expected: other,
+		}
+	}
+
+	return nil
+}
+
+type logEventAssertionError struct {
+	actual   LogEvent
+	expected LogEvent
+}
+
+func (logEventAssertionError) Error() string {
+	return "failed to assert that log events are equal"
+}
+
+func (e logEventAssertionError) Format(s fmt.State, verb rune) {
+	switch verb {
+	case 'v':
+		if s.Flag('+') {
+			_, _ = fmt.Fprintf(s, "%s\n", e.Error())
+
+			_, _ = fmt.Fprint(s, "expected:\n")
+			_, _ = fmt.Fprintf(s, "    line:   %s\n", e.expected.Line)
+			_, _ = fmt.Fprintf(s, "    level:  %s\n", e.expected.Level)
+			_, _ = fmt.Fprintf(s, "    fields: %+v\n", e.expected.Fields)
+
+			_, _ = fmt.Fprint(s, "actual:\n")
+			_, _ = fmt.Fprintf(s, "    line:   %s\n", e.actual.Line)
+			_, _ = fmt.Fprintf(s, "    level:  %s\n", e.actual.Level)
+			_, _ = fmt.Fprintf(s, "    fields: %+v\n", e.actual.Fields)
+			return
+		}
+
+		_, _ = fmt.Fprintf(s, "%v", e.Error())
+
+	case 's':
+		_, _ = fmt.Fprintf(s, "%s", e.Error())
+
+	case 'q':
+		_, _ = fmt.Fprintf(s, "%q", e.Error())
+	}
+}
+
 // LogEventsEqual asserts that two LogEvents are identical and returns an error with detailed information if not.
+//
+// Deprecated: use LogEvents.AssertEquals.
 func LogEventsEqual(expected LogEvent, actual LogEvent) error {
 	if expected.Level != actual.Level {
 		return fmt.Errorf("expected log levels to be equal\ngot:  %s\nwant: %s", actual.Level, expected.Level)

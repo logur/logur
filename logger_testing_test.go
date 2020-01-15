@@ -2,12 +2,106 @@ package logur_test
 
 import (
 	"context"
+	"fmt"
 	"strings"
 	"testing"
 
 	. "logur.dev/logur"
 	"logur.dev/logur/logtesting"
 )
+
+func TestLogEvents_Equals(t *testing.T) {
+	tests := map[string]struct {
+		expected LogEvent
+		actual   LogEvent
+	}{
+		"level": {
+			expected: LogEvent{
+				Level: Trace,
+			},
+			actual: LogEvent{
+				Level: Debug,
+			},
+		},
+		"line": {
+			expected: LogEvent{
+				Line: "message",
+			},
+			actual: LogEvent{
+				Line: "other message",
+			},
+		},
+		"fields length": {
+			expected: LogEvent{
+				Fields: Fields{},
+			},
+			actual: LogEvent{
+				Fields: Fields{"key1": "value1"},
+			},
+		},
+		"fields value": {
+			expected: LogEvent{
+				Fields: Fields{"key1": "value1"},
+			},
+			actual: LogEvent{
+				Fields: Fields{"key1": "value2"},
+			},
+		},
+	}
+
+	for name, test := range tests {
+		name, test := name, test
+
+		t.Run(name, func(t *testing.T) {
+			if test.actual.Equals(test.expected) {
+				t.Errorf(
+					"log events should not be equal\nexpected: %+v\nactual:  %+v",
+					test.expected,
+					test.actual,
+				)
+			}
+		})
+	}
+}
+
+func TestLogEvents_AssertEquals(t *testing.T) {
+	actual := LogEvent{
+		Line:   "something happened",
+		Level:  Trace,
+		Fields: Fields{"key": "value"},
+	}
+
+	expected := LogEvent{
+		Line:   "something else happened",
+		Level:  Info,
+		Fields: Fields{"key2": "value2"},
+	}
+
+	const expectedMessage = "failed to assert that log events are equal"
+	const expectedVerboseMessage = `failed to assert that log events are equal
+expected:
+    line:   something else happened
+    level:  info
+    fields: map[key2:value2]
+actual:
+    line:   something happened
+    level:  trace
+    fields: map[key:value]
+`
+
+	err := actual.AssertEquals(expected)
+	if err == nil {
+		t.Fatal("assertion is expected to fail")
+	}
+
+	if want, have := expectedMessage, fmt.Sprintf("%s", err); want != have {
+		t.Errorf("unexpexted error message: %v", have)
+	}
+
+	if want, have := expectedVerboseMessage, fmt.Sprintf("%+v", err); want != have {
+		t.Errorf("unexpexted error message: %v", have)
+	}
+}
 
 func TestAssertLogEventsEqual(t *testing.T) {
 	event1 := LogEvent{
