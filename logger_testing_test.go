@@ -247,6 +247,39 @@ func TestTestLoggerContext(t *testing.T) {
 	logtesting.AssertLogEventsEqual(t, lastEvent, *logger.LastEvent())
 
 	// T O D O: Conformance tests
+	suite := conformance.TestSuite{
+		LoggerFactory: func(_ Level) (Logger, conformance.TestLogger) {
+			logger := &TestLoggerContext{}
+
+			return loggerContextWrapper{logger}, logger
+		},
+	}
+
+	t.Run("Conformance", suite.Run)
+}
+
+type loggerContextWrapper struct {
+	LoggerContext
+}
+
+func (l loggerContextWrapper) Trace(msg string, fields ...map[string]interface{}) {
+	l.TraceContext(context.Background(), msg, fields...)
+}
+
+func (l loggerContextWrapper) Debug(msg string, fields ...map[string]interface{}) {
+	l.DebugContext(context.Background(), msg, fields...)
+}
+
+func (l loggerContextWrapper) Info(msg string, fields ...map[string]interface{}) {
+	l.InfoContext(context.Background(), msg, fields...)
+}
+
+func (l loggerContextWrapper) Warn(msg string, fields ...map[string]interface{}) {
+	l.WarnContext(context.Background(), msg, fields...)
+}
+
+func (l loggerContextWrapper) Error(msg string, fields ...map[string]interface{}) {
+	l.ErrorContext(context.Background(), msg, fields...)
 }
 
 func TestTestLoggerFacade(t *testing.T) {
