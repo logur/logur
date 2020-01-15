@@ -47,11 +47,7 @@ func (s *LoggerTestSuite) Execute(t *testing.T) {
 	t.Parallel()
 
 	t.Run("Levels", s.TestLevels)
-
-	if s.LoggerContextFactory != nil {
-		t.Run("Levels", s.TestLevelsContext)
-	}
-
+	t.Run("LevelsContext", s.TestLevelsContext)
 	t.Run("LevelEnabler", s.TestLevelEnabler)
 	t.Run("LevelEnabler_UnknownReturnsTrue", s.TestLevelEnablerUnknownReturnsTrue)
 }
@@ -109,9 +105,14 @@ func (s *LoggerTestSuite) TestLevelsContext(t *testing.T) {
 
 			fields := map[string]interface{}{"key": "value"}
 
-			logger, getLogEvents := s.LoggerContextFactory(logur.Trace)
+			logger, getLogEvents := s.LoggerFactory(logur.Trace)
 
-			test.logCtxFunc(logger, context.Background(), "message1message2", fields)
+			loggerContext, ok := logger.(logur.LoggerContext)
+			if !ok {
+				t.Skip("logger does not implement logur.LoggerContext interface")
+			}
+
+			test.logCtxFunc(loggerContext, context.Background(), "message1message2", fields)
 
 			logEvents := getLogEvents()
 

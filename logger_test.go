@@ -18,65 +18,62 @@ func newFieldLoggerTestSuite() *logtesting.LoggerTestSuite {
 
 			return WithFields(logger, map[string]interface{}{"key": "value"}), logger.Events
 		},
-		LoggerContextFactory: func(_ Level) (LoggerContext, func() []LogEvent) {
-			logger := &TestLoggerFacade{}
-
-			return WithFields(logger, map[string]interface{}{"key": "value"}), logger.Events
-		},
 	}
 }
 
-func TestFieldLogger_Levels(t *testing.T) {
-	newFieldLoggerTestSuite().TestLevels(t)
+func TestFieldLogger(t *testing.T) {
+	t.Run("Conformance", func(t *testing.T) {
+		newFieldLoggerTestSuite().Execute(t)
+	})
+
+	t.Run("WithFields", func(t *testing.T) {
+		logger := &TestLogger{}
+		l := WithFields(
+			WithFields(
+				WithFields(logger, map[string]interface{}{"key": "value"}),
+				map[string]interface{}{"key": "value2"},
+			),
+			map[string]interface{}{"key": "value3"},
+		)
+
+		l.Info("message", map[string]interface{}{"key2": "value"})
+
+		logEvent := LogEvent{
+			Line:   "message",
+			Level:  Info,
+			Fields: map[string]interface{}{"key": "value3", "key2": "value"},
+		}
+
+		logtesting.AssertLogEventsEqual(t, logEvent, logEvent)
+	})
+
+	t.Run("WithField", func(t *testing.T) {
+		logger := &TestLogger{}
+		l := WithField(
+			WithField(
+				WithField(logger, "key", "value"),
+				"key", "value2",
+			),
+			"key", "value3",
+		)
+
+		l.Info("message", map[string]interface{}{"key2": "value"})
+
+		logEvent := LogEvent{
+			Line:   "message",
+			Level:  Info,
+			Fields: map[string]interface{}{"key": "value3", "key2": "value"},
+		}
+
+		logtesting.AssertLogEventsEqual(t, logEvent, *logger.LastEvent())
+	})
 }
 
-func TestFieldLogger_LevelsContext(t *testing.T) {
-	newFieldLoggerTestSuite().TestLevelsContext(t)
-}
+func TestContextLogger(t *testing.T) {
+	t.Run("conformance", func(t *testing.T) {
+		newLoggerContextTestSuite().Execute(t)
+	})
 
-func TestWithFields(t *testing.T) {
-	logger := &TestLogger{}
-	l := WithFields(
-		WithFields(
-			WithFields(logger, map[string]interface{}{"key": "value"}),
-			map[string]interface{}{"key": "value2"},
-		),
-		map[string]interface{}{"key": "value3"},
-	)
-
-	l.Info("message", map[string]interface{}{"key2": "value"})
-
-	logEvent := LogEvent{
-		Line:   "message",
-		Level:  Info,
-		Fields: map[string]interface{}{"key": "value3", "key2": "value"},
-	}
-
-	logtesting.AssertLogEventsEqual(t, logEvent, logEvent)
-}
-
-func TestWithField(t *testing.T) {
-	logger := &TestLogger{}
-	l := WithField(
-		WithField(
-			WithField(logger, "key", "value"),
-			"key", "value2",
-		),
-		"key", "value3",
-	)
-
-	l.Info("message", map[string]interface{}{"key2": "value"})
-
-	logEvent := LogEvent{
-		Line:   "message",
-		Level:  Info,
-		Fields: map[string]interface{}{"key": "value3", "key2": "value"},
-	}
-
-	logtesting.AssertLogEventsEqual(t, logEvent, *logger.LastEvent())
-}
-
-func TestNewLoggerContext(t *testing.T) {
 	t.Run("no_fields", func(t *testing.T) {
 		testLogger := &TestLoggerFacade{}
 
@@ -152,22 +149,7 @@ func newLoggerContextTestSuite() *logtesting.LoggerTestSuite {
 				return nil
 			}), logger.Events
 		},
-		LoggerContextFactory: func(_ Level) (LoggerContext, func() []LogEvent) {
-			logger := &TestLoggerFacade{}
-
-			return NewLoggerContext(logger, func(ctx context.Context) map[string]interface{} {
-				return nil
-			}), logger.Events
-		},
 	}
-}
-
-func TestLoggerContext_Levels(t *testing.T) {
-	newLoggerContextTestSuite().TestLevels(t)
-}
-
-func TestLoggerContext_LevelsContext(t *testing.T) {
-	newLoggerContextTestSuite().TestLevelsContext(t)
 }
 
 func TestContextExtractors(t *testing.T) {
