@@ -41,7 +41,7 @@ func WithFields(logger Logger, fields map[string]interface{}) LoggerFacade {
 }
 
 // WithField is a shortcut for WithFields(logger, map[string]interface{}{key: value}).
-func WithField(logger Logger, key string, value interface{}) Logger {
+func WithField(logger Logger, key string, value interface{}) LoggerFacade {
 	return WithFields(logger, map[string]interface{}{key: value})
 }
 
