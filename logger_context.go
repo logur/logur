@@ -11,9 +11,9 @@ type withContextExtractor struct {
 
 // WithContextExtractor returns a logger that extracts details from the provided context (if any)
 // and annotates the log event with them.
-func WithContextExtractor(handler Logger, extractor ContextExtractor) LoggerFacade {
+func WithContextExtractor(logger Logger, extractor ContextExtractor) LoggerFacade {
 	return withContextExtractor{
-		LoggerFacade: ensureLoggerFacade(handler),
+		LoggerFacade: ensureLoggerFacade(logger),
 		extractor:    extractor,
 	}
 }

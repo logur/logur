@@ -78,7 +78,7 @@ type LoggerContext interface {
 
 // LoggerFacade is a combination of Logger and LoggerContext.
 // It's sole purpose is to make the API of the package concise by exposing a common interface type
-// for returned handlers. It's not supposed to be used by consumers of this package.
+// for returned loggers. It's not supposed to be used by consumers of this package.
 //
 // It goes directly against the "Use interfaces, return structs" idiom of Go,
 // but at the current phase of the package the smaller API surface makes more sense.
