@@ -9,6 +9,3 @@ linters:
     disable:
         - funlen
         - wsl
-
-service:
-    golangci-lint-version: 1.21.x

@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go: ['1.11', '1.12', '1.13']
+        go: ['1.11', '1.12', '1.13', '1.14']
     env:
       VERBOSE: 1
       GOFLAGS: -mod=readonly
@@ -27,10 +27,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Run tests
+      - name: Lint
+        run: make lint
+
+      - name: Test
         run: make test
 
-      - name: Run tests for examples
+      - name: Examples
         run: cd examples; go test -v
 
       - name: Upload coverage
@@ -51,7 +54,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v1
         with:
-          go-version: '1.13'
+          go-version: '1.14'
 
       - name: Checkout code
         uses: actions/checkout@v2
