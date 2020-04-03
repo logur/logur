@@ -1,10 +1,11 @@
 ![Logur](.github/logo.png?raw=true)
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/logur/logur/CI?style=flat-square)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/logur/logur/CI?style=flat-square)](https://github.com/logur/logur/actions?query=workflow%3ACI)
 [![Codecov](https://img.shields.io/codecov/c/github/logur/logur?style=flat-square)](https://codecov.io/gh/logur/logur)
 [![Go Report Card](https://goreportcard.com/badge/logur.dev/logur?style=flat-square)](https://goreportcard.com/report/logur.dev/logur)
-[![Go Version](https://img.shields.io/badge/go%20version-%3E=1.11-61CFDD.svg?style=flat-square)](https://github.com/logur/logur)
+![Go Version](https://img.shields.io/badge/go%20version-%3E=1.11-61CFDD.svg?style=flat-square)
 [![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/mod/logur.dev/logur)
+
 
 **Logur is an opinionated collection of logging best practices.**
 
