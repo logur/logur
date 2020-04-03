@@ -9,3 +9,4 @@ linters:
     disable:
         - funlen
         - wsl
+        - gomnd

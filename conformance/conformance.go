@@ -135,6 +135,7 @@ func (s TestSuite) RunLevelContextTest(t *testing.T) {
 
 // RunLevelEnablerTest tests enabled levels.
 // Note: this is not mandatory, incompatible loggers will be skipped.
+// nolint: gocognit
 func (s TestSuite) RunLevelEnablerTest(t *testing.T) {
 	if s.LoggerFactory == nil {
 		t.Fatal("logger factory is not configured")
