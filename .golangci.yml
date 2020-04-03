@@ -10,5 +10,3 @@ linters:
         - funlen
         - wsl
         - gomnd
-
-        - rowserrcheck
