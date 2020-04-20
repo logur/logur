@@ -34,15 +34,16 @@ The main focus of the library:
 
 - provide a unified interface that does not require developers to import external dependencies
 - encourage leveled and structured logging
-- provide tools for easy integration of other log libraries and components
+- provide tools for easy integration of other logging libraries and components
 
-Logur does not care about log output, you can use whatever library/formatting/forwarder you want.
+Logur does not care about log output, you can use whatever library/formatting/forwarder you want
+(ie. use an existing logging library with one of the [adapters](https://github.com/search?q=topic%3Aadapter+org%3Alogur)).
 
 Despite the opinionated nature, Logur encourages you to create custom logging interfaces for your needs
 and only use Logur as an integration layer/tool. Use the features you need/want and just omit the rest.
 
 As mentioned above, Logur aims to cover only [95% of the use cases](https://dev.to/nickjj/optimize-your-programming-decisions-for-the-95-not-the-5-2n42),
-so Logur might not be for you.
+so Logur might not be for you. Read on for more details.
 
 
 ## Features
@@ -52,14 +53,13 @@ so Logur might not be for you.
 - Noop logger for discarding log events
 - `io.Writer` support
 - Standard library logger support
-- [github.com/goph/emperror](https://github.com/goph/emperror) compatible error handler
 - Integrations with well-known libraries:
     - [gRPC log](https://godoc.org/google.golang.org/grpc/grpclog)
     - [MySQL driver](https://github.com/go-sql-driver/mysql)
     - [Watermill](https://watermill.io/)
     - [InvisionApp logger](https://github.com/InVisionApp/go-logger) interface
-    - [Bugsnag](https://bugsnag.com) [SDK](https://godoc.org/github.com/bugsnag/bugsnag-go) (logger, for error handling see [github.com/goph/emperror](https://github.com/goph/emperror))
-    - [Rollbar](https://rollbar.com) [SDK](https://godoc.org/github.com/rollbar/rollbar-go) (logger, for error handling see [github.com/goph/emperror](https://github.com/goph/emperror))
+    - [Bugsnag](https://bugsnag.com) [SDK](https://godoc.org/github.com/bugsnag/bugsnag-go) (logger, for error handling see [github.com/emperror/emperror](https://github.com/emperror/emperror))
+    - [Rollbar](https://rollbar.com) [SDK](https://godoc.org/github.com/rollbar/rollbar-go) (logger, for error handling see [github.com/emperror/emperror](https://github.com/emperror/emperror))
     - [logr](https://github.com/go-logr/logr) logger interface
     - [go-kit](https://github.com/go-kit/kit) logger
     - [zap](https://github.com/uber-go/zap) logger
@@ -79,12 +79,6 @@ using `go get`:
 
 ```bash
 $ go get logur.dev/logur
-```
-
-Alternatively, you can install it via [Dep](https://golang.github.io/dep/):
-
-```bash
-$ dep ensure -add logur.dev/logur
 ```
 
 
@@ -110,7 +104,7 @@ type MyLogger interface {
 }
 ```
 
-In a lucky scenario all logur loggers are compatible with the above interface, so you can just use them in your code:
+In a lucky scenario all Logur loggers are compatible with the above interface, so you can just use them in your code:
 
 ```go
 func main() {
@@ -137,7 +131,7 @@ type MyLogger interface {
 }
 ```
 
-As you can see `MyLogger` holds a reference to itself, which makes it incompatible with the logur implementations.
+As you can see `MyLogger` holds a reference to itself, which makes it incompatible with the Logur implementations.
 The solution in this case is implementing a custom adapter:
 
 ```go
@@ -152,7 +146,7 @@ func (l *myLogger) WithFields(fields map[string]interface{}) MyLogger {
 }
 ```
 
-Now you can easily use logur provided loggers inside your code:
+Now you can easily use Logur provided loggers inside your code:
 
 ```go
 func main() {
@@ -170,7 +164,7 @@ func myFunc(logger MyLogger) {
 
 In many cases it is unavoidable to maintain a simple integration layer between third-party libraries and your
 application. Logur is no exception. In the previous section you saw how the main interface works with adapters,
-but that's not all logur provides. It comes with a set of other tools (eg. creating a standard library logger)
+but that's not all Logur provides. It comes with a set of other tools (eg. a standard library logger compatible `io.Writer`)
 to make logging easier. It might be tempting to just use them in your application, but writing an integration
 layer is recommended, even around functions.
 
@@ -194,11 +188,11 @@ func main() {
 
 ### Why not just X logger?
 
-To be honest: mostly because I don't care. Loggers proliferated in the Go ecosystem in the past few years.
+To be honest: mostly because I don't care. Logging libraries proliferated in the Go ecosystem in the past few years.
 Each tries to convince you it's the most performant or the easiest to use.
 But the fact is your application doesn't care which you use.
 In fact, it's happier if it doesn't know anything about it at all.
-Logger libraries (just like every third-party library) are external dependencies.
+Logging libraries (just like every third-party library) are external dependencies.
 If you wire them into your application, it will be tied to the chosen libraries forever.
 That's why using a custom interface is a highly recommended practice.
 
@@ -218,9 +212,9 @@ You can easily create an interface like this and implement an adapter for the lo
 without wiring it into your application which makes the actual library a less important detail.
 
 
-### Why not go-kit logger?
+### Why not Go kit logger?
 
-Go-kit deserves it's own FAQ entry because for quite some time I was really fond of the its logger interface
+Go-kit deserves it's own entry because for quite some time I was really fond of the its logger interface
 and it was the closest thing to become an [official Go logging solution](https://docs.google.com/document/d/1shW9DZJXOeGbG9Mr9Us9MiaPqmlcVatD_D8lrOXRNMU).
 I still think it is great, because the interface is very simple, yet it's incredibly powerful.
 But this simplicity is why I ultimately stopped using it as my primary logger
@@ -235,7 +229,7 @@ type Logger interface {
 ```
 
 It's really simple and easy to use in any application. Following Go's guidelines of using interfaces,
-one can easily copy this interface and just use it to decouple the code from go-kit itself.
+one can easily copy this interface and just use it to decouple the code from Go kit itself.
 
 The problem with this interface appears when you try to do "advanced stuff"
 (like structured logging or adding a level to a log event):
@@ -252,19 +246,19 @@ logger := log.With(logger, "key", "value")
 level.Info(logger).Log("msg", "message")
 ```
 
-As you can see doing any kind of structured or leveled logging requires to import go-kit packages after all,
+As you can see doing any kind of structured or leveled logging requires to import Go kit packages after all,
 which takes us back to [Why not just X logger?](#why-not-just-x-logger).
 
-In short: Using go-kit directly - no matter how awesome its interface is - suffers from the same problem as
+In short: Using Go kit directly - no matter how awesome its interface is - suffers from the same problem as
 using any other logging library.
 
-One could implement all those functions for a custom interface based on go-kit,
+One could implement all those functions for a custom interface based on Go kit,
 but it probably isn't worth the hassle. Defining a more verbose, custom interface is a lot easier to work with.
-That being said, go-kit logger can very well serve as a perfect base for an implementation of that interface.
+That being said, Go kit logger can very well serve as a perfect base for an implementation of that interface.
 
 The [proposal](https://docs.google.com/document/d/1shW9DZJXOeGbG9Mr9Us9MiaPqmlcVatD_D8lrOXRNMU) linked above contains many examples
 why the authors ended up with an interface like this. Go check it out, you might just have the same use cases
-which could make the go-kit interface a better fit than the one in this library.
+which could make the Go kit interface a better fit than the one in this library.
 
 
 ### Why not `logger.With(keyvals ...interface{})`?
@@ -280,9 +274,11 @@ type Logger interface {
 
 The arguments behind this interface are being simple and convenient, not as verbose as a map of fields.
 There are also usual arguments *against* the alternative solutions, (eg. a `map[string]interface{}` endorsed by this library)
-like not being able to order fields or being forced to import a concrete type, like `logur.Fields`.
+like not being able to order fields, being forced to import a concrete type, like `logur.Fields`
+or (quite often) performance questions.
+
 Ultimately, this is not completely independent from personal taste, so one will always prefer one or the other.
-(You can read more in the above linked [go-kit proposal](https://docs.google.com/document/d/1shW9DZJXOeGbG9Mr9Us9MiaPqmlcVatD_D8lrOXRNMU)).
+(You can read more in the above linked [Go kit proposal](https://docs.google.com/document/d/1shW9DZJXOeGbG9Mr9Us9MiaPqmlcVatD_D8lrOXRNMU)).
 
 Let's take a look at these arguments one by one:
 
@@ -296,7 +292,7 @@ logger = log.With(logger, "key", "value", "key2", "value")
 logger = logur.WithFields(logger, map[string]interface{}{"key": "value", "key2": "value"})
 ```
 
-Obviously the second one is more verbose, takes a bit more efforts to write, but this is rather a question of habits.
+Obviously the second one is more verbose, takes a bit more efforts to write, but it is rather a question of habits.
 
 Let's take a look at a multiline example as well:
 
@@ -334,7 +330,7 @@ logger = logur.WithFields(logger, LogFields{
 **2. Ordering fields**
 
 This is one of the less known arguments against maps in the context of logging, you can read about it in the
-[go-kit proposal](https://docs.google.com/document/d/1shW9DZJXOeGbG9Mr9Us9MiaPqmlcVatD_D8lrOXRNMU).
+[Go kit proposal](https://docs.google.com/document/d/1shW9DZJXOeGbG9Mr9Us9MiaPqmlcVatD_D8lrOXRNMU).
 
 Since maps are unordered in Go, fields added to a log line might not always look like the same on the output.
 Variadic (slice) arguments do not suffer from this issue. However, most implementations convert slices internally to maps,
@@ -344,12 +340,44 @@ Also, this library is not a one size fits all proposal and doesn't try to solve 
 (unlike the official logger proposal), but rather aim for the most common use cases which doesn't include ordering of fields.
 
 
+**3. Performance**
+
+Comparing the performance of different solutions is not easy and depends heavily on the interface.
+
+For example, Uber's [Zap](https://github.com/uber-go/zap) comes with a rich interface
+(thus requires you to couple your code to Zap), but also promises zero-allocation in certain scenarios,
+making it an extremely fast logging library. If being *very fast* is a requirement for you,
+even at the expense tight coupling, then Zap is a great choice.
+
+More generic interfaces often use ... well `interface{}` for structured context,
+but [interface allocations](https://commaok.xyz/post/interface-allocs/) are much cheaper now.
+
+The performance debate these days is often between two approaches:
+
+- variadic slices (`...interface{}`)
+- maps (`map[string]interface{}`)
+
+Specifically, how the provided context can be *merged* with an existing, internal context of the logger.
+Admittedly, `append`ing to a slice is much cheaper than merging a map, so if performance is crucial,
+using an interface with variadic slices will always be **slightly** faster.
+But that difference in performance is negligible in most of the cases, so you won't even notice it,
+unless you start logging with hundreds of structured context fields (which will have other problems anyway).
+
+There is a problem with Logur adapters though: since the interface uses maps for structured context,
+libraries like Zap that use variadic slices does not perform too well because of the map -> slice conversion.
+In most of the cases this should still be acceptable, but you should be aware of this fact when choosing an adapter.
+
+Partly because of this, I plan to add a `KVLogger` interface that uses variadic slices for structured context.
+Obviously, map based libraries will suffer from the same performance penalty, but then the choice of the interface
+will be up to the developer.
+
+
 Comparing the slice and the map solution, there are also some arguments against using a variadic slice:
 
 **1. Odd number of arguments**
 
 The variadic slice interface implementation has to deal with the case when an odd number of arguments are passed to
-the function. While the [go-kit proposal](https://docs.google.com/document/d/1shW9DZJXOeGbG9Mr9Us9MiaPqmlcVatD_D8lrOXRNMU)
+the function. While the [Go kit proposal](https://docs.google.com/document/d/1shW9DZJXOeGbG9Mr9Us9MiaPqmlcVatD_D8lrOXRNMU)
 argues that this is extremely hard mistake to make, the risk is still there that the logs will lack some information.
 
 **2. Converting the slice to key value pairs**
