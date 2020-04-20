@@ -53,7 +53,7 @@ so Logur might not be for you. Read on for more details.
 - Noop logger for discarding log events
 - `io.Writer` support
 - Standard library logger support
-- Integrations with well-known libraries:
+- [Integrations](https://github.com/search?q=topic%3Aintegration+org%3Alogur) with well-known libraries:
     - [gRPC log](https://godoc.org/google.golang.org/grpc/grpclog)
     - [MySQL driver](https://github.com/go-sql-driver/mysql)
     - [Watermill](https://watermill.io/)
@@ -63,7 +63,7 @@ so Logur might not be for you. Read on for more details.
     - [logr](https://github.com/go-logr/logr) logger interface
     - [go-kit](https://github.com/go-kit/kit) logger
     - [zap](https://github.com/uber-go/zap) logger
-- Adapters for well-known logging libraries:
+- [Adapters](https://github.com/search?q=topic%3Aadapter+org%3Alogur) for well-known logging libraries:
     - [hclog](https://github.com/hashicorp/go-hclog)
     - [go-kit log](https://github.com/go-kit/kit)
     - [logrus](https://github.com/sirupsen/logrus)
