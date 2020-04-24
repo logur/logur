@@ -1,5 +1,7 @@
 ![Logur](.github/logo.png?raw=true)
 
+[![Mentioned in Awesome Go](https://awesome.re/mentioned-badge-flat.svg)](https://github.com/avelino/awesome-go#logging)
+
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/logur/logur/CI?style=flat-square)](https://github.com/logur/logur/actions?query=workflow%3ACI)
 [![Codecov](https://img.shields.io/codecov/c/github/logur/logur?style=flat-square)](https://codecov.io/gh/logur/logur)
 [![Go Report Card](https://goreportcard.com/badge/logur.dev/logur?style=flat-square)](https://goreportcard.com/report/logur.dev/logur)
