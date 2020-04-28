@@ -47,8 +47,10 @@ func (l *Logger) Log(kvs ...interface{}) error {
 	}
 
 	var msg string
+
 	if m, ok := fields["msg"]; ok {
 		delete(fields, "msg")
+
 		msg = fmt.Sprintf("%s", m)
 	}
 

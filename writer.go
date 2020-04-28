@@ -31,6 +31,7 @@ func writerScanner(logger Logger, level Level, reader io.ReadCloser) {
 	for scanner.Scan() {
 		logFunc(scanner.Text())
 	}
+
 	if err := scanner.Err(); err != nil {
 		logger.Error(fmt.Sprintf("error while reading from log pipe: %s", err))
 	}

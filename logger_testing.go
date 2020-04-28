@@ -72,6 +72,7 @@ func (e logEventAssertionError) Format(s fmt.State, verb rune) {
 			_, _ = fmt.Fprintf(s, "    line:   %s\n", e.actual.Line)
 			_, _ = fmt.Fprintf(s, "    level:  %s\n", e.actual.Level)
 			_, _ = fmt.Fprintf(s, "    fields: %+v\n", e.actual.Fields)
+
 			return
 		}
 

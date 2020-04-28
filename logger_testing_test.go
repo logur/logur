@@ -78,8 +78,9 @@ func TestLogEvents_AssertEquals(t *testing.T) {
 		Fields: Fields{"key2": "value2"},
 	}
 
-	const expectedMessage = "failed to assert that log events are equal"
-	const expectedVerboseMessage = `failed to assert that log events are equal
+	const (
+		expectedMessage        = "failed to assert that log events are equal"
+		expectedVerboseMessage = `failed to assert that log events are equal
 expected:
     line:   something else happened
     level:  info
@@ -89,6 +90,7 @@ actual:
     level:  trace
     fields: map[key:value]
 `
+	)
 
 	err := actual.AssertEquals(expected)
 	if err == nil {

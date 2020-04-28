@@ -59,6 +59,7 @@ func (s *LoggerTestSuite) TestLevelsContext(t *testing.T) {
 	if s.LoggerFactory == nil {
 		t.Fatal("logger factory is not configured")
 	}
+
 	conformance.TestSuite{
 		LoggerFactory: wrapLoggerFactory(s.LoggerFactory),
 		NoTraceLevel:  s.TraceFallbackToDebug,

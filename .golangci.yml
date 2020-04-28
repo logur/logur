@@ -8,5 +8,5 @@ linters:
     enable-all: true
     disable:
         - funlen
-        - wsl
         - gomnd
+        - testpackage
