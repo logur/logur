@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+
+## [0.17.0] - 2020-08-26
+
 ## Added
 
 - `KVLogger` interface for variadic logger interfaces
@@ -258,7 +261,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Initial release
 
 
-[Unreleased]: https://github.com/logur/logur/compare/v0.16.2...HEAD
+[Unreleased]: https://github.com/logur/logur/compare/v0.17.0...HEAD
+[0.17.0]: https://github.com/logur/logur/compare/v0.16.2...v0.17.0
 [0.16.2]: https://github.com/logur/logur/compare/v0.16.1...v0.16.2
 [0.16.1]: https://github.com/logur/logur/compare/v0.16.0...v0.16.1
 [0.16.0]: https://github.com/logur/logur/compare/v0.15.1...v0.16.0
