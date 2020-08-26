@@ -1,6 +1,7 @@
 package logur
 
 import (
+	"context"
 	"testing"
 )
 
@@ -34,16 +35,7 @@ func TestLevel_String_Unknown(t *testing.T) {
 }
 
 func TestParseAndUnmarshalLevel(t *testing.T) {
-	tests := map[string]Level{
-		"trace":   Trace,
-		"debug":   Debug,
-		"info":    Info,
-		"warn":    Warn,
-		"warning": Warn,
-		"error":   Error,
-	}
-
-	for levelName, level := range tests {
+	for levelName, level := range levelMap {
 		levelName, level := levelName, level
 
 		t.Run("parse:"+levelName, func(t *testing.T) {
@@ -82,10 +74,10 @@ func TestParseLevel_Unknown(t *testing.T) {
 }
 
 func TestLevelFunc(t *testing.T) {
-	for levelName, level := range levelMap {
-		levelName, level := levelName, level
+	for _, level := range Levels() {
+		level := level
 
-		t.Run(levelName, func(t *testing.T) {
+		t.Run(level.String(), func(t *testing.T) {
 			logger := &TestLoggerFacade{}
 
 			logFunc := LevelFunc(logger, level)
@@ -108,4 +100,70 @@ func TestLevelFunc(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestLevelContextFunc(t *testing.T) {
+	t.Parallel()
+
+	t.Run("Logger", func(t *testing.T) {
+		t.Parallel()
+
+		for _, level := range Levels() {
+			level := level
+
+			t.Run(level.String(), func(t *testing.T) {
+				logger := &TestLogger{}
+
+				logFunc := LevelContextFunc(logger, level)
+				const msg = "message"
+
+				logFunc(context.Background(), msg)
+
+				if logger.Count() < 1 {
+					t.Fatal("logger did not record any events")
+				}
+
+				event := logger.LastEvent()
+
+				if event.Level != level {
+					t.Errorf("expected level %q instead of %q", level.String(), event.Level.String())
+				}
+
+				if got, want := event.Line, msg; got != want {
+					t.Errorf("expected message %q instead of %q", want, got)
+				}
+			})
+		}
+	})
+
+	t.Run("LoggerContext", func(t *testing.T) {
+		t.Parallel()
+
+		for _, level := range Levels() {
+			level := level
+
+			t.Run(level.String(), func(t *testing.T) {
+				logger := &TestLoggerFacade{}
+
+				logFunc := LevelContextFunc(logger, level)
+				const msg = "message"
+
+				logFunc(context.Background(), msg)
+
+				if logger.Count() < 1 {
+					t.Fatal("logger did not record any events")
+				}
+
+				event := logger.LastEvent()
+
+				if event.Level != level {
+					t.Errorf("expected level %q instead of %q", level.String(), event.Level.String())
+				}
+
+				if got, want := event.Line, msg; got != want {
+					t.Errorf("expected message %q instead of %q", want, got)
+				}
+			})
+		}
+	})
 }

@@ -2,8 +2,8 @@ package logur
 
 import (
 	"context"
-	"fmt"
-	"strings"
+
+	kvs "logur.dev/logur/internal/keyvals"
 )
 
 // Logger is a unified interface for various logging use cases and practices, including:
@@ -168,58 +168,203 @@ func NewNoopLogger() Logger {
 	return NoopLogger{}
 }
 
-// PrintLogger logs messages with fmt.Print* function semantics.
-type PrintLogger struct {
-	logger LogFunc
+// KVLogger is a unified interface for various logging use cases and practices, including:
+// 		- leveled logging
+// 		- structured logging
+//
+// Compared to Logger, KVLogger accepts key-value pairs in the form of variadic interface arguments.
+type KVLogger interface {
+	// Trace logs a Trace event.
+	//
+	// Even more fine-grained information than Debug events.
+	// Loggers not supporting this level should fall back to Debug.
+	Trace(msg string, keyvals ...interface{})
+
+	// Debug logs a Debug event.
+	//
+	// A verbose series of information events.
+	// They are useful when debugging the system.
+	Debug(msg string, keyvals ...interface{})
+
+	// Info logs an Info event.
+	//
+	// General information about what's happening inside the system.
+	Info(msg string, keyvals ...interface{})
+
+	// Warn logs a Warn(ing) event.
+	//
+	// Non-critical events that should be looked at.
+	Warn(msg string, keyvals ...interface{})
+
+	// Error logs an Error event.
+	//
+	// Critical events that require immediate attention.
+	// Loggers commonly provide Fatal and Panic levels above Error level,
+	// but exiting and panicing is out of scope for a logging library.
+	Error(msg string, keyvals ...interface{})
 }
 
-// NewPrintLogger returns a new PrintLogger.
-func NewPrintLogger(logger LogFunc) *PrintLogger {
-	return &PrintLogger{logger}
+// KVLoggerContext is an optional interface that MAY be implemented by a KVLogger.
+// It is similar to KVLogger, but it receives a context as the first parameter.
+// An implementation MAY extract information from the context and annotate the log context with it.
+//
+// KVLoggerContext MAY honor the deadline carried by the context, but that's not a hard requirement.
+type KVLoggerContext interface {
+	// TraceContext logs a Trace event.
+	//
+	// Even more fine-grained information than Debug events.
+	// Loggers not supporting this level should fall back to Debug.
+	TraceContext(ctx context.Context, msg string, keyvals ...interface{})
+
+	// DebugContext logs a Debug event.
+	//
+	// A verbose series of information events.
+	// They are useful when debugging the system.
+	DebugContext(ctx context.Context, msg string, keyvals ...interface{})
+
+	// InfoContext logs an Info event.
+	//
+	// General information about what's happening inside the system.
+	InfoContext(ctx context.Context, msg string, keyvals ...interface{})
+
+	// WarnContext logs a Warn(ing) event.
+	//
+	// Non-critical events that should be looked at.
+	WarnContext(ctx context.Context, msg string, keyvals ...interface{})
+
+	// ErrorContext logs an Error event.
+	//
+	// Critical events that require immediate attention.
+	// Loggers commonly provide Fatal and Panic levels above Error level,
+	// but exiting and panicing is out of scope for a logging library.
+	ErrorContext(ctx context.Context, msg string, keyvals ...interface{})
 }
 
-// NewErrorPrintLogger returns a new PrintLogger that logs everything on error level.
-func NewErrorPrintLogger(logger Logger) *PrintLogger {
-	return NewPrintLogger(LevelFunc(logger, Error))
+// KVLoggerFacade is a combination of KVLogger and KVLoggerContext.
+// It's sole purpose is to make the API of the package concise by exposing a common interface type
+// for returned loggers. It's not supposed to be used by consumers of this package.
+//
+// It goes directly against the "Use interfaces, return structs" idiom of Go,
+// but at the current phase of the package the smaller API surface makes more sense.
+//
+// In the future it might get replaced with concrete types.
+type KVLoggerFacade interface {
+	KVLogger
+	KVLoggerContext
 }
 
-// Print logs a line with fmt.Print semantics.
-func (l *PrintLogger) Print(v ...interface{}) {
-	l.logger(fmt.Sprint(v...))
+// LoggerToKV converts a Logger to a KVLogger.
+func LoggerToKV(logger Logger) KVLoggerFacade {
+	return loggerToKV{logger: ensureLoggerFacade(logger)}
 }
 
-// Println logs a line with fmt.Println semantics.
-func (l *PrintLogger) Println(v ...interface{}) {
-	l.logger(strings.TrimSuffix(fmt.Sprintln(v...), "\n"))
+type loggerToKV struct {
+	logger LoggerFacade
 }
 
-// Printf logs a line with fmt.Printf semantics.
-func (l *PrintLogger) Printf(format string, args ...interface{}) {
-	l.logger(fmt.Sprintf(format, args...))
+func (l loggerToKV) Trace(msg string, keyvals ...interface{}) {
+	l.logger.Trace(msg, kvs.ToMap(keyvals))
 }
 
-// MessageLogger simplifies the Logger interface by removing the second context parameter.
-// Useful when there is no need for contextual logging.
-type MessageLogger struct {
-	logger Logger
+func (l loggerToKV) Debug(msg string, keyvals ...interface{}) {
+	l.logger.Debug(msg, kvs.ToMap(keyvals))
 }
 
-// NewMessageLogger returns a new MessageLogger instance.
-func NewMessageLogger(logger Logger) *MessageLogger {
-	return &MessageLogger{logger}
+func (l loggerToKV) Info(msg string, keyvals ...interface{}) {
+	l.logger.Info(msg, kvs.ToMap(keyvals))
 }
 
-// Trace logs a Trace level event.
-func (l *MessageLogger) Trace(msg string) { l.logger.Trace(msg) }
+func (l loggerToKV) Warn(msg string, keyvals ...interface{}) {
+	l.logger.Warn(msg, kvs.ToMap(keyvals))
+}
 
-// Debug logs a Debug level event.
-func (l *MessageLogger) Debug(msg string) { l.logger.Debug(msg) }
+func (l loggerToKV) Error(msg string, keyvals ...interface{}) {
+	l.logger.Error(msg, kvs.ToMap(keyvals))
+}
 
-// Info logs a Info level event.
-func (l *MessageLogger) Info(msg string) { l.logger.Info(msg) }
+func (l loggerToKV) TraceContext(ctx context.Context, msg string, keyvals ...interface{}) {
+	l.logger.TraceContext(ctx, msg, kvs.ToMap(keyvals))
+}
 
-// Warn logs a Warn level event.
-func (l *MessageLogger) Warn(msg string) { l.logger.Warn(msg) }
+func (l loggerToKV) DebugContext(ctx context.Context, msg string, keyvals ...interface{}) {
+	l.logger.DebugContext(ctx, msg, kvs.ToMap(keyvals))
+}
 
-// Error logs a Error level event.
-func (l *MessageLogger) Error(msg string) { l.logger.Error(msg) }
+func (l loggerToKV) InfoContext(ctx context.Context, msg string, keyvals ...interface{}) {
+	l.logger.InfoContext(ctx, msg, kvs.ToMap(keyvals))
+}
+
+func (l loggerToKV) WarnContext(ctx context.Context, msg string, keyvals ...interface{}) {
+	l.logger.WarnContext(ctx, msg, kvs.ToMap(keyvals))
+}
+
+func (l loggerToKV) ErrorContext(ctx context.Context, msg string, keyvals ...interface{}) {
+	l.logger.ErrorContext(ctx, msg, kvs.ToMap(keyvals))
+}
+
+func ensureKVLoggerFacade(logger KVLogger) KVLoggerFacade {
+	if logger, ok := logger.(KVLoggerFacade); ok {
+		return logger
+	}
+
+	if levelEnabler, ok := logger.(LevelEnabler); ok {
+		return levelEnablerKVLoggerFacade{
+			KVLoggerFacade: kvLoggerFacade{logger},
+			LevelEnabler:   levelEnabler,
+		}
+	}
+
+	return kvLoggerFacade{logger}
+}
+
+type kvLoggerFacade struct {
+	KVLogger
+}
+
+func (l kvLoggerFacade) TraceContext(_ context.Context, msg string, keyvals ...interface{}) {
+	l.Trace(msg, keyvals...)
+}
+
+func (l kvLoggerFacade) DebugContext(_ context.Context, msg string, keyvals ...interface{}) {
+	l.Debug(msg, keyvals...)
+}
+
+func (l kvLoggerFacade) InfoContext(_ context.Context, msg string, keyvals ...interface{}) {
+	l.Info(msg, keyvals...)
+}
+
+func (l kvLoggerFacade) WarnContext(_ context.Context, msg string, keyvals ...interface{}) {
+	l.Warn(msg, keyvals...)
+}
+
+func (l kvLoggerFacade) ErrorContext(_ context.Context, msg string, keyvals ...interface{}) {
+	l.Error(msg, keyvals...)
+}
+
+type levelEnablerKVLoggerFacade struct {
+	KVLoggerFacade
+	LevelEnabler
+}
+
+// KVLogFunc records a log event.
+type KVLogFunc func(msg string, keyvals ...interface{})
+
+// KVLogContextFunc records a log event.
+type KVLogContextFunc func(ctx context.Context, msg string, keyvals ...interface{})
+
+// NoopKVLogger is a no-op logger that discards all received log events.
+//
+// It implements both KVLogger and KVLoggerContext interfaces.
+type NoopKVLogger struct{}
+
+func (NoopKVLogger) Trace(_ string, _ ...interface{}) {}
+func (NoopKVLogger) Debug(_ string, _ ...interface{}) {}
+func (NoopKVLogger) Info(_ string, _ ...interface{})  {}
+func (NoopKVLogger) Warn(_ string, _ ...interface{})  {}
+func (NoopKVLogger) Error(_ string, _ ...interface{}) {}
+
+func (NoopKVLogger) TraceContext(_ context.Context, _ string, _ ...interface{}) {}
+func (NoopKVLogger) DebugContext(_ context.Context, _ string, _ ...interface{}) {}
+func (NoopKVLogger) InfoContext(_ context.Context, _ string, _ ...interface{})  {}
+func (NoopKVLogger) WarnContext(_ context.Context, _ string, _ ...interface{})  {}
+func (NoopKVLogger) ErrorContext(_ context.Context, _ string, _ ...interface{}) {}

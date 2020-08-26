@@ -1,127 +1,69 @@
 package logur_test
 
 import (
-	"strings"
+	"context"
 	"testing"
 
 	. "logur.dev/logur"
 	"logur.dev/logur/logtesting"
 )
 
-// nolint: gochecknoglobals
-var printLoggerTestMap = map[string]*struct {
-	logger func(logger Logger) *PrintLogger
-	level  Level
-}{
-	"info": {
-		logger: func(logger Logger) *PrintLogger {
-			return NewPrintLogger(LevelFunc(logger, Info))
-		},
-		level: Info,
-	},
-	"error": {
-		logger: NewErrorPrintLogger,
-		level:  Error,
-	},
-}
+func TestLoggerToKV(t *testing.T) {
+	t.Parallel()
 
-func TestPrintLogger_Print(t *testing.T) {
-	for name, test := range printLoggerTestMap {
-		name, test := name, test
+	t.Run("KV", func(t *testing.T) {
+		t.Parallel()
 
-		t.Run(name, func(t *testing.T) {
-			logger := &TestLogger{}
-			printLogger := test.logger(logger)
+		for _, level := range Levels() {
+			level := level
 
-			printLogger.Print("message", 1, "message", 2)
+			t.Run(level.String(), func(t *testing.T) {
+				t.Parallel()
 
-			event := LogEvent{
-				Level: test.level,
-				Line:  "message1message2",
-			}
+				testLogger := &TestLoggerFacade{}
 
-			logtesting.AssertLogEventsEqual(t, event, *(logger.LastEvent()))
-		})
-	}
-}
+				logger := LoggerToKV(testLogger)
 
-func TestPrintLogger_Println(t *testing.T) {
-	for name, test := range printLoggerTestMap {
-		name, test := name, test
+				KVLevelFunc(logger, level)("msg", "key", "value")
 
-		t.Run(name, func(t *testing.T) {
-			logger := &TestLogger{}
-			printLogger := test.logger(logger)
+				expected := LogEvent{
+					Line:  "msg",
+					Level: level,
+					Fields: map[string]interface{}{
+						"key": "value",
+					},
+				}
 
-			printLogger.Println("message", 1, "message", 2)
+				logtesting.AssertLogEventsEqual(t, expected, *(testLogger.LastEvent()))
+			})
+		}
+	})
 
-			event := LogEvent{
-				Level: test.level,
-				Line:  "message 1 message 2",
-			}
+	t.Run("Context", func(t *testing.T) {
+		t.Parallel()
 
-			logtesting.AssertLogEventsEqual(t, event, *(logger.LastEvent()))
-		})
-	}
-}
+		for _, level := range Levels() {
+			level := level
 
-func TestPrintLogger_Printf(t *testing.T) {
-	for name, test := range printLoggerTestMap {
-		name, test := name, test
+			t.Run(level.String(), func(t *testing.T) {
+				t.Parallel()
 
-		t.Run(name, func(t *testing.T) {
-			logger := &TestLogger{}
-			printLogger := test.logger(logger)
+				testLogger := &TestLoggerFacade{}
 
-			printLogger.Printf("this is my %s", "message")
+				logger := LoggerToKV(testLogger)
 
-			event := LogEvent{
-				Level: test.level,
-				Line:  "this is my message",
-			}
+				KVLevelContextFunc(logger, level)(context.Background(), "msg", "key", "value")
 
-			logtesting.AssertLogEventsEqual(t, event, *(logger.LastEvent()))
-		})
-	}
-}
+				expected := LogEvent{
+					Line:  "msg",
+					Level: level,
+					Fields: map[string]interface{}{
+						"key": "value",
+					},
+				}
 
-// TestLevels tests leveled logging capabilities.
-func TestMessageLogger_Levels(t *testing.T) {
-	tests := map[Level]struct {
-		logFunc func(logger *MessageLogger, msg string)
-	}{
-		Trace: {
-			logFunc: (*MessageLogger).Trace,
-		},
-		Debug: {
-			logFunc: (*MessageLogger).Debug,
-		},
-		Info: {
-			logFunc: (*MessageLogger).Info,
-		},
-		Warn: {
-			logFunc: (*MessageLogger).Warn,
-		},
-		Error: {
-			logFunc: (*MessageLogger).Error,
-		},
-	}
-
-	for level, test := range tests {
-		level, test := level, test
-
-		t.Run(strings.ToTitle(level.String()), func(t *testing.T) {
-			testLogger := &TestLogger{}
-			logger := NewMessageLogger(testLogger)
-
-			test.logFunc(logger, "message")
-
-			event := LogEvent{
-				Line:  "message",
-				Level: level,
-			}
-
-			logtesting.AssertLogEventsEqual(t, event, *(testLogger.LastEvent()))
-		})
-	}
+				logtesting.AssertLogEventsEqual(t, expected, *(testLogger.LastEvent()))
+			})
+		}
+	})
 }
