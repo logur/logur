@@ -6,7 +6,7 @@
 [![Codecov](https://img.shields.io/codecov/c/github/logur/logur?style=flat-square)](https://codecov.io/gh/logur/logur)
 [![Go Report Card](https://goreportcard.com/badge/logur.dev/logur?style=flat-square)](https://goreportcard.com/report/logur.dev/logur)
 ![Go Version](https://img.shields.io/badge/go%20version-%3E=1.11-61CFDD.svg?style=flat-square)
-[![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/mod/logur.dev/logur)
+[![PkgGoDev](https://pkg.go.dev/badge/mod/logur.dev/logur)](https://pkg.go.dev/mod/logur.dev/logur)
 
 
 **Logur is an opinionated collection of logging best practices.**
