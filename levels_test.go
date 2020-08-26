@@ -35,16 +35,7 @@ func TestLevel_String_Unknown(t *testing.T) {
 }
 
 func TestParseAndUnmarshalLevel(t *testing.T) {
-	tests := map[string]Level{
-		"trace":   Trace,
-		"debug":   Debug,
-		"info":    Info,
-		"warn":    Warn,
-		"warning": Warn,
-		"error":   Error,
-	}
-
-	for levelName, level := range tests {
+	for levelName, level := range levelMap {
 		levelName, level := levelName, level
 
 		t.Run("parse:"+levelName, func(t *testing.T) {
@@ -83,10 +74,10 @@ func TestParseLevel_Unknown(t *testing.T) {
 }
 
 func TestLevelFunc(t *testing.T) {
-	for levelName, level := range levelMap {
-		levelName, level := levelName, level
+	for _, level := range Levels() {
+		level := level
 
-		t.Run(levelName, func(t *testing.T) {
+		t.Run(level.String(), func(t *testing.T) {
 			logger := &TestLoggerFacade{}
 
 			logFunc := LevelFunc(logger, level)
@@ -117,10 +108,10 @@ func TestLevelContextFunc(t *testing.T) {
 	t.Run("Logger", func(t *testing.T) {
 		t.Parallel()
 
-		for levelName, level := range levelMap {
-			levelName, level := levelName, level
+		for _, level := range Levels() {
+			level := level
 
-			t.Run(levelName, func(t *testing.T) {
+			t.Run(level.String(), func(t *testing.T) {
 				logger := &TestLogger{}
 
 				logFunc := LevelContextFunc(logger, level)
@@ -148,10 +139,10 @@ func TestLevelContextFunc(t *testing.T) {
 	t.Run("LoggerContext", func(t *testing.T) {
 		t.Parallel()
 
-		for levelName, level := range levelMap {
-			levelName, level := levelName, level
+		for _, level := range Levels() {
+			level := level
 
-			t.Run(levelName, func(t *testing.T) {
+			t.Run(level.String(), func(t *testing.T) {
 				logger := &TestLoggerFacade{}
 
 				logFunc := LevelContextFunc(logger, level)
