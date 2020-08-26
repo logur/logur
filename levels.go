@@ -28,6 +28,11 @@ const (
 	Error
 )
 
+// Levels returns a list of available Level values.
+func Levels() []Level {
+	return []Level{Trace, Debug, Info, Warn, Error}
+}
+
 // ParseLevel takes a string level and returns the defined log level constant.
 // If the level is not defined, it returns false as the second parameter.
 func ParseLevel(level string) (Level, bool) {
