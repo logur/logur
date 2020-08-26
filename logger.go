@@ -2,6 +2,8 @@ package logur
 
 import (
 	"context"
+
+	kvs "logur.dev/logur/internal/keyvals"
 )
 
 // Logger is a unified interface for various logging use cases and practices, including:
@@ -251,6 +253,55 @@ type KVLoggerFacade interface {
 	KVLoggerContext
 }
 
+// LoggerToKV converts a Logger to a KVLogger.
+func LoggerToKV(logger Logger) KVLoggerFacade {
+	return loggerToKV{logger: ensureLoggerFacade(logger)}
+}
+
+type loggerToKV struct {
+	logger LoggerFacade
+}
+
+func (l loggerToKV) Trace(msg string, keyvals ...interface{}) {
+	l.logger.Trace(msg, kvs.ToMap(keyvals))
+}
+
+func (l loggerToKV) Debug(msg string, keyvals ...interface{}) {
+	l.logger.Debug(msg, kvs.ToMap(keyvals))
+}
+
+func (l loggerToKV) Info(msg string, keyvals ...interface{}) {
+	l.logger.Info(msg, kvs.ToMap(keyvals))
+}
+
+func (l loggerToKV) Warn(msg string, keyvals ...interface{}) {
+	l.logger.Warn(msg, kvs.ToMap(keyvals))
+}
+
+func (l loggerToKV) Error(msg string, keyvals ...interface{}) {
+	l.logger.Error(msg, kvs.ToMap(keyvals))
+}
+
+func (l loggerToKV) TraceContext(ctx context.Context, msg string, keyvals ...interface{}) {
+	l.logger.TraceContext(ctx, msg, kvs.ToMap(keyvals))
+}
+
+func (l loggerToKV) DebugContext(ctx context.Context, msg string, keyvals ...interface{}) {
+	l.logger.DebugContext(ctx, msg, kvs.ToMap(keyvals))
+}
+
+func (l loggerToKV) InfoContext(ctx context.Context, msg string, keyvals ...interface{}) {
+	l.logger.InfoContext(ctx, msg, kvs.ToMap(keyvals))
+}
+
+func (l loggerToKV) WarnContext(ctx context.Context, msg string, keyvals ...interface{}) {
+	l.logger.WarnContext(ctx, msg, kvs.ToMap(keyvals))
+}
+
+func (l loggerToKV) ErrorContext(ctx context.Context, msg string, keyvals ...interface{}) {
+	l.logger.ErrorContext(ctx, msg, kvs.ToMap(keyvals))
+}
+
 func ensureKVLoggerFacade(logger KVLogger) KVLoggerFacade {
 	if logger, ok := logger.(KVLoggerFacade); ok {
 		return logger
@@ -259,7 +310,7 @@ func ensureKVLoggerFacade(logger KVLogger) KVLoggerFacade {
 	if levelEnabler, ok := logger.(LevelEnabler); ok {
 		return levelEnablerKVLoggerFacade{
 			KVLoggerFacade: kvLoggerFacade{logger},
-			LevelEnabler: levelEnabler,
+			LevelEnabler:   levelEnabler,
 		}
 	}
 
