@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## Added
+
+- `KVLogger` interface for variadic logger interfaces
+- Basic adapter turning `Logger` into `KVLogger`
+
 
 ## [0.16.2] - 2020-01-16
 
