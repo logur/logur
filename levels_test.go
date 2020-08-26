@@ -1,6 +1,7 @@
 package logur
 
 import (
+	"context"
 	"testing"
 )
 
@@ -108,4 +109,70 @@ func TestLevelFunc(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestLevelContextFunc(t *testing.T) {
+	t.Parallel()
+
+	t.Run("Logger", func(t *testing.T) {
+		t.Parallel()
+
+		for levelName, level := range levelMap {
+			levelName, level := levelName, level
+
+			t.Run(levelName, func(t *testing.T) {
+				logger := &TestLogger{}
+
+				logFunc := LevelContextFunc(logger, level)
+				const msg = "message"
+
+				logFunc(context.Background(), msg)
+
+				if logger.Count() < 1 {
+					t.Fatal("logger did not record any events")
+				}
+
+				event := logger.LastEvent()
+
+				if event.Level != level {
+					t.Errorf("expected level %q instead of %q", level.String(), event.Level.String())
+				}
+
+				if got, want := event.Line, msg; got != want {
+					t.Errorf("expected message %q instead of %q", want, got)
+				}
+			})
+		}
+	})
+
+	t.Run("LoggerContext", func(t *testing.T) {
+		t.Parallel()
+
+		for levelName, level := range levelMap {
+			levelName, level := levelName, level
+
+			t.Run(levelName, func(t *testing.T) {
+				logger := &TestLoggerFacade{}
+
+				logFunc := LevelContextFunc(logger, level)
+				const msg = "message"
+
+				logFunc(context.Background(), msg)
+
+				if logger.Count() < 1 {
+					t.Fatal("logger did not record any events")
+				}
+
+				event := logger.LastEvent()
+
+				if event.Level != level {
+					t.Errorf("expected level %q instead of %q", level.String(), event.Level.String())
+				}
+
+				if got, want := event.Line, msg; got != want {
+					t.Errorf("expected message %q instead of %q", want, got)
+				}
+			})
+		}
+	})
 }

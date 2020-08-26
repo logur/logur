@@ -90,7 +90,7 @@ func (l *Level) UnmarshalText(text []byte) error {
 	return nil
 }
 
-// LevelFunc returns a logger function for a level.
+// LevelFunc returns a LogFunc for a level.
 // If the level is invalid it falls back to Info level.
 func LevelFunc(logger Logger, level Level) LogFunc {
 	switch level {
@@ -111,6 +111,82 @@ func LevelFunc(logger Logger, level Level) LogFunc {
 
 	default:
 		return logger.Info
+	}
+}
+
+// LevelContextFunc returns a LogContextFunc for a level.
+// If the level is invalid it falls back to Info level.
+func LevelContextFunc(l Logger, level Level) LogContextFunc {
+	logger := ensureLoggerFacade(l)
+
+	switch level {
+	case Trace:
+		return logger.TraceContext
+
+	case Debug:
+		return logger.DebugContext
+
+	case Info:
+		return logger.InfoContext
+
+	case Warn:
+		return logger.WarnContext
+
+	case Error:
+		return logger.ErrorContext
+
+	default:
+		return logger.InfoContext
+	}
+}
+
+// KVLevelFunc returns a KVLogFunc for a level.
+// If the level is invalid it falls back to Info level.
+func KVLevelFunc(logger KVLogger, level Level) KVLogFunc {
+	switch level {
+	case Trace:
+		return logger.Trace
+
+	case Debug:
+		return logger.Debug
+
+	case Info:
+		return logger.Info
+
+	case Warn:
+		return logger.Warn
+
+	case Error:
+		return logger.Error
+
+	default:
+		return logger.Info
+	}
+}
+
+// KVLevelContextFunc returns a KVLogContextFunc for a level.
+// If the level is invalid it falls back to Info level.
+func KVLevelContextFunc(l KVLogger, level Level) KVLogContextFunc {
+	logger := ensureKVLoggerFacade(l)
+
+	switch level {
+	case Trace:
+		return logger.TraceContext
+
+	case Debug:
+		return logger.DebugContext
+
+	case Info:
+		return logger.InfoContext
+
+	case Warn:
+		return logger.WarnContext
+
+	case Error:
+		return logger.ErrorContext
+
+	default:
+		return logger.InfoContext
 	}
 }
 
