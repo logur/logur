@@ -1,0 +1,25 @@
+[please]
+version = 15.3.1-beta.1
+
+[go]
+importpath = logur.dev/logur
+
+[buildconfig]
+golangci-lint-version = 1.25.1
+gotestsum-version = 0.4.2
+
+[alias "lint"]
+desc = Runs linters for this repo
+cmd = run ///pleasings2//tools/go:golangci-lint -- run
+
+[alias "test2"]
+desc = Runs tests for this repo
+cmd = run ///pleasings2//tools/go:gotestsum -- --no-summary=skipped --format short -- -race -covermode=atomic -coverprofile=plz-out/log/coverage.txt ./...
+
+[alias "testdir"]
+desc = Runs tests for this directory
+cmd = run --in_wd ///pleasings2//tools/go:gotestsum -- --no-summary=skipped --format short -- -race
+
+[alias "release"]
+desc = Release a new version
+cmd = run ///pleasings2//tools/misc:releaser --

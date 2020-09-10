@@ -14,3 +14,7 @@
 !/.idea/modules.xml
 !/.idea/runConfigurations/
 !/.idea/scopes/
+
+# Please output directory and local configuration
+plz-out
+.plzconfig.local
