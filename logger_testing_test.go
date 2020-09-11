@@ -121,7 +121,7 @@ func TestAssertLogEventsEqual(t *testing.T) {
 
 	err := LogEventsEqual(event1, event2)
 	if err != nil {
-		t.Errorf("failed to assert that two identical event are equal: %s", strings.Replace(err.Error(), "\n", `\n`, -1))
+		t.Errorf("failed to assert that two identical event are equal: %s", strings.ReplaceAll(err.Error(), "\n", `\n`))
 	}
 }
 
@@ -176,8 +176,8 @@ func TestAssertLogEventsEqual_Errors(t *testing.T) {
 			err := LogEventsEqual(test.expected, test.actual)
 
 			if err.Error() != test.expectedError {
-				actualError := strings.Replace(err.Error(), "\n", `\n`, -1)
-				expectedError := strings.Replace(test.expectedError, "\n", `\n`, -1)
+				actualError := strings.ReplaceAll(err.Error(), "\n", `\n`)
+				expectedError := strings.ReplaceAll(test.expectedError, "\n", `\n`)
 
 				t.Errorf("expected log levels to be equal\ngot:  %s\nwant: %s", actualError, expectedError)
 			}
