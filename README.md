@@ -5,7 +5,7 @@
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/logur/logur/CI?style=flat-square)](https://github.com/logur/logur/actions?query=workflow%3ACI)
 [![Codecov](https://img.shields.io/codecov/c/github/logur/logur?style=flat-square)](https://codecov.io/gh/logur/logur)
 [![Go Report Card](https://goreportcard.com/badge/logur.dev/logur?style=flat-square)](https://goreportcard.com/report/logur.dev/logur)
-![Go Version](https://img.shields.io/badge/go%20version-%3E=1.11-61CFDD.svg?style=flat-square)
+![Go Version](https://img.shields.io/badge/go%20version-%3E=1.12-61CFDD.svg?style=flat-square)
 [![PkgGoDev](https://pkg.go.dev/badge/mod/logur.dev/logur)](https://pkg.go.dev/mod/logur.dev/logur)
 
 
