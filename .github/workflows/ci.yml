@@ -31,7 +31,7 @@ jobs:
         run: ./pleasew $PLZ_ARGS lint
 
       - name: Test
-        run: ./pleasew $PLZ_ARGS test2
+        run: ./pleasew $PLZ_ARGS gotest
 
       - name: Upload coverage
         uses: codecov/codecov-action@v1

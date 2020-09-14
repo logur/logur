@@ -12,7 +12,7 @@ gotestsum-version = 0.5.3
 desc = Runs linters for this repo
 cmd = run ///pleasings2//tools/go:golangci-lint -- run
 
-[alias "test2"]
+[alias "gotest"]
 desc = Runs tests for this repo
 cmd = run ///pleasings2//tools/go:gotestsum -- --no-summary=skipped --format short -- -race -covermode=atomic -coverprofile=plz-out/log/coverage.txt ./...
 
