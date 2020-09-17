@@ -1,10 +1,10 @@
 linters-settings:
     gci:
         local-prefixes: logur.dev/logur
-    golint:
-        min-confidence: 0
     goimports:
         local-prefixes: logur.dev/logur
+    golint:
+        min-confidence: 0
 
 linters:
     disable-all: true
