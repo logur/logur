@@ -443,6 +443,22 @@ This package is heavily inspired by a set of logging libraries:
 - [github.com/go-kit/kit](https://github.com/go-kit/kit)
 
 
+## Development
+
+Contributions are welcome! :)
+
+1. Clone the repository
+1. Make changes on a new branch
+1. Run the test suite:
+    ```bash
+    ./pleasew build
+    ./pleasew test
+    ./pleasew gotest
+    ./pleasew lint
+    ```
+1. Commit, push and open a PR
+
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE) for more information.
