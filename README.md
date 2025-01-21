@@ -89,7 +89,7 @@ $ go get logur.dev/logur
 An opinionated library should come with some best practices for usage and so does this one.
 
 **TL;DR:** See example usage and best practices in [github.com/sagikazarmark/modern-go-application](https://github.com/sagikazarmark/modern-go-application).
-Also, check out the [example](example) package in this repository.
+Also, check out the [examples](examples) package in this repository.
 
 ### Create a custom interface
 
